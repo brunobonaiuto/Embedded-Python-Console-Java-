@@ -4,6 +4,7 @@
 void py_run_string(const char* s);
 void eval(const char* s, int input_type);
 void create_main_and_global();
+void add_variable_in_global(const char* stringCode);
 
 int main()
 {
@@ -20,7 +21,9 @@ int main()
 //    eval(code2,Py_single_input); //10the result from PyEval is : None, but also evaluates and expression and prints value 10
 
     //Creation of module __main__ and the global dict
-    create_main_and_global();
+    //create_main_and_global();
+
+    add_variable_in_global("a = 26");
 
     if (Py_FinalizeEx() < 0) {
         printf("Impossible to destroy interpreter");
@@ -70,10 +73,56 @@ void create_main_and_global(){
 
     //local
     PyObject* local_dict_str = PyObject_Str(local_dict);
-    const char *local_dict_str_to_c = PyUnicode_AsUTF8(global_dict_str);
+    const char *local_dict_str_to_c = PyUnicode_AsUTF8(local_dict_str);
 
     //prints
     printf("\nglobal dict: %s", global_dict_str_to_c);
     printf("\n-------------------------------\n");
     printf("local dict: %s", local_dict_str_to_c);
+}
+
+void add_variable_in_global(const char* stringCode){
+    //PyObject* global_dict;
+    PyObject* local_dict;
+
+    //global_dict = PyDict_New();
+    local_dict = PyDict_New();
+
+    //create the main module
+    PyObject* main_module = PyImport_AddModule("__main__"); //returns --> {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>}
+    //PyObject* main_module = PyModule_New("__main__");  //returns --> {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': None, '__spec__': None}
+
+    PyObject* global_dict = PyModule_GetDict(main_module);
+    local_dict = global_dict;
+
+    //global
+    PyObject* global_dict_str = PyObject_Str(global_dict);
+    const char *global_dict_str_to_c = PyUnicode_AsUTF8(global_dict_str);
+
+    //local
+    PyObject* local_dict_str = PyObject_Str(local_dict);
+    const char *local_dict_str_to_c = PyUnicode_AsUTF8(local_dict_str);
+
+    //prints
+    printf("\nbefore eval:");
+    printf("\nglobal dict: %s", global_dict_str_to_c);
+    printf("\n-------------------------------\n");
+    printf("local dict: %s", local_dict_str_to_c);
+    //----------------------------------------------------------------------
+    printf("\nafter eval:");
+    //compile string first
+    PyObject* code = Py_CompileString(stringCode, "no file",Py_file_input);
+    if(code == NULL){
+        printf("im not able to compile");
+    }
+
+    PyObject* new_module_object = PyImport_ExecCodeModule("__main__", code);
+    //PyObject* eval_code = PyEval_EvalCode(code, global_dict, local_dict);
+    PyObject* new_module_in_dict = PyModule_GetDict(new_module_object);
+
+    //global
+    PyObject* new_module = PyObject_Str(new_module_in_dict);
+    const char* new_module_in_c = PyUnicode_AsUTF8(new_module);
+
+    printf("\nglobal dict: %s", new_module_in_c);
 }
