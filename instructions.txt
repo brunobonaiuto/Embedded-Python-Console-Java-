@@ -1,0 +1,25 @@
+3. SE finisci l'esercizio prima bene e ti avanza tempo, implementa un interprete Python a linea di comando in Java. Dal terminale quando lanci il tuo programma devi vedere:
+
+>>>
+
+e se metti delle istruzioni Python, deve funzionare come un interprete Python normale (circa...)
+
+>>> print("foo")
+foo
+>>> a  =12
+ecc...
+
+, cioè, il tuo interprete deve rispettare queste condizioni:
+
+
+a) devi poter eseguire codice
+b) devi poter definire funzioni e poi devi poterle chiamare
+c) devi poter importare moduli (e.g. import math o import os)
+d) devi vedere eventuali eccezioni.
+
+4. se sei un genio e riesci a finire anche questo, leggi un po' di documentazione, fai esercizio per conto tuo. Insomma: trovati qualcosa da fare ;-)
+
+Detto fra noi, è un SACCO di roba che ti ho dato, vedi fin dove riesci ad arrivare. Fammi inoltre sapere se c'è qualcosa che non capisci prima della prossima settimana.
+
+Buon lavoro e buon weekend!
+Riccardo
