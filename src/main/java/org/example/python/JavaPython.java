@@ -7,7 +7,7 @@ public interface JavaPython extends Library {
 
     PyObject PyDict_New();
 
-    PyObject PyModule_New(String moduleName);
+    PyObject PyImport_AddModule(String moduleName);
 
     PyObject PyModule_GetDict(PyObject module);
 

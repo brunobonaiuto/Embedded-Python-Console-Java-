@@ -134,10 +134,10 @@ void add_variable_in_global(const char* stringCode){
 
     printf("\nglobal dict: %s", new_module_in_c);
 
-    PyObject* compiledCode = Py_CompileString("a","no file", Py_eval_input);
+    PyObject* compiledCode = Py_CompileString("a","", Py_eval_input);
     //optional the execute, at the end is adding to dict
     new_module_object = PyImport_ExecCodeModule("__main__", compiledCode);
-    PyObject* resultFromEval = PyEval_EvalCode(compiledCode,global_dict, local_dict);
+    PyObject* resultFromEval = PyEval_EvalCode(compiledCode,global_dict, global_dict);
 
     PyObject* resultInStringPython = PyObject_Str(resultFromEval);
 
