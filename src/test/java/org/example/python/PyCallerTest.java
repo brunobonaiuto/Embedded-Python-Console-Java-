@@ -101,22 +101,16 @@ class PyCallerTest {
         String code = "b = 20";
         pyCaller = new PyCaller();
         pyCaller.initializePython();
-        PyObject main =  pyCaller.initModule(MODULE_NAME);
-        System.out.println("newMain "+pyCaller.printModule(main));
+        pyCaller.initModule(MODULE_NAME);
         PyObject compiledCode = pyCaller.compileString(code, PY_FILE_INPUT);
-        main = pyCaller.executeCodeModule(MODULE_NAME, compiledCode);
-        System.out.println("updatedMain "+pyCaller.printModule(main));
-
+        pyCaller.executeCodeModule(MODULE_NAME, compiledCode);
         String lineTwo = "b";
         PyObject compiledCode2 = pyCaller.compileString(lineTwo, PY_EVAL_INPUT);
-        //main = pyCaller.executeCodeModule(MODULE_NAME, compiledCode2);
-        //System.out.println("updatedMain second time "+pyCaller.printModule(main));
-        //PyObject globals = pyCaller.getModuleDict(main);
+        PyObject main = pyCaller.executeCodeModule(MODULE_NAME, compiledCode2);
         //
-        String result = pyCaller.eval(compiledCode2,pyCaller.getModuleDict(main) ,pyCaller.getModuleDict(main));
+        PyObject result = pyCaller.eval(compiledCode2,pyCaller.getModuleDict(main) ,pyCaller.getModuleDict(main));
         //
-        assertEquals("20", result);
-
+        assertEquals("20", pyCaller.toString(result));
     }
 
     @AfterEach

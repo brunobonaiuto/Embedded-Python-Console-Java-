@@ -85,11 +85,10 @@ public class PyCaller {
        }
     }
 
-    String eval(PyObject code, PyObject globalDict, PyObject localDict){
+    PyObject eval(PyObject code, PyObject globalDict, PyObject localDict){
         PyObject result = javaPython.PyEval_EvalCode(code, globalDict, localDict);
         if(javaPython.PyErr_Occurred() == null){
-            result = javaPython.PyObject_Str(result);
-            return javaPython.PyUnicode_AsUTF8(result);
+            return result;
         }else{
             javaPython.PyErr_Clear();
             throw new IllegalArgumentException("Something else happened");
@@ -104,5 +103,9 @@ public class PyCaller {
         PyObject moduleDict = getModuleDict(moduleName);
         PyObject moduleDictString = getStringRepOfPyObject(moduleDict);
         return convertPyObjStringToJavaString(moduleDictString);
+    }
+
+    public String toString(PyObject o) {
+        return convertPyObjStringToJavaString(getStringRepOfPyObject(o));
     }
 }
