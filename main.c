@@ -95,7 +95,7 @@ void add_variable_in_global(const char* stringCode){
     if(PyErr_Occurred() == NULL){
         printf("\nNo error before");
     }
-
+    //PyObject* global_dict = PyModule_GetDict(local_dict); //will fail if i dont pass a module
     PyObject* global_dict = PyModule_GetDict(main_module);
     if(PyErr_Occurred() != NULL){
         printf("\nAn error happend also");
