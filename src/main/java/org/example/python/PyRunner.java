@@ -20,7 +20,8 @@ public class PyRunner {
         PyObject main = pyCaller.initModule(MODULE_NAME);
         PyObject code = pyCaller.compileString(inputLineFromConsole, PY_FILE_INPUT);
         pyCaller.executeCodeModule(MODULE_NAME,code);
-        PyObject result =  pyCaller.eval(code, pyCaller.getModuleDict(main),pyCaller.getModuleDict(main));
-        return pyCaller.toString(result);
+        PyObject evalResult =  pyCaller.eval(code, pyCaller.getModuleDict(main),pyCaller.getModuleDict(main));
+        String result = pyCaller.toString(evalResult);
+        return result.equals("None") ? "" : result;
     }
 }

@@ -9,7 +9,7 @@ class PyRunnerTest {
 
 
     @Test
-    void testName() {
+    void testRunLineIsEmpty() {
         String expected = "";
         PyRunner pyRunner = new PyRunner();
         //
