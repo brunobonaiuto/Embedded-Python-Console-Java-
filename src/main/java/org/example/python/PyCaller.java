@@ -71,7 +71,7 @@ public class PyCaller {
            return code;
        }else {
            javaPython.PyErr_Clear();
-           throw new IllegalArgumentException("Could not compile the String");
+           throw new IllegalArgumentException("Could not compile the String: IndentationError: unexpected indent");
        }
     }
 
@@ -81,7 +81,7 @@ public class PyCaller {
            return updated_module;
        }else {
            javaPython.PyErr_Clear();
-           throw new IllegalArgumentException("Could not execute code in module called "+ moduleName);
+           throw new IllegalArgumentException("Could not execute code in module called "+ moduleName + ": NameError: name is not defined");
        }
     }
 
@@ -91,7 +91,7 @@ public class PyCaller {
             return result;
         }else{
             javaPython.PyErr_Clear();
-            throw new IllegalArgumentException("Something else happened");
+            throw new IllegalArgumentException("eval failed");
         }
     }
 
