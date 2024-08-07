@@ -92,7 +92,14 @@ void add_variable_in_global(const char* stringCode){
     PyObject* main_module = PyImport_AddModule("__main__"); //returns --> {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>}
     //PyObject* main_module = PyModule_New("__main__");  //returns --> {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': None, '__spec__': None}
 
+    if(PyErr_Occurred() == NULL){
+        printf("\nNo error before");
+    }
+
     PyObject* global_dict = PyModule_GetDict(main_module);
+    if(PyErr_Occurred() != NULL){
+        printf("\nAn error happend also");
+    }
     local_dict = global_dict;
 
     //global
