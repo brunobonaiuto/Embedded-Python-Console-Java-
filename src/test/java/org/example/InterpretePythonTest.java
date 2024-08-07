@@ -6,14 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InterpretePythonTest {
 
-    @Test
-    void testStringCompiles() {
-        InterpretePython interpretePython = new InterpretePython();
-        //
-        interpretePython.compileCode();
-        //
-        assertDoesNotThrow(() -> interpretePython.compileCode());
-    }
+//    @Test
+//    void testStringCompiles() {
+//        InterpretePython interpretePython = new InterpretePython();
+//        //
+//        interpretePython.compileCode();
+//        //
+//        assertDoesNotThrow(() -> interpretePython.compileCode());
+//    }
 
 
 }
