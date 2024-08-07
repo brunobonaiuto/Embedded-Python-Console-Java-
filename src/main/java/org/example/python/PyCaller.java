@@ -76,4 +76,14 @@ public class PyCaller {
            throw new IllegalArgumentException("Could not compile the String");
        }
     }
+
+    PyObject executeCodeModule(String moduleName, PyObject code){
+       PyObject updated_module = javaPython.PyImport_ExecCodeModule(moduleName,code);
+       if(updated_module!= null && javaPython.PyErr_Occurred() == null){
+           return updated_module;
+       }else {
+           javaPython.PyErr_Clear();
+           throw new IllegalArgumentException("Could not execute code in module called "+ moduleName);
+       }
+    }
 }

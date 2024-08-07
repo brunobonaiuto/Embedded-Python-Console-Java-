@@ -124,6 +124,7 @@ void add_variable_in_global(const char* stringCode){
     }
 
     PyObject* new_module_object = PyImport_ExecCodeModule("__main__", code);
+
     //PyObject* eval_code = PyEval_EvalCode(code, global_dict, local_dict);
     PyObject* new_module_in_dict = PyModule_GetDict(new_module_object);
 

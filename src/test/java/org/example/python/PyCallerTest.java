@@ -75,6 +75,22 @@ class PyCallerTest {
         assertThrows(IllegalArgumentException.class, ()->pyCaller.compileString(wrongCode));
     }
 
+    @Test
+    void testExecuteCode() {
+        String code = "a = 20";
+        pyCaller = new PyCaller();
+        pyCaller.initializePython();
+        pyCaller.initModule(MODULE_NAME);
+        PyObject compiledCode = pyCaller.compileString(code);
+        //
+        PyObject updatedModule =  pyCaller.executeCodeModule(MODULE_NAME, compiledCode);
+        //
+        assertDoesNotThrow(()->  pyCaller.executeCodeModule(MODULE_NAME, compiledCode));
+        assertEquals("{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, " +
+                "'__spec__': ModuleSpec(name='__main__', loader=<class '_frozen_importlib.BuiltinImporter'>, origin='C:\\\\Users\\\\bbbolivar\\\\Documents\\\\MEGA\\\\MEGAsync\\\\IdeaProjects\\\\PythonConsole2'), " +
+                "'__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, '__file__': '', '__cached__': None, 'a': 20}", pyCaller.fromPyObjectToString(pyCaller.getStringFromObject(pyCaller.getModuleDict(updatedModule))));
+    }
+
     @AfterEach
     void tearDown() {
         pyCaller.destroy();
