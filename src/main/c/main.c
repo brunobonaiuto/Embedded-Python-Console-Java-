@@ -118,9 +118,9 @@ void add_variable_in_global(const char* stringCode){
     //----------------------------------------------------------------------
     printf("\nafter eval:");
     //compile string first
-    PyObject* code = Py_CompileString(stringCode, "no file",Py_file_input);
-    if(code == NULL){
-        printf("im not able to compile");
+    PyObject* code = Py_CompileString(stringCode, "",Py_file_input);
+    if(code == NULL && PyErr_Occurred() != NULL){
+        printf("im not able to compile, and the error occurred");
     }
 
     PyObject* new_module_object = PyImport_ExecCodeModule("__main__", code);

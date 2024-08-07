@@ -1,12 +1,14 @@
 package org.example.python;
 
-
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
 
-//TODO//rename to PyCaller after implementing methods,
 public class PyCaller {
 
+    public static final String FILE_NAME = "";
+    private final int PY_EVAL_INPUT = 258;
+    private final int PY_FILE_INPUT = 257;
+    private final int PY_SINGLE_INPUT = 256;
     JavaPython javaPython;
 
     void initializePython() {
@@ -65,8 +67,13 @@ public class PyCaller {
         return javaPython.PyUnicode_FromString(string);
     }
 
-
-
-
-
+    PyObject compileString(String stringCode){
+       PyObject code = javaPython.Py_CompileString(stringCode, FILE_NAME, PY_FILE_INPUT);
+       if(code != null && javaPython.PyErr_Occurred() == null ){
+           return code;
+       }else {
+           javaPython.PyErr_Clear();
+           throw new IllegalArgumentException("Could not compile the String");
+       }
+    }
 }

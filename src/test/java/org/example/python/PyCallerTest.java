@@ -53,18 +53,27 @@ class PyCallerTest {
         assertEquals("{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': None, '__spec__': None}", stringValue);
     }
 
-
     @Test
     void testStringToPyObject() {
         pyCaller = new PyCaller();
         pyCaller.initializePython();
-
+        //
         PyObject pyObject = pyCaller.fromStringToPyObject(A_STRING);
         String actual = pyCaller.fromPyObjectToString(pyObject);
-
+        //
         assertEquals(A_STRING, actual);
     }
 
+    @Test
+    void testCompileString() {
+        String rightCode = "a = 20";
+        String wrongCode = " -";
+        pyCaller = new PyCaller();
+        pyCaller.initializePython();
+        //
+        assertDoesNotThrow(()-> pyCaller.compileString(rightCode));
+        assertThrows(IllegalArgumentException.class, ()->pyCaller.compileString(wrongCode));
+    }
 
     @AfterEach
     void tearDown() {
