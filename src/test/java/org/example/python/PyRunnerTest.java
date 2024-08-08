@@ -129,4 +129,32 @@ class PyRunnerTest {
         pyRunner.runLine(input);
         pyRunner.quit();
     }
+
+    @Test
+    void testRunLineFunctions() {
+        PyRunner pyRunner = new PyRunner();
+
+        String result1 = pyRunner.runLine("abs(-7.25)");
+        String result2 = pyRunner.runLine("globals()");
+
+        pyRunner.quit();
+
+        assertEquals("7.25", result1);
+        assertEquals("{'__name__': '__main__', '__doc__': None, '__package__': None, " +
+                "'__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, " +
+                "'__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>}", result2);
+    }
+
+    @Test
+    void testRunLineDefFunction() {
+        String input = "def function(name):\n  return \"hello \" + name";
+        PyRunner pyRunner = new PyRunner();
+
+        String result1 = pyRunner.runLine(input);
+        String result2 = pyRunner.runLine("function(\"person\")");
+        pyRunner.quit();
+
+        assertEquals("", result1);
+        assertEquals("hello person", result2);
+    }
 }

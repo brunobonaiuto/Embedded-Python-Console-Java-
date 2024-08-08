@@ -21,10 +21,10 @@ public class PyRunner {
 
     public String runLine(String inputLineFromConsole) {
         int numberOfEquals = inputLineFromConsole.length() - inputLineFromConsole.replace("=", "").length();
-        if(numberOfEquals == 1 || inputLineFromConsole.isBlank()){
+        if(numberOfEquals == 1 || inputLineFromConsole.isBlank() || inputLineFromConsole.contains(":")){
             execute(inputLineFromConsole, PY_FILE_INPUT);
             return "";
-        }else {
+        }else{
            String result = execute(inputLineFromConsole, PY_EVAL_INPUT);
            return result.equals("None") ? "" : result;
         }
