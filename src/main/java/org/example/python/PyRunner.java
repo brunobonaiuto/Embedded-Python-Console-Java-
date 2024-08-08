@@ -15,24 +15,27 @@ public class PyRunner {
     public static final String MODULE_NAME = "__main__";
     private final int PY_EVAL_INPUT = 258;
     private final int PY_FILE_INPUT = 257;
-    private final int PY_SINGLE_INPUT = 256;
+    //private final int PY_SINGLE_INPUT = 256;
 
     public static final String ASSIGMENT_SYMBOL = "=";
 
     public String runLine(String inputLineFromConsole) {
-        String result;
         if(inputLineFromConsole.contains(ASSIGMENT_SYMBOL) || inputLineFromConsole.isBlank()){
-            PyObject code = pyCaller.compileString(inputLineFromConsole, PY_FILE_INPUT);
-            pyCaller.executeCodeModule(MODULE_NAME,code);
-            PyObject evalResult =  pyCaller.eval(code, pyCaller.getModuleDict(main),pyCaller.getModuleDict(main));
-            result = pyCaller.toString(evalResult);
+            String result = execute(inputLineFromConsole, PY_FILE_INPUT);
+            return result.equals("None") ? "" : result;
         }else {
-            PyObject code = pyCaller.compileString(inputLineFromConsole, PY_EVAL_INPUT);
-            pyCaller.executeCodeModule(MODULE_NAME,code);
-            PyObject evalResult =  pyCaller.eval(code, pyCaller.getModuleDict(main),pyCaller.getModuleDict(main));
-            result = pyCaller.toString(evalResult);
+           String result = execute(inputLineFromConsole, PY_EVAL_INPUT);
+           return result.equals("None") ? "" : result;
         }
-        return result.equals("None") ? "" : result;
+
+    }
+
+    private String execute(String inputLineFromConsole, int input_type) {
+        PyObject code = pyCaller.compileString(inputLineFromConsole, input_type);
+        pyCaller.executeCodeModule(MODULE_NAME, code);
+        PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
+        String result = pyCaller.toString(evalResult);
+        return result;
     }
 
     public void quit() {

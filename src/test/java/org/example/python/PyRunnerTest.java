@@ -1,6 +1,12 @@
 package org.example.python;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,6 +19,7 @@ class PyRunnerTest {
         PyRunner pyRunner = new PyRunner();
         //
         String result = pyRunner.runLine(input);
+        pyRunner.quit();
         //
         assertEquals("", result);
     }
@@ -42,6 +49,7 @@ class PyRunnerTest {
         PyRunner pyRunner = new PyRunner();
         //
         String result = pyRunner.runLine(input);
+        pyRunner.quit();
         //
         assertEquals(expected, result);
     }
@@ -62,11 +70,26 @@ class PyRunnerTest {
         assertEquals(expectedTwo, result2);
     }
 
+    @ParameterizedTest
+    @MethodSource("multipleLines")
+    void testRunLineAccessingVariableRepeatedTimes(String[] input, String[] expected) {
+        PyRunner pyRunner = new PyRunner();
+        //
+        String actual1 = pyRunner.runLine(input[0]);
+        String actual2 = pyRunner.runLine(input[1]);
+        String actual3 = pyRunner.runLine(input[2]);
+        String actual4 = pyRunner.runLine(input[3]);
+        pyRunner.quit();
+        //
+        assertEquals(expected[0], actual1);
+        assertEquals(expected[1], actual2);
+        assertEquals(expected[1], actual3);
+        assertEquals(expected[2], actual4);
+    }
 
-
-
-
-
-
-
+    public static Stream<Arguments> multipleLines() {
+        return Stream.of(
+                Arguments.of(new String[]{"b = 20", "b", "b", "40" }, new String[]{"", "20", "40"})
+        );
+    }
 }
