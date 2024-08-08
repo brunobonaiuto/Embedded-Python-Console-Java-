@@ -56,10 +56,10 @@ class PyRunnerTest {
         //
         String result1 = pyRunner.runLine(inputOne);
         String result2 = pyRunner.runLine(inputTwo);
+        pyRunner.quit();
         //
         assertEquals(expectedOne, result1);
         assertEquals(expectedTwo, result2);
-
     }
 
 
