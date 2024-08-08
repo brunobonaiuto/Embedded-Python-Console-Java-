@@ -22,26 +22,18 @@ public class PyRunner {
     public String runLine(String inputLineFromConsole) {
         int numberOfEquals = inputLineFromConsole.length() - inputLineFromConsole.replace("=", "").length();
         if(numberOfEquals == 1 || inputLineFromConsole.isBlank()){
-        //if(inputLineFromConsole.contains(ASSIGMENT_SYMBOL) || inputLineFromConsole.isBlank()){
-            System.out.println(inputLineFromConsole);
-            String result = execute(inputLineFromConsole, PY_FILE_INPUT);
-
-            return result.equals("None") ? "" : result;
+            execute(inputLineFromConsole, PY_FILE_INPUT);
+            return "";
         }else {
            String result = execute(inputLineFromConsole, PY_EVAL_INPUT);
            return result.equals("None") ? "" : result;
         }
-
     }
 
     private String execute(String inputLineFromConsole, int input_type) {
-        //String theMain = pyCaller.printModule(main);
         PyObject code = pyCaller.compileString(inputLineFromConsole, input_type);
-        //pyCaller.executeCodeModule(MODULE_NAME, code);
-        //String theMain = pyCaller.printModule(main);
         PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
-        String result = pyCaller.toString(evalResult);
-        return result;
+        return pyCaller.toString(evalResult);
     }
 
     public void quit() {

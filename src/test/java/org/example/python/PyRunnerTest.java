@@ -75,24 +75,24 @@ class PyRunnerTest {
     void testRunLineAccessingVariableRepeatedTimes(String[] input, String[] expected) {
         PyRunner pyRunner = new PyRunner();
         //
-        String actual1 = pyRunner.runLine(input[0]);
-        String actual2 = pyRunner.runLine(input[1]);
-        String actual3 = pyRunner.runLine(input[2]);
-        String actual4 = pyRunner.runLine(input[3]);
-        String actual5 = pyRunner.runLine(input[4]);
-        String actual6 = pyRunner.runLine(input[5]);
-        String actual7 = pyRunner.runLine(input[6]);
-        String actual8 = pyRunner.runLine(input[7]);
+        String actual0 = pyRunner.runLine(input[0]);
+        String actual1 = pyRunner.runLine(input[1]);
+        String actual2 = pyRunner.runLine(input[2]);
+        String actual3 = pyRunner.runLine(input[3]);
+        String actual4 = pyRunner.runLine(input[4]);
+        String actual5 = pyRunner.runLine(input[5]);
+        String actual6 = pyRunner.runLine(input[6]);
+        String actual7 = pyRunner.runLine(input[7]);
         pyRunner.quit();
         //
-        assertEquals(expected[0], actual1);
+        assertEquals(expected[0], actual0);
+        assertEquals(expected[1], actual1);
         assertEquals(expected[1], actual2);
-        assertEquals(expected[1], actual3);
-        assertEquals(expected[2], actual4);
-        assertEquals(expected[3], actual5);
-        assertEquals(expected[4], actual6);
-        assertEquals(expected[5], actual7);
-        assertEquals(expected[6], actual8);
+        assertEquals(expected[2], actual3);
+        assertEquals(expected[3], actual4);
+        assertEquals(expected[4], actual5);
+        assertEquals(expected[5], actual6);
+        assertEquals(expected[6], actual7);
     }
 
     public static Stream<Arguments> multipleLines() {
@@ -121,4 +121,23 @@ class PyRunnerTest {
         assertEquals(expectedTwo, result2);
         assertEquals(expectedThree, result3);
     }
+
+
+//    @ParameterizedTest
+//    @MethodSource("callingMethods")
+//    void testRunLineCallingMethods(String[] input, String[] expected) {
+//        PyRunner pyRunner = new PyRunner();
+//        //
+//        String actual0 = pyRunner.runLine(input[0]);
+//        pyRunner.quit();
+//        //
+//        assertEquals(expected[0], actual0);
+//    }
+//
+//    public static Stream<Arguments> callingMethods() {
+//        return Stream.of(
+//                Arguments.of(new String[]{"print(5)"},
+//                        new String[]{"5"})
+//        );
+//    }
 }

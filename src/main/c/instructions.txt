@@ -23,3 +23,64 @@ Detto fra noi, è un SACCO di roba che ti ho dato, vedi fin dove riesci ad arriv
 
 Buon lavoro e buon weekend!
 Riccardo
+
+
+//---------CASES---------------
+compiles with exec : always return None
+compiles with eval: returns value of expression
+*********** single expression case *****************
+1. EXECUTE A NONE RETURNS NONE
+>>> code = compile('10', '', 'exec') --> code returns None
+>>> exec(code) --> exec(None) --> None
+
+2. EXECUTE AND EVAL RETURNS NONE
+>>> code = compile('10', '', 'eval') --> Code returns 10
+>>> exec(code) --> but ignored by exec(10), so returns None
+
+3. EVAL AND EVAL RETURNS VALUE
+>>> code = compile('10', '', 'eval') --> code returns 10
+>>> eval(code) -> returns 10;
+
+4. EVAL AND EXEC RETURNS NONE
+>>> code = compile('10', '', 'exec') --> code returns None
+>>> eval(code) -> returns None;
+
+********************************************
+*********** statement case *****************
+********************************************
+1. EXECUTE A NONE RETURNS NONE
+>>> code = compile('a = 20', '', 'exec') --> code returns None
+>>> exec(code) --> returns None, **but modifies GLOBAL DICT**
+
+-- the compile raises an exception if the source code contains statements
+
+2. EXECUTE AND EVAL RETURNS NONE
+>>> code = compile('a = 20', '', 'eval') --> SyntaxError: invalid syntax (NO COMPILES)
+>>> exec(code) --> SyntaxError: invalid syntax (NO COMPILES)
+
+3. EVAL AND EVAL RETURNS VALUE
+>>> code = compile('a = 20', '', 'eval') --> SyntaxError: invalid syntax (NO COMPILES)
+>>> eval(code) -> --> SyntaxError: invalid syntax (NO COMPILES)
+
+4. EVAL AND EXEC RETURNS NONE
+>>> code = compile('a = 20', '', 'exec') --> SyntaxError: invalid syntax (NO COMPILES)
+>>> eval(code) -> --> SyntaxError: invalid syntax (NO COMPILES)
+
+********************************************
+********** statements case *****************
+********************************************
+case 1.
+>>> code = compile('if True: a = 25', '', 'exec') ---> nothing happens
+>>> eval(code) -->  --> returns None, **but modifies GLOBAL DICT**
+-- So eval(exec()) is the same as exec(exec)
+case 1.1
+>>> code = compile('if True: print("hello")', '', 'exec')
+>>> eval(code) --> Returns None, but prints "hello"
+
+case 2.
+>>> code = compile('for i in range(3): print(i)', '', 'exec') --> SyntaxError: invalid syntax (NO COMPILES)
+>>> eval(code) --> Returns None, but prints 0, 1, 2
+
+case 3.
+>>> code = compile('for i in range(3):  a = i', '', 'exec') ---> nothing happens
+>>> exec(code) --> returns None, **but modifies GLOBAL DICT**
