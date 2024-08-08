@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
@@ -17,10 +16,10 @@ class PyRunnerTest {
     void testRunLineIsEmpty() {
         String input = "";
         PyRunner pyRunner = new PyRunner();
-        //
+
         String result = pyRunner.runLine(input);
         pyRunner.quit();
-        //
+
         assertEquals("", result);
     }
 
@@ -98,7 +97,7 @@ class PyRunnerTest {
     public static Stream<Arguments> multipleLines() {
         return Stream.of(
                 Arguments.of(new String[]{"b = 20", "b", "b", "40", "5+5", "b==20", "b= b-1", "b"},
-                              new String[]{"", "20", "40", "10", "True", "", "19"})
+                        new String[]{"", "20", "40", "10", "True", "", "19"})
         );
     }
 
@@ -111,33 +110,23 @@ class PyRunnerTest {
         String inputThree = "b";
         String expectedThree = "56";
         PyRunner pyRunner = new PyRunner();
-        //
+
         String result1 = pyRunner.runLine(inputOne);
         String result2 = pyRunner.runLine(inputTwo);
         String result3 = pyRunner.runLine(inputThree);
         pyRunner.quit();
-        //
+
         assertEquals(expectedOne, result1);
         assertEquals(expectedTwo, result2);
         assertEquals(expectedThree, result3);
     }
 
+    @Test
+    void testRunLinePrint() {
+        String input = "print(25)";
+        PyRunner pyRunner = new PyRunner();
 
-//    @ParameterizedTest
-//    @MethodSource("callingMethods")
-//    void testRunLineCallingMethods(String[] input, String[] expected) {
-//        PyRunner pyRunner = new PyRunner();
-//        //
-//        String actual0 = pyRunner.runLine(input[0]);
-//        pyRunner.quit();
-//        //
-//        assertEquals(expected[0], actual0);
-//    }
-//
-//    public static Stream<Arguments> callingMethods() {
-//        return Stream.of(
-//                Arguments.of(new String[]{"print(5)"},
-//                        new String[]{"5"})
-//        );
-//    }
+        pyRunner.runLine(input);
+        pyRunner.quit();
+    }
 }
