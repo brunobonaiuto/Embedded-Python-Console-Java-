@@ -134,7 +134,7 @@ void add_variable_in_global(const char* stringCode){
 
     printf("\nglobal dict: %s", new_module_in_c);
 
-    PyObject* compiledCode = Py_CompileString("a","", Py_eval_input);
+    PyObject* compiledCode = Py_CompileString("a = a + 1","", Py_file_input);
     //optional the execute, at the end is adding to dict
     new_module_object = PyImport_ExecCodeModule("__main__", compiledCode);
     PyObject* resultFromEval = PyEval_EvalCode(compiledCode,global_dict, global_dict);
@@ -142,6 +142,17 @@ void add_variable_in_global(const char* stringCode){
     PyObject* resultInStringPython = PyObject_Str(resultFromEval);
 
     const char *resultInStringC = PyUnicode_AsUTF8(resultInStringPython);
-    printf("\nthe result from PyEval is : %s", resultInStringC);
+    printf("\nthe result from PyEval2 is : %s", resultInStringC);
+
+    //-------------
+    PyObject* compiledCode2 = Py_CompileString("a","", Py_eval_input);
+    //optional the execute, at the end is adding to dict
+    PyImport_ExecCodeModule("__main__", compiledCode2);
+    PyObject* resultFromEval2 = PyEval_EvalCode(compiledCode2,global_dict, global_dict);
+
+    PyObject* resultInStringPython2 = PyObject_Str(resultFromEval2);
+
+    const char *resultInStringC2 = PyUnicode_AsUTF8(resultInStringPython2);
+    printf("\nthe result from PyEval is : %s", resultInStringC2);
 
 }

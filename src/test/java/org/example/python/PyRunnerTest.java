@@ -79,17 +79,46 @@ class PyRunnerTest {
         String actual2 = pyRunner.runLine(input[1]);
         String actual3 = pyRunner.runLine(input[2]);
         String actual4 = pyRunner.runLine(input[3]);
+        String actual5 = pyRunner.runLine(input[4]);
+        String actual6 = pyRunner.runLine(input[5]);
+        String actual7 = pyRunner.runLine(input[6]);
+        String actual8 = pyRunner.runLine(input[7]);
         pyRunner.quit();
         //
         assertEquals(expected[0], actual1);
         assertEquals(expected[1], actual2);
         assertEquals(expected[1], actual3);
         assertEquals(expected[2], actual4);
+        assertEquals(expected[3], actual5);
+        assertEquals(expected[4], actual6);
+        assertEquals(expected[5], actual7);
+        assertEquals(expected[6], actual8);
     }
 
     public static Stream<Arguments> multipleLines() {
         return Stream.of(
-                Arguments.of(new String[]{"b = 20", "b", "b", "40" }, new String[]{"", "20", "40"})
+                Arguments.of(new String[]{"b = 20", "b", "b", "40", "5+5", "b==20", "b= b-1", "b"},
+                              new String[]{"", "20", "40", "10", "True", "", "19"})
         );
+    }
+
+    @Test
+    void testRunLineSummingOne() {
+        String inputOne = "b = 55";
+        String expectedOne = "";
+        String inputTwo = "b = b + 1";
+        String expectedTwo = "";
+        String inputThree = "b";
+        String expectedThree = "56";
+        PyRunner pyRunner = new PyRunner();
+        //
+        String result1 = pyRunner.runLine(inputOne);
+        String result2 = pyRunner.runLine(inputTwo);
+        String result3 = pyRunner.runLine(inputThree);
+        pyRunner.quit();
+        //
+        assertEquals(expectedOne, result1);
+        assertEquals(expectedTwo, result2);
+        assertEquals(expectedThree, result3);
     }
 }
