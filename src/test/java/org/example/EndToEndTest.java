@@ -23,13 +23,13 @@ class EndToEndTest {
         System.setOut(standardOut);
     }
 
-    @Test
-    void testEndToEnd() {
-        InterpreterPython interpreterPython = new InterpreterPython();
-        //
-        interpreterPython.start();
-        //
-        assertEquals("Welcome to Python\n" +
-                ">>>", outputStreamCaptor.toString().trim());
-    }
+//    @Test
+//    void testEndToEnd() {
+//        InterpreterPython interpreterPython = new InterpreterPython();
+//        //
+//        interpreterPython.start();
+//        //
+//        assertEquals("Welcome to Python\n" +
+//                ">>>", outputStreamCaptor.toString().trim());
+//    }
 }

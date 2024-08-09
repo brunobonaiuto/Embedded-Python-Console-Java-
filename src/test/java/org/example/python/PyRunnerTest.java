@@ -157,4 +157,15 @@ class PyRunnerTest {
         assertEquals("", result1);
         assertEquals("hello person", result2);
     }
+
+    @Test
+    void testRunLineImportModule() {
+        String input = "import os";
+        PyRunner pyRunner = new PyRunner();
+
+        String result1 = pyRunner.runLine(input);
+        pyRunner.quit();
+
+        assertEquals("", result1);
+    }
 }

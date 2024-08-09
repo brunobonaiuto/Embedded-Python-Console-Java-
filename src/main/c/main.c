@@ -23,7 +23,7 @@ int main()
     //Creation of module __main__ and the global dict
     //create_main_and_global();
 
-    add_variable_in_global("a = 26");
+    add_variable_in_global("import os");
 
     if (Py_FinalizeEx() < 0) {
         printf("Impossible to destroy interpreter");
