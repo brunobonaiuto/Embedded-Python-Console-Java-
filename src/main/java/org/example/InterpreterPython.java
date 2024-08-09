@@ -25,12 +25,11 @@ public class InterpreterPython {
                     scan = scanner.nextLine();
                 }
                 scan = stringBuilder.toString();
-        }
+            }
             runLine(scan);
             scan = scanner.nextLine();
-    }
+        }
         pyRunner.quit();
-
     }
 
     private void runLine(String scan) {
@@ -42,5 +41,4 @@ public class InterpreterPython {
             System.out.print(">>> ");
         }
     }
-
 }
