@@ -20,10 +20,11 @@ public class InterpreterPython {
         while(!scan.equals("exit")){
             if(scan.contains(":")){
                 while(!scan.isEmpty()) {
-                    stringBuilder.append(scan);
+                    stringBuilder.append(scan + "\n");
                     System.out.print("...\t");
                     scan = scanner.nextLine();
                 }
+                scan = stringBuilder.toString();
         }
             runLine(scan);
             scan = scanner.nextLine();
