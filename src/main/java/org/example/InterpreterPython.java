@@ -8,9 +8,11 @@ public class InterpreterPython {
     private final PyRunner pyRunner;
     private final Scanner scanner;
     private String input;
-    public static final String LINE_SYMBOL = ">>> ";
-    public static final String WELCOME_MESSAGE = "Welcome to Python\n" + LINE_SYMBOL;
+    public static final String EXPRESSION_SYMBOL = ">>> ";
+    public static final String WELCOME_MESSAGE = "Welcome to Python\n" + EXPRESSION_SYMBOL;
     public static final String STATEMENT_SYMBOL = "...\t";
+    public static final String LINE = "\n";
+
     public static final String EXIT_COMMAND = "exit()";
     public static final String FUNCTION_SYMBOL = ":";
 
@@ -40,7 +42,7 @@ public class InterpreterPython {
             if(inputIsFunction()){
                 defineFunction(stringBuilder);
             }
-            runLine();
+            printMessage(retrieveResult());
             input = getInputFromConsole();
         }
     }
@@ -51,21 +53,13 @@ public class InterpreterPython {
 
     private void defineFunction(StringBuilder stringBuilder) {
         while(!input.isEmpty()) {
-            stringBuilder.append(input).append("\n");
+            stringBuilder.append(input).append(LINE);
             printMessage(STATEMENT_SYMBOL);
             input = getInputFromConsole();
         }
         input = stringBuilder.toString();
     }
-
-    private void runLine() {
-        String result = pyRunner.runLine(input);
-        printMessage(result.isBlank() ? LINE_SYMBOL : result + "\n" + LINE_SYMBOL);
-//        if(result.isBlank()){
-//            printMessage(LINE_SYMBOL);
-//        }else {
-//            printMessage(result + "\n");
-//            printMessage(LINE_SYMBOL);
-//        }
+    private String retrieveResult() {
+        return pyRunner.runLine(input).isBlank() ? EXPRESSION_SYMBOL : pyRunner.runLine(input) + LINE + EXPRESSION_SYMBOL;
     }
 }
