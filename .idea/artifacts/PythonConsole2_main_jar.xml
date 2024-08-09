@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PythonConsole2.main:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PythonConsole2_main_jar</output-path>
+    <root id="archive" name="PythonConsole2.main.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="PythonConsole2.main" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.5.0/e0845217c4907822403912ad6828d8e0b256208/jna-5.5.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
