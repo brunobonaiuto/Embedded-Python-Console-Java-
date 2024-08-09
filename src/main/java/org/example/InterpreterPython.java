@@ -9,6 +9,7 @@ public class InterpreterPython {
     private final Scanner scanner;
     private String input;
     public static final String LINE_SYMBOL = ">>> ";
+    public static final String WELCOME_MESSAGE = "Welcome to Python\n" + LINE_SYMBOL;
     public static final String STATEMENT_SYMBOL = "...\t";
     public static final String EXIT_COMMAND = "exit()";
     public static final String FUNCTION_SYMBOL = ":";
@@ -19,16 +20,10 @@ public class InterpreterPython {
     }
 
     public void start() {
-        welcomeMessage();
+        printMessage(WELCOME_MESSAGE);
         input = getInputFromConsole();
         evaluateInput();
         pyRunner.quit();
-    }
-
-    private void welcomeMessage() {
-        printMessage("Welcome to Python\n");
-        printMessage(LINE_SYMBOL);
-        //System.out.print(LINE_SYMBOL);
     }
 
     private void printMessage(String output) {
@@ -54,26 +49,23 @@ public class InterpreterPython {
         return input.endsWith(FUNCTION_SYMBOL);
     }
 
-    private String defineFunction(StringBuilder stringBuilder) {
+    private void defineFunction(StringBuilder stringBuilder) {
         while(!input.isEmpty()) {
             stringBuilder.append(input).append("\n");
             printMessage(STATEMENT_SYMBOL);
-            //System.out.print(STATEMENT_SYMBOL);
             input = getInputFromConsole();
         }
         input = stringBuilder.toString();
-        return input;
     }
 
     private void runLine() {
         String result = pyRunner.runLine(input);
-        if(result.isBlank()){
-            printMessage(LINE_SYMBOL);
-            //System.out.print(LINE_SYMBOL);
-        }else {
-            printMessage(result + "\n");
-            printMessage(LINE_SYMBOL);
-            //System.out.print(LINE_SYMBOL);
-        }
+        printMessage(result.isBlank() ? LINE_SYMBOL : result + "\n" + LINE_SYMBOL);
+//        if(result.isBlank()){
+//            printMessage(LINE_SYMBOL);
+//        }else {
+//            printMessage(result + "\n");
+//            printMessage(LINE_SYMBOL);
+//        }
     }
 }
