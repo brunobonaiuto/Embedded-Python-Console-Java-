@@ -70,8 +70,10 @@ public class PyCaller {
        if(code != null && javaPython.PyErr_Occurred() == null ){
            return code;
        }else {
+           javaPython.PyErr_Print();
            javaPython.PyErr_Clear();
-           throw new IllegalArgumentException("Could not compile the String: IndentationError: unexpected indent");
+
+           //throw new IllegalArgumentException("Could not compile the String: IndentationError: unexpected indent");
        }
     }
 
@@ -108,4 +110,6 @@ public class PyCaller {
     public String toString(PyObject o) {
         return convertPyObjStringToJavaString(getStringRepOfPyObject(o));
     }
+
+
 }

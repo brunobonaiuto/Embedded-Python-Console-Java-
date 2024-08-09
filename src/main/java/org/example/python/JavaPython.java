@@ -27,4 +27,5 @@ public interface JavaPython extends Library {
 
     PyObject PyErr_Occurred();
     void PyErr_Clear();
+    void PyErr_Print();
 }

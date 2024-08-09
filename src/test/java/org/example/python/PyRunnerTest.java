@@ -168,4 +168,15 @@ class PyRunnerTest {
 
         assertEquals("", result1);
     }
+
+    @Test
+    void testExpectionOne() {
+        String input = "-";
+        PyRunner pyRunner = new PyRunner();
+
+        String result1 = pyRunner.runLine(input);
+        pyRunner.quit();
+
+        assertEquals("", result1);
+    }
 }

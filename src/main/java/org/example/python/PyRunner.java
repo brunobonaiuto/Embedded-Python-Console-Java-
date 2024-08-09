@@ -1,5 +1,9 @@
 package org.example.python;
 
+import com.sun.jna.Library;
+
+import java.util.List;
+
 public class PyRunner {
     private final PyCaller pyCaller;
     private final PyObject main;
