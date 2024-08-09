@@ -12,7 +12,6 @@ public class InterpreterPython {
     public static final String WELCOME_MESSAGE = "Welcome to Python\n" + EXPRESSION_SYMBOL;
     public static final String STATEMENT_SYMBOL = "...\t";
     public static final String LINE = "\n";
-
     public static final String EXIT_COMMAND = "exit()";
     public static final String FUNCTION_SYMBOL = ":";
 
