@@ -13,7 +13,7 @@ public class InterpreterPython {
     public static final String STATEMENT_SYMBOL = "...";
     public static final String LINE = "\n";
     public static final String EXIT_COMMAND = "exit()";
-    public static final String FUNCTION_SYMBOL = ":";
+    public static final String COLON_SYMBOL = ":";
 
     public InterpreterPython() {
         pyRunner = new PyRunner();
@@ -47,7 +47,7 @@ public class InterpreterPython {
     }
 
     private boolean inputIsFunction() {
-        return input.endsWith(FUNCTION_SYMBOL);
+        return input.endsWith(COLON_SYMBOL);
     }
 
     private void defineFunction(StringBuilder stringBuilder) {
