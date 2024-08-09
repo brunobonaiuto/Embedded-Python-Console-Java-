@@ -25,9 +25,9 @@ class EndToEndTest {
 
     @Test
     void testEndToEnd() {
-        InterpretePython interpretePython = new InterpretePython();
+        InterpreterPython interpreterPython = new InterpreterPython();
         //
-        interpretePython.start();
+        interpreterPython.start();
         //
         assertEquals("Welcome to Python\n" +
                 ">>>", outputStreamCaptor.toString().trim());

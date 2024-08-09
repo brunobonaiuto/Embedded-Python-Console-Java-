@@ -1,9 +1,7 @@
 package org.example.python;
 
 public class PyRunner {
-
     private PyCaller pyCaller;
-
     private PyObject main;
 
     public PyRunner() {
