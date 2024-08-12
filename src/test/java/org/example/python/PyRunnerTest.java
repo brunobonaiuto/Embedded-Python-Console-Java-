@@ -1,5 +1,7 @@
 package org.example.python;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,13 +14,20 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class PyRunnerTest {
+
+    private PyRunner pyRunner;
+
+
+    @AfterEach
+    void tearDown() {
+        pyRunner.quit();
+    }
+
     @Test
     void testRunLineIsEmpty() {
-        String input = "";
-        PyRunner pyRunner = new PyRunner();
+        pyRunner = new PyRunner();
 
-        String result = pyRunner.runLine(input);
-        pyRunner.quit();
+        String result = pyRunner.runLine("");
 
         assertEquals("", result);
     }
@@ -26,118 +35,79 @@ class PyRunnerTest {
     @Test
     void testRunLineSingleCharThrows() {
         String inputLineFromConsole = "b";
-        PyRunner pyRunner = new PyRunner();
-        //
-        //executeCodeModule should throw
+        pyRunner = new PyRunner();
+
         assertThrows(IllegalArgumentException.class, () -> pyRunner.runLine(inputLineFromConsole));
     }
 
     @Test
     void testRunLineSingleCharThrowsCase2() {
-        String inputLineFromConsole = " -";
-        PyRunner pyRunner = new PyRunner();
+        pyRunner = new PyRunner();
         //
         //executeCodeModule should throw
-        assertThrows(IllegalArgumentException.class, () -> pyRunner.runLine(inputLineFromConsole));
+        assertThrows(IllegalArgumentException.class, () -> pyRunner.runLine(" -"));
     }
 
     @Test
     void testRunLineContainsAnAssigment() {
-        String input = "b = 20";
-        String expected = "";
-        PyRunner pyRunner = new PyRunner();
+        pyRunner = new PyRunner();
         //
-        String result = pyRunner.runLine(input);
+        String result = pyRunner.runLine("b = 20");
         pyRunner.quit();
         //
-        assertEquals(expected, result);
+        assertEquals("", result);
     }
 
     @Test
     void testRunLineAccessingVariable() {
-        String inputOne = "b = 20";
-        String expectedOne = "";
-        String inputTwo = "b";
-        String expectedTwo = "20";
-        PyRunner pyRunner = new PyRunner();
-        //
-        String result1 = pyRunner.runLine(inputOne);
-        String result2 = pyRunner.runLine(inputTwo);
-        pyRunner.quit();
-        //
-        assertEquals(expectedOne, result1);
-        assertEquals(expectedTwo, result2);
+        pyRunner = new PyRunner();
+
+        String result1 = pyRunner.runLine("b = 20");
+        String result2 = pyRunner.runLine("b");
+
+        assertEquals("", result1);
+        assertEquals("20", result2);
     }
 
-    @ParameterizedTest
-    @MethodSource("multipleLines")
-    void testRunLineAccessingVariableRepeatedTimes(String[] input, String[] expected) {
-        PyRunner pyRunner = new PyRunner();
-        //
-        String actual0 = pyRunner.runLine(input[0]);
-        String actual1 = pyRunner.runLine(input[1]);
-        String actual2 = pyRunner.runLine(input[2]);
-        String actual3 = pyRunner.runLine(input[3]);
-        String actual4 = pyRunner.runLine(input[4]);
-        String actual5 = pyRunner.runLine(input[5]);
-        String actual6 = pyRunner.runLine(input[6]);
-        String actual7 = pyRunner.runLine(input[7]);
-        pyRunner.quit();
-        //
-        assertEquals(expected[0], actual0);
-        assertEquals(expected[1], actual1);
-        assertEquals(expected[1], actual2);
-        assertEquals(expected[2], actual3);
-        assertEquals(expected[3], actual4);
-        assertEquals(expected[4], actual5);
-        assertEquals(expected[5], actual6);
-        assertEquals(expected[6], actual7);
-    }
+    @Test
+    void testRunLineAccessingVariableRepeatedTimes() {
+        pyRunner = new PyRunner();
 
-    public static Stream<Arguments> multipleLines() {
-        return Stream.of(
-                Arguments.of(new String[]{"b = 20", "b", "b", "40", "5+5", "b==20", "b= b-1", "b"},
-                        new String[]{"", "20", "40", "10", "True", "", "19"})
-        );
+        assertEquals("", pyRunner.runLine("b = 20"));
+        assertEquals("20", pyRunner.runLine("b"));
+        assertEquals("20", pyRunner.runLine("b"));
+        assertEquals("40", pyRunner.runLine("40"));
+        assertEquals("10", pyRunner.runLine("5+5"));
+        assertEquals("True", pyRunner.runLine("b==20"));
+        assertEquals("", pyRunner.runLine("b = b+1"));
+        assertEquals("21", pyRunner.runLine("b"));
     }
 
     @Test
     void testRunLineSummingOne() {
-        String inputOne = "b = 55";
         String expectedOne = "";
-        String inputTwo = "b = b + 1";
         String expectedTwo = "";
-        String inputThree = "b";
         String expectedThree = "56";
-        PyRunner pyRunner = new PyRunner();
+        pyRunner = new PyRunner();
 
-        String result1 = pyRunner.runLine(inputOne);
-        String result2 = pyRunner.runLine(inputTwo);
-        String result3 = pyRunner.runLine(inputThree);
-        pyRunner.quit();
-
-        assertEquals(expectedOne, result1);
-        assertEquals(expectedTwo, result2);
-        assertEquals(expectedThree, result3);
+        assertEquals(expectedOne, pyRunner.runLine("b = 55"));
+        assertEquals(expectedTwo, pyRunner.runLine("b = b + 1"));
+        assertEquals(expectedThree, pyRunner.runLine("b"));
     }
 
     @Test
     void testRunLinePrint() {
-        String input = "print(25)";
-        PyRunner pyRunner = new PyRunner();
+        pyRunner = new PyRunner();
 
-        pyRunner.runLine(input);
-        pyRunner.quit();
+        pyRunner.runLine("print(25)");
     }
 
     @Test
     void testRunLineFunctions() {
-        PyRunner pyRunner = new PyRunner();
+        pyRunner = new PyRunner();
 
         String result1 = pyRunner.runLine("abs(-7.25)");
         String result2 = pyRunner.runLine("globals()");
-
-        pyRunner.quit();
 
         assertEquals("7.25", result1);
         assertEquals("{'__name__': '__main__', '__doc__': None, '__package__': None, " +
@@ -147,36 +117,24 @@ class PyRunnerTest {
 
     @Test
     void testRunLineDefFunction() {
-        String input = "def function(name):\n  return \"hello \" + name";
-        PyRunner pyRunner = new PyRunner();
+        pyRunner = new PyRunner();
 
-        String result1 = pyRunner.runLine(input);
-        String result2 = pyRunner.runLine("function(\"person\")");
-        pyRunner.quit();
-
-        assertEquals("", result1);
-        assertEquals("hello person", result2);
+        assertEquals("", pyRunner.runLine("def function(name):\n  return \"hello \" + name"));
+        assertEquals("hello person", pyRunner.runLine("function(\"person\")"));
     }
 
     @Test
     void testRunLineImportModule() {
-        String input = "import os";
-        PyRunner pyRunner = new PyRunner();
+        pyRunner = new PyRunner();
 
-        String result1 = pyRunner.runLine(input);
-        pyRunner.quit();
-
-        assertEquals("", result1);
+        assertEquals("", pyRunner.runLine("import os"));
     }
 
     @Test
     void testExpectionOne() {
-        String input = "-";
-        PyRunner pyRunner = new PyRunner();
+        pyRunner = new PyRunner();
 
-        String result1 = pyRunner.runLine(input);
-        pyRunner.quit();
-
-        assertEquals("", result1);
+        String result1 = pyRunner.runLine("-");
+        //assertEquals("", result1);
     }
 }

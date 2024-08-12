@@ -5,7 +5,7 @@ import com.sun.jna.Platform;
 
 public class PyCaller {
 
-    public static final String FILE_NAME = "";
+    public static final String FILE_NAME = "<stdin>";
 
     JavaPython javaPython;
 
@@ -66,15 +66,18 @@ public class PyCaller {
     }
 
     PyObject compileString(String stringCode, int inputType){
-       PyObject code = javaPython.Py_CompileString(stringCode, FILE_NAME, inputType);
-       if(code != null && javaPython.PyErr_Occurred() == null ){
-           return code;
-       }else {
-           javaPython.PyErr_Print();
-           javaPython.PyErr_Clear();
+        PyObject code = javaPython.Py_CompileString(stringCode, FILE_NAME, inputType);
+        if(code != null && javaPython.PyErr_Occurred() == null ){
+            return code;
+        }else {
+            throw new IllegalArgumentException("could not compile");
+            //return getExceptionMessage();
+        }
+    }
 
-           //throw new IllegalArgumentException("Could not compile the String: IndentationError: unexpected indent");
-       }
+    private PyObject getExceptionMessage() {
+        PyObject exc = javaPython.PyErr_GetRaisedException();
+        return getStringRepOfPyObject(exc);
     }
 
     PyObject executeCodeModule(String moduleName, PyObject code){

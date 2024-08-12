@@ -23,7 +23,7 @@ int main()
     //Creation of module __main__ and the global dict
     //create_main_and_global();
 
-    add_variable_in_global("-");
+    add_variable_in_global(" -");
 
     if (Py_FinalizeEx() < 0) {
         printf("Impossible to destroy interpreter");
@@ -119,15 +119,18 @@ void add_variable_in_global(const char* stringCode){
     printf("\nafter eval:");
     //compile string first
     PyObject* code = Py_CompileString(stringCode, "",Py_file_input);
+    int result = PyType_CheckExact(code);
+    printf("type of code, type is:%d", result);
     if(code == NULL && PyErr_Occurred() != NULL){
         //PyThreadState_GET();
         printf("\n **** Error **** \n");
-        PyErr_Print();
-//        PyObject* exception =  PyErr_GetRaisedException();
-//        PyObject* exception2 = PyObject_Str(exception);
-//        const char* exception3 = PyUnicode_AsUTF8(exception2);
-//        printf("%s", exception3);
-        printf("im not able to compile, and the error occurred");
+        //PyErr_Print();
+        PyObject* exception =  PyErr_GetRaisedException();
+        PyObject* exception2 = PyObject_Str(exception);
+        const char* exception3 = PyUnicode_AsUTF8(exception2);
+        printf("%s", exception3);
+        int result = PyType_Check(exception);
+        printf("im not able to compile, and the error occurred, type is:%d", result);
     }
 
     PyObject* new_module_object = PyImport_ExecCodeModule("__main__", code);

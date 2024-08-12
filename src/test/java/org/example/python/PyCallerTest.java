@@ -90,9 +90,7 @@ class PyCallerTest {
         PyObject updatedModule =  pyCaller.executeCodeModule(MODULE_NAME, compiledCode);
         //
         assertDoesNotThrow(()->  pyCaller.executeCodeModule(MODULE_NAME, compiledCode));
-        assertEquals("{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, " +
-                "'__spec__': ModuleSpec(name='__main__', loader=<class '_frozen_importlib.BuiltinImporter'>, origin='C:\\\\Users\\\\bbbolivar\\\\Documents\\\\MEGA\\\\MEGAsync\\\\IdeaProjects\\\\PythonConsole2'), " +
-                "'__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, '__file__': '', '__cached__': None, 'a': 20}",
+        assertEquals("{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': ModuleSpec(name='__main__', loader=<class '_frozen_importlib.BuiltinImporter'>, origin='C:\\\\Users\\\\bbbolivar\\\\Documents\\\\MEGA\\\\MEGAsync\\\\IdeaProjects\\\\PythonConsole2\\\\<stdin>'), '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, '__file__': '<stdin>', '__cached__': None, 'a': 20}",
                 pyCaller.convertPyObjStringToJavaString(pyCaller.getStringRepOfPyObject(pyCaller.getModuleDict(updatedModule))));
     }
 
