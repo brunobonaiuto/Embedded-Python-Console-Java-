@@ -44,7 +44,7 @@ public class PyRunner {
             PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
             return pyCaller.toString(evalResult);
         }catch (IllegalArgumentException e){
-            return pyCaller.getExceptionMessage();
+            return pyCaller.clearException();
         }
     }
 

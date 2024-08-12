@@ -1,13 +1,7 @@
 package org.example.python;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,7 +22,7 @@ class PyRunnerTest {
 
         assertEquals("", result);
     }
-        
+
     @Test
     void testRunLineContainsAnAssigment() {
         pyRunner = new PyRunner();
@@ -112,10 +106,21 @@ class PyRunnerTest {
     }
 
     @Test
-    void testExceptionOne() {
+    void testWhenInvalidSyntax() {
         pyRunner = new PyRunner();
 
         String result1 = pyRunner.runLine("-");
+
         assertEquals("invalid syntax (<stdin>, line 1)", result1);
+    }
+
+    @Test
+    void testWhenNameIsNotDefined() {
+        String input = "jj";
+        pyRunner = new PyRunner();
+
+        String result1 = pyRunner.runLine(input);
+
+        assertEquals("name '"+input+"' is not defined", result1);
     }
 }

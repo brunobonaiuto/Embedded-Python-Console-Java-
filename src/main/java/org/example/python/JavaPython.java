@@ -30,5 +30,4 @@ public interface JavaPython extends Library {
     void PyErr_Print();
     PyObject PyErr_GetRaisedException();
     void PyErr_SetRaisedException(PyObject exc);
-    int PyType_Check(PyObject o);
 }

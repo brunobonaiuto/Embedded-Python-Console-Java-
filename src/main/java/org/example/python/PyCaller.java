@@ -72,12 +72,12 @@ public class PyCaller {
         }
     }
 
-    public String getExceptionMessage() {
-        //javaPython.PyErr_Print();
-        PyObject exc = javaPython.PyErr_GetRaisedException();
-        PyObject excStr = getStringRepOfPyObject(exc);
-        return convertPyObjStringToJavaString(excStr);
-    }
+//    public String getExceptionMessage() {
+//        //javaPython.PyErr_Print();
+//        PyObject exc = javaPython.PyErr_GetRaisedException();
+//        PyObject excStr = getStringRepOfPyObject(exc);
+//        return convertPyObjStringToJavaString(excStr);
+//    }
 
     PyObject executeCodeModule(String moduleName, PyObject code){
        PyObject updated_module = javaPython.PyImport_ExecCodeModule(moduleName,code);
@@ -112,4 +112,7 @@ public class PyCaller {
     }
 
 
+    public String clearException() {
+        return convertPyObjStringToJavaString(javaPython.PyObject_Str(javaPython.PyErr_GetRaisedException()));
+    }
 }
