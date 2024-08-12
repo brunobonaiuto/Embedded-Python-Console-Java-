@@ -39,9 +39,13 @@ public class PyRunner {
     }
 
     private String execute(String inputLineFromConsole, int input_type) {
-        PyObject code = pyCaller.compileString(inputLineFromConsole, input_type);
-        PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
-        return pyCaller.toString(evalResult);
+        try{
+            PyObject code = pyCaller.compileString(inputLineFromConsole, input_type);
+            PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
+            return pyCaller.toString(evalResult);
+        }catch (IllegalArgumentException e){
+            return pyCaller.getExceptionMessage();
+        }
     }
 
     public void quit() {

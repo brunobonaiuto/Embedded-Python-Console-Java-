@@ -75,9 +75,10 @@ public class PyCaller {
         }
     }
 
-    private PyObject getExceptionMessage() {
+    public String getExceptionMessage() {
         PyObject exc = javaPython.PyErr_GetRaisedException();
-        return getStringRepOfPyObject(exc);
+        PyObject excStr = getStringRepOfPyObject(exc);
+        return convertPyObjStringToJavaString(excStr);
     }
 
     PyObject executeCodeModule(String moduleName, PyObject code){

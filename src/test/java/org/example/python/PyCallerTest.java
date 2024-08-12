@@ -14,6 +14,11 @@ class PyCallerTest {
     private final int PY_FILE_INPUT = 257;
     private final int PY_SINGLE_INPUT = 256;
 
+    @AfterEach
+    void tearDown() {
+        pyCaller.destroy();
+    }
+
     @Test
     void testInitModule() {
         pyCaller = new PyCaller();
@@ -109,10 +114,5 @@ class PyCallerTest {
         PyObject result = pyCaller.eval(compiledCode2,pyCaller.getModuleDict(main) ,pyCaller.getModuleDict(main));
         //
         assertEquals("20", pyCaller.toString(result));
-    }
-
-    @AfterEach
-    void tearDown() {
-        pyCaller.destroy();
     }
 }

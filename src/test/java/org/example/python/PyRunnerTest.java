@@ -14,10 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class PyRunnerTest {
-
     private PyRunner pyRunner;
-
-
     @AfterEach
     void tearDown() {
         pyRunner.quit();
@@ -131,10 +128,10 @@ class PyRunnerTest {
     }
 
     @Test
-    void testExpectionOne() {
+    void testExceptionOne() {
         pyRunner = new PyRunner();
 
         String result1 = pyRunner.runLine("-");
-        //assertEquals("", result1);
+        assertEquals("invalid syntax (<stdin>, line 1)", result1);
     }
 }
