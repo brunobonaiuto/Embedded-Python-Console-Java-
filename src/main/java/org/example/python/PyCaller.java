@@ -28,7 +28,6 @@ public class PyCaller {
         if(javaPython.PyErr_Occurred() == null){
             return updatedModule;
         }else {
-            javaPython.PyErr_Clear();
             throw new IllegalArgumentException("Could not create Module");
         }
     }
@@ -38,7 +37,6 @@ public class PyCaller {
         if(moduleDict != null && javaPython.PyErr_Occurred() == null) {
             return moduleDict;
         }else {
-            javaPython.PyErr_Clear();
             throw new IllegalArgumentException("Could not get the module");
         }
     }
@@ -71,11 +69,11 @@ public class PyCaller {
             return code;
         }else {
             throw new IllegalArgumentException("could not compile");
-            //return getExceptionMessage();
         }
     }
 
     public String getExceptionMessage() {
+        //javaPython.PyErr_Print();
         PyObject exc = javaPython.PyErr_GetRaisedException();
         PyObject excStr = getStringRepOfPyObject(exc);
         return convertPyObjStringToJavaString(excStr);
@@ -86,7 +84,6 @@ public class PyCaller {
        if(updated_module!= null && javaPython.PyErr_Occurred() == null){
            return updated_module;
        }else {
-           javaPython.PyErr_Clear();
            throw new IllegalArgumentException("Could not execute code in module called "+ moduleName + ": NameError: name is not defined");
        }
     }
@@ -96,7 +93,6 @@ public class PyCaller {
         if(javaPython.PyErr_Occurred() == null){
             return result;
         }else{
-            javaPython.PyErr_Clear();
             throw new IllegalArgumentException("eval failed");
         }
     }

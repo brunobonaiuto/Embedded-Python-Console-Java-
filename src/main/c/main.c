@@ -21,7 +21,7 @@ int main()
         printf("\nAn error happend also");
     }
 
-//------ set up std out ----------
+//------ set up std out/err ----------
     PyObject* io = NULL;
     PyObject* string_io = NULL;
     PyObject* string_io_instance = NULL;
@@ -44,7 +44,7 @@ int main()
     const char *resultInStringC = PyUnicode_AsUTF8(resultInStringPython);
     printf("The result from eval is: %s", resultInStringC);
 
-//-------------- get the stdout -----------
+//-------------- get the stdout/err -----------
     PyObject* theStd = PySys_GetObject("stdout");
     PyObject* value = PyObject_CallMethod(theStd,"getvalue",NULL);
     PyObject* value2 = PyObject_Str(value);

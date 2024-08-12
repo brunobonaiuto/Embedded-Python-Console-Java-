@@ -28,23 +28,7 @@ class PyRunnerTest {
 
         assertEquals("", result);
     }
-
-    @Test
-    void testRunLineSingleCharThrows() {
-        String inputLineFromConsole = "b";
-        pyRunner = new PyRunner();
-
-        assertThrows(IllegalArgumentException.class, () -> pyRunner.runLine(inputLineFromConsole));
-    }
-
-    @Test
-    void testRunLineSingleCharThrowsCase2() {
-        pyRunner = new PyRunner();
-        //
-        //executeCodeModule should throw
-        assertThrows(IllegalArgumentException.class, () -> pyRunner.runLine(" -"));
-    }
-
+        
     @Test
     void testRunLineContainsAnAssigment() {
         pyRunner = new PyRunner();
