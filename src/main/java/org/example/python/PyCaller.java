@@ -113,6 +113,7 @@ public class PyCaller {
 
 
     public String clearException() {
+
         return convertPyObjStringToJavaString(javaPython.PyObject_Str(javaPython.PyErr_GetRaisedException()));
     }
 }
