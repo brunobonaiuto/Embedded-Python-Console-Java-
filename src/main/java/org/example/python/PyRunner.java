@@ -40,12 +40,16 @@ public class PyRunner {
             PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
             return pyCaller.toString(evalResult);
         }catch (IllegalArgumentException e){
-            String original = pyCaller.getFullErrMessage();
-            return original.replaceAll("[\\[\\]'\"]", "")
-                    .replace(", ","")
-                    .replaceAll("\\\\n", "\n")
-                    .trim();
+            return getStringError();
         }
+    }
+
+    private String getStringError() {
+        String message = pyCaller.getFullErrMessage();
+        return message.replaceAll("[\\[\\]'\"]", "")
+                .replace(", ", "")
+                .replaceAll("\\\\n", "\n")
+                .trim();
     }
 
     public void quit() {

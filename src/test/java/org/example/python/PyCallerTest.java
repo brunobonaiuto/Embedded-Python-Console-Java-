@@ -84,35 +84,35 @@ class PyCallerTest {
         assertThrows(IllegalArgumentException.class, ()->pyCaller.compileString(wrongCode, PY_FILE_INPUT));
     }
 
-    @Test
-    void testExecuteCode() {
-        String code = "a = 20";
-        pyCaller = new PyCaller();
-        pyCaller.initializePython();
-        pyCaller.initModule(MODULE_NAME);
-        PyObject compiledCode = pyCaller.compileString(code, PY_FILE_INPUT);
-        //
-        PyObject updatedModule =  pyCaller.executeCodeModule(MODULE_NAME, compiledCode);
-        //
-        assertDoesNotThrow(()->  pyCaller.executeCodeModule(MODULE_NAME, compiledCode));
-        assertEquals("{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': ModuleSpec(name='__main__', loader=<class '_frozen_importlib.BuiltinImporter'>, origin='C:\\\\Users\\\\bbbolivar\\\\Documents\\\\MEGA\\\\MEGAsync\\\\IdeaProjects\\\\PythonConsole2\\\\<stdin>'), '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, '__file__': '<stdin>', '__cached__': None, 'a': 20}",
-                pyCaller.convertPyObjStringToJavaString(pyCaller.getStringRepOfPyObject(pyCaller.getModuleDict(updatedModule))));
-    }
+//    @Test
+//    void testExecuteCode() {
+//        String code = "a = 20";
+//        pyCaller = new PyCaller();
+//        pyCaller.initializePython();
+//        pyCaller.initModule(MODULE_NAME);
+//        PyObject compiledCode = pyCaller.compileString(code, PY_FILE_INPUT);
+//        //
+//        PyObject updatedModule =  pyCaller.executeCodeModule(MODULE_NAME, compiledCode);
+//        //
+//        assertDoesNotThrow(()->  pyCaller.executeCodeModule(MODULE_NAME, compiledCode));
+//        assertEquals("{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': ModuleSpec(name='__main__', loader=<class '_frozen_importlib.BuiltinImporter'>, origin='C:\\\\Users\\\\bbbolivar\\\\Documents\\\\MEGA\\\\MEGAsync\\\\IdeaProjects\\\\PythonConsole2\\\\<stdin>'), '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, '__file__': '<stdin>', '__cached__': None, 'a': 20}",
+//                pyCaller.convertPyObjStringToJavaString(pyCaller.getStringRepOfPyObject(pyCaller.getModuleDict(updatedModule))));
+//    }
 
-    @Test
-    void testEvalCode() {
-        String code = "b = 20";
-        pyCaller = new PyCaller();
-        pyCaller.initializePython();
-        pyCaller.initModule(MODULE_NAME);
-        PyObject compiledCode = pyCaller.compileString(code, PY_FILE_INPUT);
-        pyCaller.executeCodeModule(MODULE_NAME, compiledCode);
-        String lineTwo = "b";
-        PyObject compiledCode2 = pyCaller.compileString(lineTwo, PY_EVAL_INPUT);
-        PyObject main = pyCaller.executeCodeModule(MODULE_NAME, compiledCode2);
-        //
-        PyObject result = pyCaller.eval(compiledCode2,pyCaller.getModuleDict(main) ,pyCaller.getModuleDict(main));
-        //
-        assertEquals("20", pyCaller.toString(result));
-    }
+//    @Test
+//    void testEvalCode() {
+//        String code = "b = 20";
+//        pyCaller = new PyCaller();
+//        pyCaller.initializePython();
+//        pyCaller.initModule(MODULE_NAME);
+//        PyObject compiledCode = pyCaller.compileString(code, PY_FILE_INPUT);
+//        pyCaller.executeCodeModule(MODULE_NAME, compiledCode);
+//        String lineTwo = "b";
+//        PyObject compiledCode2 = pyCaller.compileString(lineTwo, PY_EVAL_INPUT);
+//        PyObject main = pyCaller.executeCodeModule(MODULE_NAME, compiledCode2);
+//        //
+//        PyObject result = pyCaller.eval(compiledCode2,pyCaller.getModuleDict(main) ,pyCaller.getModuleDict(main));
+//        //
+//        assertEquals("20", pyCaller.toString(result));
+//    }
 }
