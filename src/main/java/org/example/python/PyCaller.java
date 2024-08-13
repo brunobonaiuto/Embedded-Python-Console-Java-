@@ -6,6 +6,9 @@ import com.sun.jna.Platform;
 public class PyCaller {
 
     public static final String FILE_NAME = "<stdin>";
+    public static final String TRACEBACK_MODULE = "traceback";
+    public static final String FORMAT_EXCEPTION = "format_exception";
+
 
     JavaPython javaPython;
 
@@ -112,8 +115,59 @@ public class PyCaller {
     }
 
 
-    public String clearException() {
+    public String getFullErrMessage() {
+        PyObject exceptionValue = getExceptionValue();
+        PyObject tracebackModule = importTraceback();
+        PyObject pFunc = getFuncRefFromModule(tracebackModule);
+        PyObject pTuple = createTupleOfOneArg(exceptionValue);
+        PyObject pResult = callFunction(pFunc, pTuple);
+        return convertPyObjStringToJavaString(javaPython.PyObject_Str(pResult));
+    }
 
-        return convertPyObjStringToJavaString(javaPython.PyObject_Str(javaPython.PyErr_GetRaisedException()));
+    private PyObject callFunction(PyObject pFunc, PyObject pTuple) {
+        PyObject pResult = javaPython.PyObject_CallObject(pFunc, pTuple);
+        if (pResult != null) {
+            return pResult;
+        }else{
+            throw new IllegalArgumentException("impossible to call function");
+        }
+    }
+
+    private PyObject createTupleOfOneArg(PyObject args) {
+        PyObject pTuple = javaPython.PyTuple_New(1);
+        int state = javaPython.PyTuple_SetItem(pTuple, 0, args);
+        if (state == 0) {
+            return pTuple;
+        }else {
+            throw new IllegalArgumentException("impossible to throw tuple");
+        }
+    }
+
+    private PyObject getExceptionValue() {
+        PyObject exceptionValue = javaPython.PyErr_GetRaisedException();
+        if(exceptionValue != null){
+            return exceptionValue;
+        }else{
+            throw new IllegalArgumentException("impossible to get exception value");
+        }
+    }
+
+    private PyObject getFuncRefFromModule(PyObject tracebackModule) {
+        PyObject pFunc = javaPython.PyObject_GetAttrString(tracebackModule, FORMAT_EXCEPTION);
+        if (pFunc != null && javaPython.PyCallable_Check(pFunc) == 1) {
+            return pFunc;
+        }else {
+            throw new IllegalArgumentException("impossible to call format_exception(exc)");
+        }
+    }
+
+    private PyObject importTraceback() {
+        PyObject tracebackModule = javaPython.PyImport_ImportModule(TRACEBACK_MODULE);
+        if(tracebackModule != null && javaPython.PyErr_Occurred() == null){
+            return tracebackModule;
+        }
+        else {
+            throw new IllegalArgumentException("impossible to import traceback");
+        }
     }
 }

@@ -60,8 +60,10 @@ const char* compile_and_eval(const char* line_of_code, PyObject* global_dict){
 
 //----------function ----------
 PyObject* get_class_error_with_pyfetch(){
-    PyObject *pExcType , *pExcValue , *pExcTraceback ;
-    PyErr_Fetch( &pExcType , &pExcValue , &pExcTraceback ) ;
+    //PyObject *pExcType , *pExcValue , *pExcTraceback ;
+    //PyErr_Fetch( pExcType , pExcValue , pExcTraceback ) ;
+    //or an easier way
+    PyObject* pExcValue = PyErr_GetRaisedException();
     return pExcValue;
 }
 
@@ -75,6 +77,7 @@ PyObject* get_class_error_with_sysgetobject(){
 const char* get_format_exception_from_traceback(PyObject* exception_value){
     PyObject* traceback_obj = PyImport_ImportModule("traceback");
     PyObject* method_name = PyObject_GetAttrString(traceback_obj,"format_exception");
+    //PyObject* result = PyObject_CallMethodObjArgs(method_name, exception_value);
     PyObject* result = PyObject_CallFunctionObjArgs(method_name, exception_value);
     const char* result_str = get_string_from_pyobject(result);
     return result_str;

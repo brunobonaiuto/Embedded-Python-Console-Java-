@@ -1,9 +1,5 @@
 package org.example.python;
 
-import com.sun.jna.Library;
-
-import java.util.List;
-
 public class PyRunner {
     private final PyCaller pyCaller;
     private final PyObject main;
@@ -44,7 +40,7 @@ public class PyRunner {
             PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
             return pyCaller.toString(evalResult);
         }catch (IllegalArgumentException e){
-            return pyCaller.clearException();
+            return pyCaller.getFullErrMessage();
         }
     }
 

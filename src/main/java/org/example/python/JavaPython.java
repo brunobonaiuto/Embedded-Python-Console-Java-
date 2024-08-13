@@ -30,4 +30,16 @@ public interface JavaPython extends Library {
     void PyErr_Print();
     PyObject PyErr_GetRaisedException();
     void PyErr_SetRaisedException(PyObject exc);
+
+    PyObject PyImport_ImportModule(String tracebackModule);
+
+    int PyCallable_Check(PyObject functionName);
+
+    PyObject PyObject_GetAttrString(PyObject moduleName, String functionName);
+
+    PyObject PyObject_CallObject(PyObject pFunc, PyObject pArgs);
+
+    PyObject PyTuple_New(int i);
+
+    int PyTuple_SetItem(PyObject pArgs, int i, PyObject pValue);
 }
