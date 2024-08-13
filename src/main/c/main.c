@@ -13,20 +13,17 @@ int main()
 
     PyObject* version_sys = PySys_GetObject("version");
     const char* version_sys_str = get_string_from_pyobject(version_sys);
-    printf("\nversion from PySys is: %s", version_sys_str);
+    printf("\nversion from PySys is: \n%s", version_sys_str);
 
     PyObject* platform_sys = PySys_GetObject("platform");
     const char* platform_sys_str = get_string_from_pyobject(platform_sys);
-    printf("\nplatfrom from PySys is: %s", platform_sys_str);
+    printf("\nplatfrom from PySys is: \n%s", platform_sys_str);
 
     const char* version_str2 = Py_GetVersion();
-    printf("\nversion from PyGetVersion() is: %s", version_str2);
+    printf("\nversion from PyGetVersion() is: \n%s", version_str2);
 
     const char* platform_str2 = Py_GetPlatform();
-    printf("\nplatform from PyGetPlatform() is: %s", platform_str2);
-
-
-
+    printf("\nplatform from PyGetPlatform() is: \n%s", platform_str2);
 
     if (Py_FinalizeEx() < 0) {
         printf("Impossible to destroy interpreter");

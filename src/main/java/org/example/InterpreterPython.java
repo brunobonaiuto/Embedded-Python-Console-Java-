@@ -21,7 +21,8 @@ public class InterpreterPython {
     }
 
     public void start() {
-        printMessage(WELCOME_MESSAGE);
+        //printMessage(WELCOME_MESSAGE);
+        printMessage(pyRunner.welcomeMessage()+ EXPRESSION_SYMBOL);
         input = getInputFromConsole();
         evaluateInput();
         pyRunner.quit();

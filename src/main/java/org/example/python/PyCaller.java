@@ -3,6 +3,8 @@ package org.example.python;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
 
+import java.io.Reader;
+
 public class PyCaller {
     public static final String FILE_NAME = "<stdin>";
     public static final String TRACEBACK_MODULE = "traceback";
@@ -132,4 +134,13 @@ public class PyCaller {
     public String toString(PyObject o) {
         return convertPyObjStringToJavaString(getStringRepOfPyObject(o));
     }
+
+    public String getWelcomeMessage(){
+        String version = javaPython.Py_GetVersion();
+        String platform = javaPython.Py_GetPlatform();
+        String cprt = "Type \"help\", \"copyright\", \"credits\" or \"license\" for more information.";
+        return "Python " + version + " on "+ platform+"\n"+ cprt+ "\n";
+
+    }
+
 }

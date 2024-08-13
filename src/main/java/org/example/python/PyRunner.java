@@ -18,6 +18,13 @@ public class PyRunner {
         pyCaller.initializePython();
         main = pyCaller.initModule(MODULE_NAME);
     }
+    public void quit() {
+        pyCaller.destroy();
+    }
+
+    public String welcomeMessage(){
+        return pyCaller.getWelcomeMessage();
+    }
 
     public String runLine(String input) {
         int numberOfAssigmentSymbol = input.length() - input.replace(ASSIGMENT_SYMBOL, BLANK_SYMBOL).length();
@@ -29,11 +36,9 @@ public class PyRunner {
            return result.equals(NONE) ? BLANK_SYMBOL : result;
         }
     }
-
     private boolean isStatementLine(String input, int numberOfAssigmentSymbol) {
         return numberOfAssigmentSymbol == 1 || input.isBlank() || input.contains(COLON_SYMBOL) || input.contains(IMPORT);
     }
-
     private String execute(String inputLineFromConsole, int input_type) {
         try{
             PyObject code = pyCaller.compileString(inputLineFromConsole, input_type);
@@ -43,16 +48,11 @@ public class PyRunner {
             return getStringError();
         }
     }
-
     private String getStringError() {
         String message = pyCaller.getFullErrMessage();
         return message.replaceAll("[\\[\\]'\"]", "")
                 .replace(", ", "")
                 .replaceAll("\\\\n", "\n")
                 .trim();
-    }
-
-    public void quit() {
-        pyCaller.destroy();
     }
 }

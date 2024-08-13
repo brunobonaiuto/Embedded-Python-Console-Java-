@@ -42,4 +42,9 @@ public interface JavaPython extends Library {
     PyObject PyTuple_New(int i);
 
     int PyTuple_SetItem(PyObject pArgs, int i, PyObject pValue);
+
+    String Py_GetVersion();
+
+    String Py_GetPlatform();
+
 }
