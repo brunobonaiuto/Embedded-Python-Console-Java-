@@ -1,11 +1,5 @@
 package org.example.python;
 
-import com.sun.jna.Library;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class PyRunner {
     private final PyCaller pyCaller;
     private final PyObject main;
@@ -46,19 +40,11 @@ public class PyRunner {
             PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
             return pyCaller.toString(evalResult);
         }catch (IllegalArgumentException e){
-
-//['Traceback (most recent call last):\n', '  File \"<stdin>\", line 1, in <module>\n', "\NameError: name 'dsdsd' is not defined\n"]
             String original = pyCaller.getFullErrMessage();
-
-            // Remove the outer brackets and split the string by "', '"
-            String cleanedInput = original.replaceAll("\\[|\\]|'|\"", "").replace(", ","")
-                    .replaceAll("\\\\n", "\n");
-
-            // Trim any leading or trailing whitespace
-            cleanedInput = cleanedInput.trim();
-
-            return cleanedInput;
-
+            return original.replaceAll("[\\[\\]'\"]", "")
+                    .replace(", ","")
+                    .replaceAll("\\\\n", "\n")
+                    .trim();
         }
     }
 
