@@ -7,30 +7,43 @@ const char* get_string_from_pyobject(PyObject* o);
 
 int main()
 {
+ const char* script =
+        "import time, threading                        \n"
+        ""
+        "def job():                                    \n"
+        "    i = 0                                     \n"
+        "    while True:                               \n"
+        "         print('Python %d' % (i))                      \n"
+        "         i += 1                               \n"
+        "         time.sleep(1)                        \n"
+        ""
+        "t = threading.Thread(target=job, args = ())   \n"
+        "t.daemon = True                               \n"
+        "t.start()                                     \n";
+    PyEval_InitThreads();
+    //------------------
     Py_Initialize();
 
     PyObject* global_dict = init_module("__main__");
 
-    PyObject* version_sys = PySys_GetObject("version");
-    const char* version_sys_str = get_string_from_pyobject(version_sys);
-    printf("\nversion from PySys is: \n%s", version_sys_str);
-
-    PyObject* platform_sys = PySys_GetObject("platform");
-    const char* platform_sys_str = get_string_from_pyobject(platform_sys);
-    printf("\nplatfrom from PySys is: \n%s", platform_sys_str);
-
-    const char* version_str2 = Py_GetVersion();
-    printf("\nversion from PyGetVersion() is: \n%s", version_str2);
-
-    const char* platform_str2 = Py_GetPlatform();
-    printf("\nplatform from PyGetPlatform() is: \n%s", platform_str2);
+    const char* result_from_eval = compile_and_eval(script, global_dict);
+//    printf("\nresult from eval %s end]", result_from_eval);
+    //------------
+    Py_BEGIN_ALLOW_THREADS
+    while (1){
+        printf("hello from c\n");
+        usleep(1000 * 1000);
+//        const char* result_from_eval = compile_and_eval("print(\"hello\"", global_dict);
+//        printf("\nresult from eval %s end]", result_from_eval);
+    }
+    Py_END_ALLOW_THREADS
 
     if (Py_FinalizeEx() < 0) {
         printf("Impossible to destroy interpreter");
     }
     return 1;
-
 }
+
 //----------function ----------
 PyObject* init_module(const char* s){
     PyObject* main_module = PyImport_AddModule("__main__");
@@ -43,6 +56,21 @@ PyObject* init_module(const char* s){
         printf("\nAn error getting dict from module");
     }
     return global_dict;
+}
+
+//----------function ----------
+const char* compile_and_eval(const char* line_of_code, PyObject* global_dict){
+    PyObject* code = Py_CompileString(line_of_code, "", Py_file_input);
+    if(code == NULL && PyErr_Occurred() != NULL){
+        printf("an error occurred in compilation");
+    }
+    PyObject* resultFromEval = PyEval_EvalCode(code,global_dict, global_dict);
+    if(PyErr_Occurred() != NULL){
+            printf("an error occurred in eval");
+    }
+    PyObject* resultInStringPython = PyObject_Str(resultFromEval);
+    const char *resultInStringC = PyUnicode_AsUTF8(resultInStringPython);
+    return resultInStringC;
 }
 
 //----------function ----------
