@@ -7,6 +7,8 @@ const char* get_string_from_pyobject(PyObject* o);
 
 int main()
 {
+
+
  const char* script =
         "import time, threading                        \n"
         ""
@@ -26,24 +28,28 @@ int main()
     Py_Initialize();
 
     PyObject* global_dict = init_module("__main__");
-
+    PyGILState_STATE gstate2;
+    gstate2 = PyGILState_Ensure();
     const char* result_from_eval = compile_and_eval(script, global_dict);
 //    printf("\nresult from eval %s end]", result_from_eval);
 
-
-    //------------
-    //Py_BEGIN_ALLOW_THREADS
-    PyThreadState *_save;
-
-    _save = PyEval_SaveThread();
+      PyGILState_Release(gstate2);
+//    Py_BEGIN_ALLOW_THREADS
+// or
+//    PyThreadState* _save;
+//    _save = PyEval_SaveThread();
+// or
+    PyGILState_STATE gstate;
+    gstate = PyGILState_Ensure();
     while (1){
         printf("hello from c\n");
         usleep(1000 * 1000);
-//        const char* result_from_eval = compile_and_eval("print(\"hello\"", global_dict);
-//        printf("\nresult from eval %s end]", result_from_eval);
+        const char* result_from_eval = compile_and_eval("print(26)", global_dict);
+        //printf("\nresult from eval %s end]", result_from_eval);
     }
-    PyEval_RestoreThread(_save);
+    //PyEval_RestoreThread(_save);
     //Py_END_ALLOW_THREADS
+    PyGILState_Release(gstate);
 
     if (Py_FinalizeEx() < 0) {
         printf("Impossible to destroy interpreter");
