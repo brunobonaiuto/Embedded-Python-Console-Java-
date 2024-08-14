@@ -22,21 +22,28 @@ int main()
         "t.start()                                     \n";
     PyEval_InitThreads();
     //------------------
+
     Py_Initialize();
 
     PyObject* global_dict = init_module("__main__");
 
     const char* result_from_eval = compile_and_eval(script, global_dict);
 //    printf("\nresult from eval %s end]", result_from_eval);
+
+
     //------------
-    Py_BEGIN_ALLOW_THREADS
+    //Py_BEGIN_ALLOW_THREADS
+    PyThreadState *_save;
+
+    _save = PyEval_SaveThread();
     while (1){
         printf("hello from c\n");
         usleep(1000 * 1000);
 //        const char* result_from_eval = compile_and_eval("print(\"hello\"", global_dict);
 //        printf("\nresult from eval %s end]", result_from_eval);
     }
-    Py_END_ALLOW_THREADS
+    PyEval_RestoreThread(_save);
+    //Py_END_ALLOW_THREADS
 
     if (Py_FinalizeEx() < 0) {
         printf("Impossible to destroy interpreter");
