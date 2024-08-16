@@ -7,55 +7,55 @@ const char* get_string_from_pyobject(PyObject* o);
 
 int main()
 {
+     const char* script =
+            "import time, threading                        \n"
+            ""
+            "def job():                                    \n"
+            "    i = 0                                     \n"
+            "    while True:                               \n"
+            "         print('Python %d' % (i))             \n"
+            "         i += 1                               \n"
+            "         time.sleep(2)                        \n"
+            //"job()                                         \n";
+            ""
+            "t = threading.Thread(target=job, args = ())   \n"
+            "t.daemon = False                               \n"
+            "t.start()                                     \n";
 
-
- const char* script =
-        "import time, threading                        \n"
-        ""
-        "def job():                                    \n"
-        "    i = 0                                     \n"
-        "    while True:                               \n"
-        "         print('Python %d' % (i))                      \n"
-        "         i += 1                               \n"
-        "         time.sleep(1)                        \n"
-        ""
-        "t = threading.Thread(target=job, args = ())   \n"
-        "t.daemon = True                               \n"
-        "t.start()                                     \n";
-    PyEval_InitThreads();
-    //------------------
+     const char* script2 =
+            "import time, threading                        \n"
+             ""
+             "def job2():                                    \n"
+             "    i = 99                                     \n"
+             "    while True:                               \n"
+             "         print('Python %d' % (i))             \n"
+             "         i -= 1                               \n"
+             "         time.sleep(3)                        \n"
+             //"job()                                         \n";
+             ""
+             "t = threading.Thread(target=job2, args = ())   \n"
+             "t.daemon = False                               \n"
+             "t.start()                                     \n";
 
     Py_Initialize();
 
     PyObject* global_dict = init_module("__main__");
+
     PyGILState_STATE gstate2;
     gstate2 = PyGILState_Ensure();
-    const char* result_from_eval = compile_and_eval(script, global_dict);
-//    printf("\nresult from eval %s end]", result_from_eval);
 
-      PyGILState_Release(gstate2);
-//    Py_BEGIN_ALLOW_THREADS
-// or
-//    PyThreadState* _save;
-//    _save = PyEval_SaveThread();
-// or
-    PyGILState_STATE gstate;
-    gstate = PyGILState_Ensure();
-    while (1){
-        printf("hello from c\n");
-        usleep(1000 * 1000);
-        const char* result_from_eval = compile_and_eval("print(26)", global_dict);
-        //printf("\nresult from eval %s end]", result_from_eval);
-    }
-    //PyEval_RestoreThread(_save);
-    //Py_END_ALLOW_THREADS
-    PyGILState_Release(gstate);
+    const char* result_from_eval1 = compile_and_eval(script, global_dict);
+
+    const char* result_from_eval2 = compile_and_eval(script2, global_dict);
+
+    PyGILState_Release(gstate2);
 
     if (Py_FinalizeEx() < 0) {
         printf("Impossible to destroy interpreter");
     }
     return 1;
 }
+
 
 //----------function ----------
 PyObject* init_module(const char* s){
