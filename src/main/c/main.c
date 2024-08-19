@@ -7,20 +7,36 @@ const char* get_string_from_pyobject(PyObject* o);
 
 int main()
 {
+
      const char* script =
             "import time, threading                        \n"
             ""
-            "def job():                                    \n"
+            "def print_loop():                             \n"
             "    i = 0                                     \n"
             "    while True:                               \n"
-            "         print('Python %d' % (i))             \n"
-            "         i += 1                               \n"
             "         time.sleep(2)                        \n"
-            //"job()                                         \n";
+            "         i += 1                               \n"
+            "         print('Python %d' % (i))             \n"
             ""
-            "t = threading.Thread(target=job, args = ())   \n"
-            "t.daemon = False                               \n"
-            "t.start()                                     \n";
+            "def start_thread():                           \n"
+            "    threading._start_new_thread(print_loop, ())   \n" //This is t.daemon = True by default
+            ""
+            "start_thread()                                \n";
+
+//     const char* script =
+//            "import time, threading                        \n"
+//            ""
+//            "def job():                                    \n"
+//            "    i = 0                                     \n"
+//            "    while True:                               \n"
+//            "         print('Python %d' % (i))             \n"
+//            "         i += 1                               \n"
+//            "         time.sleep(2)                        \n"
+//            //"job()                                         \n";
+//            ""
+//            "t = threading.Thread(target=job, args = ())   \n"
+//            "t.daemon = True                               \n"
+//            "t.start()                                     \n";
 
      const char* script2 =
             "import time, threading                        \n"
@@ -34,7 +50,7 @@ int main()
              //"job()                                         \n";
              ""
              "t = threading.Thread(target=job2, args = ())   \n"
-             "t.daemon = False                               \n"
+             "t.daemon = False                                \n"
              "t.start()                                     \n";
 
     Py_Initialize();
