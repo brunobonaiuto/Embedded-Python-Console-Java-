@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.python.PyGILState_STATE;
 import org.example.python.PyRunner;
 
 import java.util.Scanner;
@@ -21,10 +22,11 @@ public class InterpreterPython {
     }
 
     public void start() {
-        //printMessage(WELCOME_MESSAGE);
         printMessage(pyRunner.welcomeMessage()+ EXPRESSION_SYMBOL);
         input = getInputFromConsole();
+        PyGILState_STATE gState = pyRunner.unlockGilState();
         evaluateInput();
+        pyRunner.releaseGilState(gState);
         pyRunner.quit();
     }
 

@@ -55,4 +55,12 @@ public class PyRunner {
                 .replaceAll("\\\\n", "\n")
                 .trim();
     }
+
+    public PyGILState_STATE unlockGilState(){
+        return pyCaller.unlockGil();
+    }
+
+    public void releaseGilState(PyGILState_STATE state){
+        pyCaller.releaseGil(state);
+    }
 }

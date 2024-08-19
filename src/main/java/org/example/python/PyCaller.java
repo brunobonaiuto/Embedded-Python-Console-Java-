@@ -9,7 +9,6 @@ public class PyCaller {
     public static final String FILE_NAME = "<stdin>";
     public static final String TRACEBACK_MODULE = "traceback";
     public static final String FORMAT_EXCEPTION = "format_exception";
-    
     JavaPython javaPython;
     void initializePython() {
         javaPython = Native.load(Platform.isWindows() ? "C:/Users/bbbolivar/AppData/Local/Programs/Python/Python312/python312.dll" : "libpython3.10.so", JavaPython.class);
@@ -140,7 +139,14 @@ public class PyCaller {
         String platform = javaPython.Py_GetPlatform();
         String cprt = "Type \"help\", \"copyright\", \"credits\" or \"license\" for more information.";
         return "Python " + version + " on "+ platform+"\n"+ cprt+ "\n";
+    }
 
+    public PyGILState_STATE unlockGil(){
+        return javaPython.PyGILState_Ensure();
+    }
+
+    public void releaseGil(PyGILState_STATE state){
+        javaPython.PyGILState_Release(state);
     }
 
 }

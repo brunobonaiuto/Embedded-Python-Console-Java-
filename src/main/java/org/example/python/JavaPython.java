@@ -5,8 +5,6 @@ import com.sun.jna.Library;
 public interface JavaPython extends Library {
     void Py_Initialize();
 
-    PyObject PyDict_New();
-
     PyObject PyImport_AddModule(String moduleName);
 
     PyObject PyModule_GetDict(PyObject module);
@@ -18,9 +16,6 @@ public interface JavaPython extends Library {
     PyObject PyUnicode_FromString(String string);
 
     PyObject Py_CompileString(String stringCode, String fileName, int input_type);
-
-    PyObject PyImport_ExecCodeModule(String moduleName, PyObject compiledCode);
-
     PyObject PyEval_EvalCode(PyObject compileCode, PyObject globals, PyObject locals);
 
     int Py_FinalizeEx();
@@ -46,5 +41,8 @@ public interface JavaPython extends Library {
     String Py_GetVersion();
 
     String Py_GetPlatform();
+
+    PyGILState_STATE PyGILState_Ensure();
+    void PyGILState_Release(PyGILState_STATE state);
 
 }
