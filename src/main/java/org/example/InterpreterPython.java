@@ -7,10 +7,10 @@ import java.util.Scanner;
 
 public class InterpreterPython {
     private final PyRunner pyRunner;
-    private final Scanner scanner;
-    private String input;
+    private final Output output;
+    private final Input input;
+    private String currentLine = "";
     public static final String EXPRESSION_SYMBOL = ">>> ";
-    public static final String WELCOME_MESSAGE = "Welcome to Python\n" + EXPRESSION_SYMBOL;
     public static final String STATEMENT_SYMBOL = "...";
     public static final String LINE = "\n";
     public static final String EXIT_COMMAND = "exit()";
@@ -18,51 +18,44 @@ public class InterpreterPython {
 
     public InterpreterPython() {
         pyRunner = new PyRunner();
-        scanner = new Scanner(System.in);
+        output = new Output();
+        input = new Input();
     }
 
     public void start() {
-        printMessage(pyRunner.welcomeMessage());
-        PyGILState_STATE gState = pyRunner.unlockGilState();
+        output.toConsole(pyRunner.welcomeMessage());
         evaluateInput();
-        pyRunner.releaseGilState(gState);
         pyRunner.quit();
-    }
-
-    private void printMessage(String output) {
-        System.out.print(output);
-    }
-
-    private String getInputFromConsole() {
-        return scanner.nextLine();
     }
 
     private void evaluateInput() {
         StringBuilder stringBuilder = new StringBuilder();
-        input = "";
-        while(!input.equals(EXIT_COMMAND)){
+        while(!currentLine.equals(EXIT_COMMAND)){
             if(inputIsFunction()){
                 defineFunction(stringBuilder);
             }
-            String result = retrieveResult();
-            printMessage(result);
-            input = getInputFromConsole();
+            output.toConsole(retrieveResult());
+            currentLine = input.fromConsole();
         }
     }
 
     private boolean inputIsFunction() {
-        return input.endsWith(COLON_SYMBOL);
+        return currentLine.endsWith(COLON_SYMBOL);
     }
 
     private void defineFunction(StringBuilder stringBuilder) {
-        while(!input.isEmpty()) {
-            stringBuilder.append(input).append(LINE);
-            printMessage(STATEMENT_SYMBOL);
-            input = getInputFromConsole();
+        while(!currentLine.isEmpty()) {
+            stringBuilder.append(currentLine).append(LINE);
+            output.toConsole(STATEMENT_SYMBOL);
+            currentLine = input.fromConsole();
         }
-        input = stringBuilder.toString();
+        currentLine = stringBuilder.toString();
     }
     private String retrieveResult() {
-        return pyRunner.runLine(input).isBlank() ? EXPRESSION_SYMBOL : pyRunner.runLine(input) + LINE + EXPRESSION_SYMBOL;
+        PyGILState_STATE gState = pyRunner.unlockGilState();
+        String run = pyRunner.runLine(currentLine);
+        pyRunner.releaseGilState(gState);
+        String resultFromRun = run + LINE + EXPRESSION_SYMBOL;
+        return run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun;
     }
 }
