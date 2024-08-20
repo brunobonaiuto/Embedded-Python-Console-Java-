@@ -12,45 +12,54 @@ public class PyRunner {
     public static final String BLANK_SYMBOL = "";
     public static final String NONE = "None";
     public static final String IMPORT = "import";
+
     public PyRunner() {
         pyCaller = new PyCaller();
         pyCaller.initializePython();
         main = pyCaller.initModule(MODULE_NAME);
     }
-    public String welcomeMessage(){
+
+    public String welcomeMessage() {
         return pyCaller.getWelcomeMessage();
     }
+
     public void quit() {
         pyCaller.destroy();
     }
-    public PyGILState_STATE unlockGilState(){
+
+    public PyGILState_STATE unlockGilState() {
         return pyCaller.unlockGil();
     }
-    public void releaseGilState(PyGILState_STATE state){
+
+    public void releaseGilState(PyGILState_STATE state) {
         pyCaller.releaseGil(state);
     }
+
     public String runLine(String input) {
         int numberOfAssigmentSymbol = input.length() - input.replace(ASSIGMENT_SYMBOL, BLANK_SYMBOL).length();
-        if(isStatementLine(input, numberOfAssigmentSymbol)){
+        if (isStatementLine(input, numberOfAssigmentSymbol)) {
             execute(input, PY_FILE_INPUT);
             return BLANK_SYMBOL;
-        }else{
-           String result = execute(input, PY_EVAL_INPUT);
-           return result.equals(NONE) ? BLANK_SYMBOL : result;
+        } else {
+            String result = execute(input, PY_EVAL_INPUT);
+            return result.equals(NONE) ? BLANK_SYMBOL : result;
         }
     }
+
     private boolean isStatementLine(String input, int numberOfAssigmentSymbol) {
         return numberOfAssigmentSymbol == 1 || input.isBlank() || input.contains(COLON_SYMBOL) || input.contains(IMPORT);
     }
+
     private String execute(String inputLineFromConsole, int input_type) {
-        try{
+        try {
             PyObject code = pyCaller.compileString(inputLineFromConsole, input_type);
             PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
             return pyCaller.toString(evalResult);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return getStringError();
         }
     }
+
     private String getStringError() {
         String message = pyCaller.getFullErrMessage();
         return message.replaceAll("[\\[\\]'\"]", "")
