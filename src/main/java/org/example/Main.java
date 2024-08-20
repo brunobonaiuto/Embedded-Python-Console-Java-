@@ -1,8 +1,10 @@
 package org.example;
 
+import org.example.interprete.EmbeddedPython;
+
 public class Main {
     public static void main(String[] args) {
-        InterpreterPython interpreterPython = new InterpreterPython();
-        interpreterPython.start();
+        EmbeddedPython embeddedPython = new EmbeddedPython();
+        embeddedPython.start();
     }
 }
