@@ -22,8 +22,7 @@ public class InterpreterPython {
     }
 
     public void start() {
-        printMessage(pyRunner.welcomeMessage()+ EXPRESSION_SYMBOL);
-        input = getInputFromConsole();
+        printMessage(pyRunner.welcomeMessage());
         PyGILState_STATE gState = pyRunner.unlockGilState();
         evaluateInput();
         pyRunner.releaseGilState(gState);
@@ -40,11 +39,13 @@ public class InterpreterPython {
 
     private void evaluateInput() {
         StringBuilder stringBuilder = new StringBuilder();
+        input = "";
         while(!input.equals(EXIT_COMMAND)){
             if(inputIsFunction()){
                 defineFunction(stringBuilder);
             }
-            printMessage(retrieveResult());
+            String result = retrieveResult();
+            printMessage(result);
             input = getInputFromConsole();
         }
     }
