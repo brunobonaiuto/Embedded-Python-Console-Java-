@@ -3,8 +3,6 @@ package org.example.python;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
 
-import java.io.Reader;
-
 public class PyCaller {
     public static final String FILE_NAME = "<stdin>";
     public static final String TRACEBACK_MODULE = "traceback";
@@ -75,12 +73,12 @@ public class PyCaller {
     }
     public String getFullErrMessage() {
         PyObject exceptionValue = getExceptionValue();
-        PyObject tracebackModule = importModule(TRACEBACK_MODULE);
-        PyObject pResult = callObjectFromModule(tracebackModule, FORMAT_EXCEPTION, exceptionValue);
-        PyErr_Clear();
+        PyObject tracebackModule = importModule();
+        PyObject pResult = callObjectFromModule(tracebackModule, exceptionValue);
+        pyErrClear();
         return convertPyObjStringToJavaString(javaPython.PyObject_Str(pResult));
     }
-    private void PyErr_Clear() {
+    private void pyErrClear() {
         javaPython.PyErr_Clear();
     }
     private PyObject getExceptionValue() {
@@ -91,22 +89,21 @@ public class PyCaller {
             throw new IllegalArgumentException("impossible to get exception value");
         }
     }
-    private PyObject importModule(String moduleName) {
-        PyObject tracebackModule = javaPython.PyImport_ImportModule(moduleName);
+    private PyObject importModule() {
+        PyObject tracebackModule = javaPython.PyImport_ImportModule(PyCaller.TRACEBACK_MODULE);
         if (tracebackModule != null && javaPython.PyErr_Occurred() == null) {
             return tracebackModule;
         } else {
             throw new IllegalArgumentException("impossible to import traceback");
         }
     }
-    private PyObject callObjectFromModule(PyObject moduleName, String objectToCall, PyObject argument) {
-        PyObject pFunc = getFuncRefFromModule(moduleName, objectToCall);
+    private PyObject callObjectFromModule(PyObject moduleName, PyObject argument) {
+        PyObject pFunc = getFuncRefFromModule(moduleName);
         PyObject pTuple = createTupleOfOneArg(argument);
-        PyObject pResult = callObject(pFunc, pTuple);
-        return pResult;
+        return callObject(pFunc, pTuple);
     }
-    private PyObject getFuncRefFromModule(PyObject tracebackModule, String objectToCall) {
-        PyObject pFunc = javaPython.PyObject_GetAttrString(tracebackModule, objectToCall);
+    private PyObject getFuncRefFromModule(PyObject tracebackModule) {
+        PyObject pFunc = javaPython.PyObject_GetAttrString(tracebackModule, PyCaller.FORMAT_EXCEPTION);
         if (pFunc != null && javaPython.PyCallable_Check(pFunc) == 1) {
             return pFunc;
         } else {
