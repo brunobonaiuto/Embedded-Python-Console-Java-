@@ -10,8 +10,6 @@ public class Runner {
     private final Output output;
     public static final String EXPRESSION_SYMBOL = ">>> ";
     public static final String LINE = "\n";
-
-
     public Runner() {
         output = new Output();
         pyRunner = new PyRunner();

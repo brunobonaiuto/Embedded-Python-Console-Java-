@@ -10,14 +10,12 @@ public class LineManager {
     public static final String LINE = "\n";
     public static final String EXIT_COMMAND = "exit()";
     public static final String COLON_SYMBOL = ":";
-
     public LineManager() {
         output = new Output();
         input = new Input();
         runner = new Runner();
         stringBuilder = new StringBuilder();
     }
-
     public void inputLineRunner() {
         while(!lineIsExit()){
             if(inputIsFunction()){
@@ -27,11 +25,9 @@ public class LineManager {
             currentLine = input.fromConsole();
         }
     }
-
     private boolean lineIsExit() {
         return currentLine.equals(EXIT_COMMAND);
     }
-
     private boolean inputIsFunction() {
         return currentLine.endsWith(COLON_SYMBOL);
     }
