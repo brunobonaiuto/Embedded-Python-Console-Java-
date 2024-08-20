@@ -12,20 +12,23 @@ public class PyRunner {
     public static final String BLANK_SYMBOL = "";
     public static final String NONE = "None";
     public static final String IMPORT = "import";
-
     public PyRunner() {
         pyCaller = new PyCaller();
         pyCaller.initializePython();
         main = pyCaller.initModule(MODULE_NAME);
     }
-    public void quit() {
-        pyCaller.destroy();
-    }
-
     public String welcomeMessage(){
         return pyCaller.getWelcomeMessage();
     }
-
+    public void quit() {
+        pyCaller.destroy();
+    }
+    public PyGILState_STATE unlockGilState(){
+        return pyCaller.unlockGil();
+    }
+    public void releaseGilState(PyGILState_STATE state){
+        pyCaller.releaseGil(state);
+    }
     public String runLine(String input) {
         int numberOfAssigmentSymbol = input.length() - input.replace(ASSIGMENT_SYMBOL, BLANK_SYMBOL).length();
         if(isStatementLine(input, numberOfAssigmentSymbol)){
@@ -54,13 +57,5 @@ public class PyRunner {
                 .replace(", ", "")
                 .replaceAll("\\\\n", "\n")
                 .trim();
-    }
-
-    public PyGILState_STATE unlockGilState(){
-        return pyCaller.unlockGil();
-    }
-
-    public void releaseGilState(PyGILState_STATE state){
-        pyCaller.releaseGil(state);
     }
 }
