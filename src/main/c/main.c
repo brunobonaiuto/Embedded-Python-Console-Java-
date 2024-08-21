@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <Python.h>
+//-------
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 PyObject* init_module(const char* s);
 const char* compile_and_eval(const char* line_of_code, PyObject* global_dict);
 const char* get_string_from_pyobject(PyObject* o);
+const char* initThreadsIsCalled();
+void* myThread(void* vargp);
 
 int main()
 {
@@ -54,18 +60,36 @@ int main()
              "t.start()                                     \n";
 
     Py_Initialize();
-
     PyObject* global_dict = init_module("__main__");
 
-    PyGILState_STATE gstate2;
-    gstate2 = PyGILState_Ensure();
+    printf(initThreadsIsCalled());
+    //since main thread owns the gil by PyInit, we release the gil with SaveTrhead
+    PyThreadState *_save;
+    _save = PyEval_SaveThread();
+    //---------------
+    if(PyGILState_Check() == 1){
+        printf("\n\nThe current thread is holding the GIL");
+    }
+    for( int i = 1; i <= 2; i++){
+//        PyGILState_STATE gstate;
+//        gstate = PyGILState_Ensure();
+        if(i == 1){
+            PyGILState_STATE gstate;
+            gstate = PyGILState_Ensure();
+            const char* result_from_eval1 = compile_and_eval(script2, global_dict);
+            PyGILState_Release(gstate);
+        }else{
+            PyGILState_STATE gstate;
+            gstate = PyGILState_Ensure();
+            pthread_t thread_id;
+            printf("Before Thread\n");
+            pthread_create(&thread_id, NULL, myThread, NULL);
+            const char* result_from_eval2 = compile_and_eval("print(8888)", global_dict);
+            PyGILState_Release(gstate);
+        }
 
-    const char* result_from_eval1 = compile_and_eval(script, global_dict);
-
-    const char* result_from_eval2 = compile_and_eval(script2, global_dict);
-
-    PyGILState_Release(gstate2);
-
+    }
+    PyEval_RestoreThread(_save);
     if (Py_FinalizeEx() < 0) {
         printf("Impossible to destroy interpreter");
     }
@@ -107,4 +131,18 @@ const char* get_string_from_pyobject(PyObject* o){
     PyObject* o_str = PyObject_Str(o);
     const char* o_str_char = PyUnicode_AsUTF8(o_str);
     return o_str_char;
+}
+//----------function ----------
+const char * initThreadsIsCalled(){
+    if (PyEval_ThreadsInitialized() != 0){
+       return "\nPyEval_InitThreads() has been called, This means that owns the gil by PyEval_InitThreads()";
+    }
+}
+//----------function ----------
+void* myThread(void* vargp){
+    char s;
+    sleep(1);
+    printf("inside a C thread");
+    scanf("%s", &s);
+    return NULL;
 }

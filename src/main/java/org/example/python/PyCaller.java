@@ -163,4 +163,12 @@ public class PyCaller {
     public void releaseGil(PyGILState_STATE state) {
         javaPython.PyGILState_Release(state);
     }
+
+    public PyThreadState EvalSaveThread(){
+        return javaPython.PyEval_SaveThread();
+    }
+
+    public void EvalRestoreThread(PyThreadState state){
+        javaPython.PyEval_RestoreThread(state);
+    }
 }

@@ -1,6 +1,7 @@
 package org.example.interprete;
 
 import org.example.python.PyRunner;
+import org.example.python.PyThreadState;
 
 public class EmbeddedPython {
     private final PyRunner pyRunner;
@@ -15,7 +16,11 @@ public class EmbeddedPython {
 
     public void start() {
         output.toConsole(pyRunner.welcomeMessage());
+        //Save
+        PyThreadState state = pyRunner.saveThread();
         lineManager.inputLineRunner();
+        //Restore
+        pyRunner.restoreThread(state);
         pyRunner.quit();
     }
 }

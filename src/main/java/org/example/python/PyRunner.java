@@ -35,6 +35,14 @@ public class PyRunner {
         pyCaller.releaseGil(state);
     }
 
+    public PyThreadState saveThread(){
+        return pyCaller.EvalSaveThread();
+    }
+
+    public void restoreThread(PyThreadState state){
+        pyCaller.EvalRestoreThread(state);
+    }
+
     public String runLine(String input) {
         int numberOfAssigmentSymbol = input.length() - input.replace(ASSIGMENT_SYMBOL, BLANK_SYMBOL).length();
         if (isStatementLine(input, numberOfAssigmentSymbol)) {

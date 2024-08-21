@@ -46,4 +46,9 @@ public interface JavaPython extends Library {
     PyGILState_STATE PyGILState_Ensure();
 
     void PyGILState_Release(PyGILState_STATE state);
+
+    PyThreadState PyEval_SaveThread();
+
+    void PyEval_RestoreThread(PyThreadState state);
+
 }
