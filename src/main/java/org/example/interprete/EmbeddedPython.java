@@ -17,10 +17,10 @@ public class EmbeddedPython {
     public void start() {
         output.toConsole(pyRunner.welcomeMessage());
         //Save
-        PyThreadState state = pyRunner.saveThread();
+        //PyThreadState state = pyRunner.saveThread();
         lineManager.inputLineRunner();
         //Restore
-        pyRunner.restoreThread(state);
+        //pyRunner.restoreThread(state);
         pyRunner.quit();
     }
 }
