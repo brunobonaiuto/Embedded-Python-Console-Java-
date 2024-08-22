@@ -1,6 +1,7 @@
-package org.example.interprete;
+package org.example.interprete.engine;
 
-
+import org.example.interprete.io.DefaultOutput;
+import org.example.interprete.io.Output;
 import org.example.python.PyRunner;
 import org.example.python.PyThreadState;
 
@@ -13,17 +14,15 @@ public class Runner {
     private PyThreadState state;
 
     public Runner() {
-        output = new Output();
+        output = new DefaultOutput();
         pyRunner = new PyRunner();
     }
 
-    public void retrieveResult(String currentLine) {
+    public void executeLine(String currentLine) {
         if(state != null) {
             pyRunner.restoreThread(state);
         }
-        //PyGILState_STATE gState = pyRunner.unlockGilState();
         String run = pyRunner.runLine(currentLine);
-        //pyRunner.releaseGilState(gState);
         state = pyRunner.saveThread();
         String resultFromRun = run + LINE + EXPRESSION_SYMBOL;
         output.toConsole(run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);

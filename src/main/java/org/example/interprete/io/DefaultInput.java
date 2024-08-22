@@ -1,14 +1,15 @@
-package org.example.interprete;
+package org.example.interprete.io;
 
 import java.util.Scanner;
 
-public class Input {
+public class DefaultInput implements Input {
     private final Scanner scanner;
 
-    public Input() {
+    public DefaultInput() {
         scanner = new Scanner(System.in);
     }
 
+    @Override
     public String fromConsole() {
         return scanner.nextLine();
     }

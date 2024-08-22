@@ -1,6 +1,11 @@
-package org.example.interprete;
+package org.example.interprete.engine;
 
-public class LineManager {
+import org.example.interprete.io.DefaultInput;
+import org.example.interprete.io.DefaultOutput;
+import org.example.interprete.io.Input;
+import org.example.interprete.io.Output;
+
+public class InputLineManager {
     private final Input input;
     private final Output output;
     private final Runner runner;
@@ -11,28 +16,29 @@ public class LineManager {
     public static final String EXIT_COMMAND = "exit()";
     public static final String COLON_SYMBOL = ":";
 
-    public LineManager() {
-        output = new Output();
-        input = new Input();
+    public InputLineManager() {
+        output = new DefaultOutput();
+        input = new DefaultInput();
         runner = new Runner();
         stringBuilder = new StringBuilder();
     }
 
-    public void inputLineRunner() {
-        while (!lineIsExit()) {
-            if (inputIsFunction()) {
+    public void readLinesFromUser() {
+        while (!userTypedExits()) {
+            if (userTypedFunction()) {
                 defineFunction(stringBuilder);
+            }else {
+                runner.executeLine(currentLine);
+                currentLine = input.fromConsole();
             }
-            runner.retrieveResult(currentLine);
-            currentLine = input.fromConsole();
         }
     }
 
-    private boolean lineIsExit() {
+    private boolean userTypedExits() {
         return currentLine.equals(EXIT_COMMAND);
     }
 
-    private boolean inputIsFunction() {
+    private boolean userTypedFunction() {
         return currentLine.endsWith(COLON_SYMBOL);
     }
 
