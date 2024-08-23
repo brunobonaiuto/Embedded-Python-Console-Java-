@@ -22,12 +22,14 @@ public class InterpreteGui {
         in this case, the runButton needs to setBounds when layout is null
          */
         //inputPanel.setLayout(null);
+
         /*
         set layout new BorderLayout() -> does not require to the component the desired location,
         instead is the panel that will decide where is going to be placed
         */
         //inputPanel.setLayout(new BorderLayout());
         //inputPanel.add(runButton, BorderLayout.EAST);
+
         /*
         FlowLayout = places components in a row, sized at their preferred size,
                     if the horizontal space in the container is too small,
@@ -38,15 +40,42 @@ public class InterpreteGui {
         //and then just add the button in this way
         //inputPanel.add(runButton);
 
+        /*
+        GridLayout = places components in a grid of cells,
+                    each component takes all the available spaces inside the cell
+                    and each cell is the same size
+        */
+        //---------------------------------------------------------------
+        /*
+        JLayeredPane = is used to stack panels on top of the others, like in a 3Dimension
+                       is a Swing container that provides a third dimension for positioning components
+        */
+        //JlayeredPaneExample();
 
         //---------------------------------------------------------------
         //Adds
+        //when frame uses Layout = new BorderLayout, set the container in this way
         consoleFrame.add(outputPanel, BorderLayout.CENTER);
         consoleFrame.add(inputPanel,BorderLayout.SOUTH);
+
         inputPanel.add(runButton);
 
         //---------------------------------------------------------------
         consoleFrame.setVisible(true);
+    }
+
+    private static void JlayeredPaneExample() {
+        JLayeredPane layeredPane = new JLayeredPane();
+        //make sure that the layout in which we gonna put the layeredPane is null
+        //ex -> frame.setLayout(null)
+        //set size and position
+        layeredPane.setBounds(0,0,250,250);
+        //add the layeredPane to a frame
+        //frame.add(layeredPane);
+        //now nothing will be display, so Add something to this stack of panels ie. some panel or some labels
+        //layeredPane.add(new JPanel(), JLayerPaned.DEFAULT_LAYER);
+        // or
+        //layeredPane.add(new JLabel(), Integer.valueOf(0);
     }
 
     private static MyFrame createFrame() {
@@ -54,9 +83,10 @@ public class InterpreteGui {
         MyFrame consoleFrame = new MyFrame("Python Console", Color.WHITE);
         //set the size of a frame
         consoleFrame.setSize(1150, 650);
-        //configure the layout of the frame
+        //configure the layout of the frame, BY DEFAULT IS BORDER LAYOUT
         //consoleFrame.setLayout(new FlowLayout());
         consoleFrame.setLayout(new BorderLayout(10,10)); //componets inside the frame will have a gap of 10,10 between each others
+        //consoleFrame.setLayout(new GridLayout(2,1,0,5));
         //set title by default is true
         //consoleFrame.setTitle(true);
         //personal method
