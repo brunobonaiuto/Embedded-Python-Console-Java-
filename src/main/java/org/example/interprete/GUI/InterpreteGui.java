@@ -11,12 +11,14 @@ public class InterpreteGui {
     public static void pythonConsole(){
         //---------------------------------------------------------------
         MyFrame consoleFrame = CreateMainFrame();
+        Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);
 
         //---------------------------------------------------------------
         //JPanel -> by default they are flow layout
         JPanel outputPanel = createJPanel(Color.black, 600);
         JPanel inputPanel = createJPanel(Color.GRAY, 100);
         inputPanel.setLayout(new BorderLayout());
+        inputPanel.setBorder(greenBorder);
         outputPanel.setLayout(new BorderLayout());
         //inputPanel.setLayout(new GridLayout(1,2,0,5));
         //inputPanel.setLayout(new FlowLayout(FlowLayout.TRAILING, 20,50)); //stick the components to the right
@@ -29,7 +31,6 @@ public class InterpreteGui {
 
         //---------------------------------------------------------------
         //JTextArea
-        Border greenBorder = BorderFactory.createLineBorder(Color.GRAY);
         JTextArea outputTextArea = new JTextArea();
         outputTextArea.setFont(new Font("Consolas", Font.PLAIN, 20));
         //set color of the font
@@ -37,13 +38,15 @@ public class InterpreteGui {
         //set the color of the textField
         outputTextArea.setBackground(Color.DARK_GRAY);
         //set the color of the InputWaiting line
-        outputTextArea.setCaretColor(Color.WHITE);
+        //outputTextArea.setCaretColor(Color.WHITE);
         outputTextArea.setText(" Welcome to Python \n +---------------------------------------+ \n");
-        outputTextArea.setBorder(greenBorder);
+        outputTextArea.setEditable(false);
+
 
         //JScrollPane for text area
         JScrollPane scrollPane = new JScrollPane(outputTextArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setBackground(Color.GRAY);
+        scrollPane.setBorder(greenBorder);
         //TODO/FixMe/change the color of the buttom up and down
 
 
@@ -81,6 +84,7 @@ public class InterpreteGui {
         //set the color of the InputWaiting line
         inputTextField.setCaretColor(Color.WHITE);
         inputTextField.setText(" >>> ");
+        inputTextField.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 5));
         return inputTextField;
     }
 
@@ -143,7 +147,7 @@ public class InterpreteGui {
         consoleFrame.setSize(1150, 650);
         //configure the layout of the frame, BY DEFAULT IS BORDER LAYOUT
         //consoleFrame.setLayout(new FlowLayout());
-        consoleFrame.setLayout(new BorderLayout(5,5)); //componets inside the frame will have a gap of 10,10 between each others
+        consoleFrame.setLayout(new BorderLayout()); //componets inside the frame will have a gap of 10,10 between each others
         //consoleFrame.setLayout(new GridLayout(2,1,0,5));
         //set title by default is true
         //consoleFrame.setTitle(true);
@@ -198,7 +202,7 @@ public class InterpreteGui {
         //set the color of the text
         runButton.setForeground(Color.BLACK);
         //set the color of the button
-        runButton.setBackground(Color.WHITE);
+        runButton.setBackground(Color.gray);
         //set border for button
         runButton.setBorder(BorderFactory.createEtchedBorder());
         return runButton;
