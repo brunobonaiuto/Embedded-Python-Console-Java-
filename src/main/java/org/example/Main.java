@@ -1,15 +1,15 @@
 package org.example;
 
-import org.example.interprete.EmbeddedPython;
 import org.example.interprete.GUI.InterpreteGui;
 
 import javax.swing.*;
 
+
 public class Main {
     public static void main(String[] args) {
-//        EmbeddedPython embeddedPython = new EmbeddedPython();
-//        embeddedPython.initialize();
+        //EmbeddedPython embeddedPython = new EmbeddedPython();
+        //embeddedPython.initialize();
 
-        SwingUtilities.invokeLater(InterpreteGui::pythonConsole);
+        SwingUtilities.invokeLater(InterpreteGui::initialize);
     }
 }

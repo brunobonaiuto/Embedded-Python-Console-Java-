@@ -1,17 +1,15 @@
 package org.example.interprete.GUI;
 
-import org.w3c.dom.Text;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
 public class InterpreteGui {
+    private static final Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);;
+    private static String PYTHON_LOGO;
 
-    public static void pythonConsole(){
-        //---------------------------------------------------------------
+    public static void initialize(){
         MyFrame consoleFrame = CreateMainFrame();
-        Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);
 
         //---------------------------------------------------------------
         //JPanel -> by default they are flow layout
@@ -142,17 +140,17 @@ public class InterpreteGui {
 
     private static MyFrame CreateMainFrame() {
         //Main JFrame
-        MyFrame consoleFrame = new MyFrame("Python Console", Color.WHITE);
-        //set the size of a frame
-        consoleFrame.setSize(1150, 650);
+        MyFrame consoleFrame = new MyFrame("Python Console", new Size(1150, 650), new BorderLayout());
+//        //set the size of a frame
+//        consoleFrame.setSize(1150, 650);
         //configure the layout of the frame, BY DEFAULT IS BORDER LAYOUT
         //consoleFrame.setLayout(new FlowLayout());
-        consoleFrame.setLayout(new BorderLayout()); //componets inside the frame will have a gap of 10,10 between each others
+        //consoleFrame.setLayout(new BorderLayout()); //componets inside the frame will have a gap of 10,10 between each others
         //consoleFrame.setLayout(new GridLayout(2,1,0,5));
         //set title by default is true
         //consoleFrame.setTitle(true);
         //personal method
-        consoleFrame.addIcon("C:\\Users\\bbbolivar\\Documents\\MEGA\\MEGAsync\\IdeaProjects\\PythonConsole2\\src\\main\\java\\org\\example\\interprete\\GUI\\pythonLogo.png");
+        consoleFrame.addIcon(PYTHON_LOGO);
         return consoleFrame;
     }
 
