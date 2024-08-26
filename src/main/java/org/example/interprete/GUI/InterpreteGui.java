@@ -1,14 +1,12 @@
 package org.example.interprete.GUI;
 
 import org.example.interprete.GUI.frames.mainFrame.MainFrame;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
+import org.example.interprete.io.Input;
+import org.example.interprete.io.Output;
 
 public class InterpreteGui {
-    public static void initializeWindowComponents(){
-        MainFrame mainFrame = new MainFrame();
+    public static void initializeWindowComponents(Input inputPanel, Output outputPanel){
+        MainFrame mainFrame = new MainFrame(inputPanel, outputPanel);
         mainFrame.addContainers();
     }
 }

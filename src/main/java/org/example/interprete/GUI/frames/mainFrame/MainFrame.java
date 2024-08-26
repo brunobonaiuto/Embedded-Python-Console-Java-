@@ -2,6 +2,7 @@ package org.example.interprete.GUI.frames.mainFrame;
 
 import org.example.interprete.GUI.MyJFrame;
 import org.example.interprete.GUI.Size;
+import org.example.interprete.io.Input;
 import org.example.interprete.io.Output;
 
 
@@ -13,13 +14,12 @@ public class MainFrame {
     private final OutputPanel outputPanel;
     private static final String PYTHON_LOGO = "C:\\Users\\bbbolivar\\Documents\\MEGA\\MEGAsync\\IdeaProjects\\PythonConsole2\\src\\main\\java\\org\\example\\interprete\\GUI\\pythonLogo.png";
 
-
-    public MainFrame() {
+    public MainFrame(Input inputChanel, Output outputChanel) {
         consoleFrame = new MyJFrame("Python Console", new Size(1150, 650), new BorderLayout());
         consoleFrame.addIcon(PYTHON_LOGO);
-        outputPanel = new OutputPanel();
+        outputPanel = (OutputPanel) outputChanel;
         outputPanel.addContainers();
-        inputPanel = new InputPanel(outputPanel);
+        inputPanel = (InputPanel) inputChanel;
         inputPanel.addContainers();
     }
 

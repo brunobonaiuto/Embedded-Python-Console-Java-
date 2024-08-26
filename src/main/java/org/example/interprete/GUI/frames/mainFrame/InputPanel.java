@@ -2,20 +2,27 @@ package org.example.interprete.GUI.frames.mainFrame;
 
 import org.example.interprete.GUI.MyJPanel;
 import org.example.interprete.GUI.Size;
+import org.example.interprete.io.Input;
+import org.example.interprete.io.Output;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 
-public class InputPanel {
+public class InputPanel implements Input {
     private static final Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);;
-    private static OutputPanel outputPanel;
-
+    private static Output outputPanel;
+    private JButton runButton;
     private final MyJPanel inputJPanel;
+    private JTextField inputTextField;
+    private String temporaryInput;
 
-    public InputPanel(OutputPanel outputPanel) {
+    public InputPanel(Output outputPanel) {
         this.outputPanel = outputPanel;
         inputJPanel = new MyJPanel(new Size(1150,100), new BorderLayout());
+        inputTextField = jTextField();
     }
 
     public MyJPanel get(){
@@ -23,9 +30,9 @@ public class InputPanel {
     }
 
     public void addContainers() {
-        JTextField inputTextField = jTextField();
         inputJPanel.add(inputTextField, BorderLayout.CENTER);
-        inputJPanel.add(runButton(inputTextField), BorderLayout.EAST);
+        runButton = runButton();
+        inputJPanel.add(runButton, BorderLayout.EAST);
     }
 
     private static JTextField jTextField() {
@@ -39,18 +46,12 @@ public class InputPanel {
         return inputTextField;
     }
 
-    private static JButton runButton(JTextField inputTextField) {
+    private JButton runButton() {
         ImageIcon imageIcon = new ImageIcon("C:\\Users\\bbbolivar\\Documents\\MEGA\\MEGAsync\\IdeaProjects\\PythonConsole2\\src\\main\\java\\org\\example\\interprete\\GUI\\playButton.png");
         JButton runButton = new JButton();
         runButton.setText("Run");
         runButton.setFocusable(false);
         runButton.setIcon(imageIcon);
-        runButton.addActionListener(e-> {
-            String input = inputTextField.getText();
-            inputTextField.setText(" >>> ");
-            input = input.replace(">>> ", "");
-            outputPanel.toConsole(input);
-        });
         runButton.setHorizontalTextPosition(JButton.CENTER);
         runButton.setVerticalTextPosition(JButton.BOTTOM);
         runButton.setFont(new Font("Comic Sans", Font.BOLD, 18));
@@ -58,5 +59,26 @@ public class InputPanel {
         runButton.setBackground(Color.gray);
         runButton.setBorder(BorderFactory.createEtchedBorder());
         return runButton;
+    }
+
+    @Override
+    public String fromConsole() {
+        temporaryInput = "";
+//        CountDownLatch latch = new CountDownLatch(1);
+//        try {
+//            latch.await();
+//        } catch (InterruptedException e) {
+//        }
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+        }
+        runButton.addActionListener(e -> {
+            temporaryInput = inputTextField.getText().replace(" >>> ", "");
+            inputTextField.setText(" >>> ");
+            //latch.countDown();
+        });
+
+        return temporaryInput;
     }
 }

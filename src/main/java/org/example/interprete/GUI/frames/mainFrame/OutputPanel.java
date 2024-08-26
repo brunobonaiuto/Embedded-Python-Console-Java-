@@ -38,13 +38,12 @@ public class OutputPanel implements Output {
         outputTextArea.setFont(new Font("Consolas", Font.PLAIN, 20));
         outputTextArea.setForeground(Color.WHITE);
         outputTextArea.setBackground(Color.DARK_GRAY);
-        outputTextArea.setText(" Welcome to Python \n +---------------------------------------+ \n");
         outputTextArea.setEditable(false);
         return outputTextArea;
     }
 
     @Override
     public void toConsole(String result) {
-        textArea.append(">>> " + result + "\n");
+        textArea.append(result);
     }
 }
