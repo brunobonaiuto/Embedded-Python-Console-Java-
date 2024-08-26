@@ -5,9 +5,9 @@ import org.example.interprete.GUI.Size;
 import javax.swing.*;
 import java.awt.*;
 
-public class MyFrame extends JFrame {
+public class MyJFrame extends JFrame {
 
-    public MyFrame(String title, Size size, LayoutManager layout){
+    public MyJFrame(String title, Size size, LayoutManager layout){
         //set the title of a Frame
         this.setTitle(title);
         //set the size of the frame
