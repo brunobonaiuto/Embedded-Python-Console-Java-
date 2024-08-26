@@ -2,6 +2,7 @@ package org.example.interprete;
 
 import org.example.interprete.engine.InputLineManager;
 import org.example.interprete.io.DefaultOutput;
+import org.example.interprete.io.Input;
 import org.example.interprete.io.Output;
 import org.example.python.PyRunner;
 
@@ -10,10 +11,10 @@ public class EmbeddedPython {
     private final Output output;
     private final InputLineManager inputLineManager;
 
-    public EmbeddedPython() {
+    public EmbeddedPython(Input inputChanel, Output outputChanel) {
         pyRunner = new PyRunner();
-        output = new DefaultOutput();
-        inputLineManager = new InputLineManager();
+        output = outputChanel;
+        inputLineManager = new InputLineManager(inputChanel, output);
     }
 
     public void initialize() {

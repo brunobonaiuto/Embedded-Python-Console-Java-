@@ -1,7 +1,5 @@
 package org.example.interprete.engine;
 
-import org.example.interprete.io.DefaultInput;
-import org.example.interprete.io.DefaultOutput;
 import org.example.interprete.io.Input;
 import org.example.interprete.io.Output;
 
@@ -16,10 +14,10 @@ public class InputLineManager {
     public static final String EXIT_COMMAND = "exit()";
     public static final String COLON_SYMBOL = ":";
 
-    public InputLineManager() {
-        output = new DefaultOutput();
-        input = new DefaultInput();
-        runner = new Runner();
+    public InputLineManager(Input inputChanel, Output outputChanel) {
+        input = inputChanel;
+        output = outputChanel;
+        runner = new Runner(outputChanel);
         stringBuilder = new StringBuilder();
     }
 

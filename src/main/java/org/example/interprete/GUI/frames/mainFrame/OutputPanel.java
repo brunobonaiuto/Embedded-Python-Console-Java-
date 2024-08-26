@@ -2,12 +2,13 @@ package org.example.interprete.GUI.frames.mainFrame;
 
 import org.example.interprete.GUI.MyJPanel;
 import org.example.interprete.GUI.Size;
+import org.example.interprete.io.Output;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class OutputPanel {
+public class OutputPanel implements Output {
     private static final Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);;
     private final MyJPanel outputJPanel;
     private JTextArea textArea;
@@ -42,7 +43,8 @@ public class OutputPanel {
         return outputTextArea;
     }
 
-    public void displayToConsole(String result){
+    @Override
+    public void toConsole(String result) {
         textArea.append(">>> " + result + "\n");
     }
 }

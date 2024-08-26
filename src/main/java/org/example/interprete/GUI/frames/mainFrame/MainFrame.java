@@ -2,6 +2,7 @@ package org.example.interprete.GUI.frames.mainFrame;
 
 import org.example.interprete.GUI.MyJFrame;
 import org.example.interprete.GUI.Size;
+import org.example.interprete.io.Output;
 
 
 import java.awt.*;

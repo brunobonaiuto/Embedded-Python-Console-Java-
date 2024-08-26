@@ -49,7 +49,7 @@ public class InputPanel {
             String input = inputTextField.getText();
             inputTextField.setText(" >>> ");
             input = input.replace(">>> ", "");
-            outputPanel.displayToConsole(input);
+            outputPanel.toConsole(input);
         });
         runButton.setHorizontalTextPosition(JButton.CENTER);
         runButton.setVerticalTextPosition(JButton.BOTTOM);
