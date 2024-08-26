@@ -1,27 +1,30 @@
 package org.example.interprete.GUI;
 
+import org.example.interprete.GUI.frames.mainFrame.MainFrame;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
 public class InterpreteGui {
     private static final Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);;
-    private static String PYTHON_LOGO;
+    private static final String PYTHON_LOGO = "C:\\Users\\bbbolivar\\Documents\\MEGA\\MEGAsync\\IdeaProjects\\PythonConsole2\\src\\main\\java\\org\\example\\interprete\\GUI\\pythonLogo.png";
 
-    public static void initialize(){
-        MyFrame consoleFrame = CreateMainFrame();
+
+    public static void initializeWindowComponents(){
+        MainFrame mainFrame = new MainFrame();
+        mainFrame.createJFrameWithContainers();
+
+        
+//        //---------------------------------------------------------------
+//        //JFrame
+//        MyFrame consoleFrame = new MyFrame("Python Console", new Size(1150, 650), new BorderLayout());
+//        consoleFrame.addIcon(PYTHON_LOGO);
 
         //---------------------------------------------------------------
         //JPanel -> by default they are flow layout
-        JPanel outputPanel = createJPanel(Color.black, 600);
-        JPanel inputPanel = createJPanel(Color.GRAY, 100);
-        inputPanel.setLayout(new BorderLayout());
-        inputPanel.setBorder(greenBorder);
-        outputPanel.setLayout(new BorderLayout());
-        //inputPanel.setLayout(new GridLayout(1,2,0,5));
-        //inputPanel.setLayout(new FlowLayout(FlowLayout.TRAILING, 20,50)); //stick the components to the right
-        //LayoutExplanation(inputPanel);
-        //JlayeredPaneExample();
+        JPanel outputPanel = createJPanel(new Size(1150, 600));
+        JPanel inputPanel = createJPanel(new Size(1150,100));
 
         //---------------------------------------------------------------
         //JTextField = A GUI textbox component that can be used to add, set or get text
@@ -29,17 +32,7 @@ public class InterpreteGui {
 
         //---------------------------------------------------------------
         //JTextArea
-        JTextArea outputTextArea = new JTextArea();
-        outputTextArea.setFont(new Font("Consolas", Font.PLAIN, 20));
-        //set color of the font
-        outputTextArea.setForeground(Color.WHITE);
-        //set the color of the textField
-        outputTextArea.setBackground(Color.DARK_GRAY);
-        //set the color of the InputWaiting line
-        //outputTextArea.setCaretColor(Color.WHITE);
-        outputTextArea.setText(" Welcome to Python \n +---------------------------------------+ \n");
-        outputTextArea.setEditable(false);
-
+        JTextArea outputTextArea = getjTextArea();
 
         //JScrollPane for text area
         JScrollPane scrollPane = new JScrollPane(outputTextArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -70,58 +63,29 @@ public class InterpreteGui {
         consoleFrame.pack();
     }
 
-    private static JTextField createTextField() {
-        JTextField inputTextField = new JTextField();
-        //inputTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
-        //inputTextField.setPreferredSize(new Dimension(1000,100));
-        inputTextField.setFont(new Font("Consolas", Font.PLAIN, 20));
+    private static JTextArea getjTextArea() {
+        JTextArea outputTextArea = new JTextArea();
+        outputTextArea.setFont(new Font("Consolas", Font.PLAIN, 20));
         //set color of the font
-        inputTextField.setForeground(Color.WHITE);
+        outputTextArea.setForeground(Color.WHITE);
         //set the color of the textField
-        inputTextField.setBackground(Color.DARK_GRAY);
+        outputTextArea.setBackground(Color.DARK_GRAY);
         //set the color of the InputWaiting line
-        inputTextField.setCaretColor(Color.WHITE);
-        inputTextField.setText(" >>> ");
-        inputTextField.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 5));
-        return inputTextField;
+        //outputTextArea.setCaretColor(Color.WHITE);
+        outputTextArea.setText(" Welcome to Python \n +---------------------------------------+ \n");
+        outputTextArea.setEditable(false);
+        return outputTextArea;
     }
 
-    private void LayoutExplanation(JPanel inputPanel) {
-        //------------------------------------
-        //layout Manager = defines the natural (defaults) layout for components within a container
-        /*
-        set layout null -> requires to the components to specify where do they want to be place,
-        in this case, the runButton needs to setBounds when layout is null
-         */
-        //inputPanel.setLayout(null);
-
-        /*
-        set layout new BorderLayout() -> does not require to the component the desired location,
-        instead is the panel that will decide where is going to be placed
-        */
-        //inputPanel.setLayout(new BorderLayout());
-        //inputPanel.add(runButton, BorderLayout.EAST);
-
-        /*
-        FlowLayout = places components in a row, sized at their preferred size,
-                    if the horizontal space in the container is too small,
-                    the flowLayout class uses the next available row
-         */
-        //flow layout for inputPanel will automatically move the components inside the panel
-   //used -->     //inputPanel.setLayout(new FlowLayout(FlowLayout.TRAILING, 20,50)); //stick the components to the right
-        //and then just add the button in this way
-        //inputPanel.add(runButton);
-
-        /*
-        GridLayout = places components in a grid of cells,
-                    each component takes all the available spaces inside the cell
-                    and each cell is the same size
-        */
-        //---------------------------------------------------------------
-        /*
-        JLayeredPane = is used to stack panels on top of the others, like in a 3Dimension
-                       is a Swing container that provides a third dimension for positioning components
-        */
+    private static JTextField createTextField() {
+        JTextField inputTextField = new JTextField();
+        inputTextField.setFont(new Font("Consolas", Font.PLAIN, 20));
+        inputTextField.setForeground(Color.WHITE);
+        inputTextField.setBackground(Color.DARK_GRAY);
+        inputTextField.setCaretColor(Color.WHITE);
+        inputTextField.setText(" >>> ");
+        inputTextField.setBorder(greenBorder);
+        return inputTextField;
     }
 
     private static void JlayeredPaneExample() {
@@ -138,30 +102,12 @@ public class InterpreteGui {
         //layeredPane.add(new JLabel(), Integer.valueOf(0);
     }
 
-    private static MyFrame CreateMainFrame() {
-        //Main JFrame
-        MyFrame consoleFrame = new MyFrame("Python Console", new Size(1150, 650), new BorderLayout());
-//        //set the size of a frame
-//        consoleFrame.setSize(1150, 650);
-        //configure the layout of the frame, BY DEFAULT IS BORDER LAYOUT
-        //consoleFrame.setLayout(new FlowLayout());
-        //consoleFrame.setLayout(new BorderLayout()); //componets inside the frame will have a gap of 10,10 between each others
-        //consoleFrame.setLayout(new GridLayout(2,1,0,5));
-        //set title by default is true
-        //consoleFrame.setTitle(true);
-        //personal method
-        consoleFrame.addIcon(PYTHON_LOGO);
-        return consoleFrame;
-    }
-
-    private static JPanel createJPanel(Color black, int height) {
-        //create a panel
-        JPanel outputPanel = new JPanel();
-        //set the color of the panel
-        outputPanel.setBackground(black);
-        //set the size of the panel
-        outputPanel.setPreferredSize(new Dimension(1150, height));
-        return outputPanel;
+    private static JPanel createJPanel(Size size) {
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(size.getWidth(), size.getHeight()));
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(greenBorder);
+        return panel;
     }
 
     private static JButton createRunButton(JTextField inputTextField, JTextArea outputTextArea) {

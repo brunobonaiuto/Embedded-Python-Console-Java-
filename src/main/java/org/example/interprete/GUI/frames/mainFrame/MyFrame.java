@@ -1,13 +1,13 @@
-package org.example.interprete.GUI;
+package org.example.interprete.GUI.frames.mainFrame;
+
+import org.example.interprete.GUI.Size;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MyFrame extends JFrame {
 
-
-
-    MyFrame(String title, Size size, LayoutManager layout){
+    public MyFrame(String title, Size size, LayoutManager layout){
         //set the title of a Frame
         this.setTitle(title);
         //set the size of the frame
@@ -26,6 +26,4 @@ public class MyFrame extends JFrame {
         //set the icon of the frame (converts the icon to an image)
         this.setIconImage(imageIcon.getImage()); //requires an image, not an icon
     }
-
-
 }

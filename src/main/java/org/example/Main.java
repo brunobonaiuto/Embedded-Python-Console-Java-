@@ -10,6 +10,6 @@ public class Main {
         //EmbeddedPython embeddedPython = new EmbeddedPython();
         //embeddedPython.initialize();
 
-        SwingUtilities.invokeLater(InterpreteGui::initialize);
+        SwingUtilities.invokeLater(InterpreteGui::initializeWindowComponents);
     }
 }
