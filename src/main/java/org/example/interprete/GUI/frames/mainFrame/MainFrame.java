@@ -1,12 +1,13 @@
 package org.example.interprete.GUI.frames.mainFrame;
 
+import org.example.interprete.GUI.MyJFrame;
 import org.example.interprete.GUI.Size;
 
 
 import java.awt.*;
 
-public class MainFrame implements Containters {
-    private MyJFrame consoleFrame;
+public class MainFrame {
+    private final MyJFrame consoleFrame;
     private final InputPanel inputPanel;
     private final OutputPanel outputPanel;
     private static final String PYTHON_LOGO = "C:\\Users\\bbbolivar\\Documents\\MEGA\\MEGAsync\\IdeaProjects\\PythonConsole2\\src\\main\\java\\org\\example\\interprete\\GUI\\pythonLogo.png";
@@ -21,7 +22,6 @@ public class MainFrame implements Containters {
         inputPanel.addContainers();
     }
 
-    @Override
     public void addContainers(){
         consoleFrame.add(outputPanel.get(), BorderLayout.CENTER);
         consoleFrame.add(inputPanel.get(), BorderLayout.SOUTH);

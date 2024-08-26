@@ -1,4 +1,4 @@
-package org.example.interprete.GUI.frames.mainFrame;
+package org.example.interprete.GUI;
 
 import org.example.interprete.GUI.Size;
 
