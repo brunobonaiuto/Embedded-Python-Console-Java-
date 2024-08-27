@@ -1,7 +1,8 @@
 package org.example.python;
 
-import com.sun.jna.Library;
+import org.example.interprete.io.Output;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PyRunner {
@@ -16,8 +17,11 @@ public class PyRunner {
     public static final String BLANK_SYMBOL = "";
     public static final String NONE = "None";
     public static final String IMPORT = "import";
+    private final Output outputChanel;
+    private int oldSize = 0;
 
-    public PyRunner() {
+    public PyRunner(Output outputChanel2) {
+        outputChanel = outputChanel2;
         pyCaller = new PyCaller();
         pyCaller.initializePython();
         main = pyCaller.initModule(MODULE_NAME);
@@ -28,8 +32,23 @@ public class PyRunner {
         pyCaller.redirectStandardOutput();
 
         Thread thread = new Thread(() -> {
-            List stdout = pyCaller.getRedirectedStandardOutput();
-            System.out.println(stdout.toString());
+            while(true) {
+                PyGILState_STATE state = pyCaller.unlockGil();
+                List stdout = pyCaller.getRedirectedStandardOutput();
+                pyCaller.releaseGil(state);
+                System.out.println(stdout.size());
+                if(stdout.size() > oldSize){
+                    //detected output
+//                    System.out.println("thread hereee");
+//                    System.out.println(stdout.size());
+//                    System.out.println("the first:"+stdout.getFirst());
+//                    System.out.println("the last:"+stdout.getLast());
+//                    System.out.println("\'"+stdout+"\'");
+                    outputChanel.toConsole(stdout.getLast().toString()+"\n");
+                    oldSize = stdout.size();
+                }
+
+            }
         });
         thread.start();
     }

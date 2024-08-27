@@ -12,7 +12,7 @@ public class EmbeddedPython {
     private final InputLineManager inputLineManager;
 
     public EmbeddedPython(Input inputChanel, Output outputChanel) {
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
         output = outputChanel;
         inputLineManager = new InputLineManager(inputChanel, output, pyRunner);
     }

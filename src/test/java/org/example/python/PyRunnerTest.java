@@ -16,7 +16,7 @@ class PyRunnerTest {
 
     @Test
     void testRunLineIsEmpty() {
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
 
         String result = pyRunner.runLine("");
 
@@ -25,7 +25,7 @@ class PyRunnerTest {
 
     @Test
     void testRunLineContainsAnAssigment() {
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
         //
         String result = pyRunner.runLine("b = 20");
         pyRunner.quit();
@@ -35,7 +35,7 @@ class PyRunnerTest {
 
     @Test
     void testRunLineAccessingVariable() {
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
 
         String result1 = pyRunner.runLine("b = 20");
         String result2 = pyRunner.runLine("b");
@@ -46,7 +46,7 @@ class PyRunnerTest {
 
     @Test
     void testRunLineAccessingVariableRepeatedTimes() {
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
 
         assertEquals("", pyRunner.runLine("b = 20"));
         assertEquals("20", pyRunner.runLine("b"));
@@ -63,7 +63,7 @@ class PyRunnerTest {
         String expectedOne = "";
         String expectedTwo = "";
         String expectedThree = "56";
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
 
         assertEquals(expectedOne, pyRunner.runLine("b = 55"));
         assertEquals(expectedTwo, pyRunner.runLine("b = b + 1"));
@@ -72,14 +72,14 @@ class PyRunnerTest {
 
     @Test
     void testRunLinePrint() {
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
 
         pyRunner.runLine("print(25)");
     }
 
     @Test
     void testRunLineFunctions() {
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
 
         String result1 = pyRunner.runLine("abs(-7.25)");
         String result2 = pyRunner.runLine("globals()");
@@ -92,7 +92,7 @@ class PyRunnerTest {
 
     @Test
     void testRunLineDefFunction() {
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
 
         assertEquals("", pyRunner.runLine("def function(name):\n  return \"hello \" + name"));
         assertEquals("hello person", pyRunner.runLine("function(\"person\")"));
@@ -100,14 +100,14 @@ class PyRunnerTest {
 
     @Test
     void testRunLineImportModule() {
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
 
         assertEquals("", pyRunner.runLine("import os"));
     }
 
     @Test
     void testWhenInvalidSyntax() {
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
 
         String result1 = pyRunner.runLine("-");
 
@@ -117,7 +117,7 @@ class PyRunnerTest {
     @Test
     void testWhenNameIsNotDefined() {
         String input = "jj";
-        pyRunner = new PyRunner();
+        pyRunner = new PyRunner(outputChanel);
 
         String result1 = pyRunner.runLine(input);
 

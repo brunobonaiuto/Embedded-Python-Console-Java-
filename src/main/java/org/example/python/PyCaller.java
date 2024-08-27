@@ -3,6 +3,7 @@ package org.example.python;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -183,13 +184,18 @@ public class PyCaller {
         javaPython.PyEval_RestoreThread(state);
     }
 
-        public List getRedirectedStandardOutput() {
+    public List getRedirectedStandardOutput() {
         PyObject tempStdOut = javaPython.PySys_GetObject("stdout");
         PyObject pValue = javaPython.PyObject_CallMethod(tempStdOut,"getvalue", null);
         PyObject valueStr = getStringRepOfPyObject(pValue);
         String stdOut = convertPyObjStringToJavaString(valueStr);
         stdOut =  stdOut.replace("\n", ",");
         List<String> std = Arrays.asList(stdOut.split("\\s*,\\s*"));
+        if(std.size()== 1 && std.getFirst().equals("")){
+            System.out.println("condition is true");
+            return new ArrayList();
+        }
+        System.out.println("the arr: "+ std);
         return std;
     }
 
