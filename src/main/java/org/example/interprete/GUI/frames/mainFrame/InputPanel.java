@@ -62,7 +62,9 @@ public class InputPanel implements Input {
         runButton.addActionListener(e -> {
             temporaryInput = inputTextField.getText().replace(" >>> ", "");
             inputTextField.setText(" >>> ");
-            outputPanel.toConsole(temporaryInput+"\n");
+            if(!temporaryInput.equals("")){
+                outputPanel.toConsole(temporaryInput+"\n");
+            }
         });
         return runButton;
     }
