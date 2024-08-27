@@ -1,5 +1,9 @@
 package org.example.python;
 
+import com.sun.jna.Library;
+
+import java.util.List;
+
 public class PyRunner {
     private final PyCaller pyCaller;
     private final PyObject main;
@@ -17,8 +21,17 @@ public class PyRunner {
         pyCaller = new PyCaller();
         pyCaller.initializePython();
         main = pyCaller.initModule(MODULE_NAME);
-        //redirect stdout
+
+
+        // redirect stdout
+        // Thread open should be here
         pyCaller.redirectStandardOutput();
+
+        Thread thread = new Thread(() -> {
+            List stdout = pyCaller.getRedirectedStandardOutput();
+            System.out.println(stdout.toString());
+        });
+        thread.start();
     }
 
     public String welcomeMessage() {
@@ -53,9 +66,9 @@ public class PyRunner {
         } else {
             String result = execute(input, PY_EVAL_INPUT);
             //get stdout
-            String stdout = pyCaller.getRedirectedStandardOutput();
+            //List stdout = pyCaller.getRedirectedStandardOutput();
             //return result.equals(NONE) ? BLANK_SYMBOL : result;
-            return result.equals(NONE) ? stdout : result;
+            return result.equals(NONE) ? BLANK_SYMBOL : result;
         }
     }
 

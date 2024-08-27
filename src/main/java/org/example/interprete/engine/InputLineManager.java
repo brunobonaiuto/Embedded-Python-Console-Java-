@@ -2,6 +2,7 @@ package org.example.interprete.engine;
 
 import org.example.interprete.io.Input;
 import org.example.interprete.io.Output;
+import org.example.python.PyRunner;
 
 public class InputLineManager {
     private final Input input;
@@ -14,10 +15,10 @@ public class InputLineManager {
     public static final String EXIT_COMMAND = "exit()";
     public static final String COLON_SYMBOL = ":";
 
-    public InputLineManager(Input inputChanel, Output outputChanel) {
+    public InputLineManager(Input inputChanel, Output outputChanel, PyRunner pyRunner) {
         input = inputChanel;
         output = outputChanel;
-        runner = new Runner(outputChanel);
+        runner = new Runner(outputChanel, pyRunner);
         stringBuilder = new StringBuilder();
     }
 

@@ -183,8 +183,18 @@ public class PyCaller {
         javaPython.PyEval_RestoreThread(state);
     }
 
+        public List getRedirectedStandardOutput() {
+        PyObject tempStdOut = javaPython.PySys_GetObject("stdout");
+        PyObject pValue = javaPython.PyObject_CallMethod(tempStdOut,"getvalue", null);
+        PyObject valueStr = getStringRepOfPyObject(pValue);
+        String stdOut = convertPyObjStringToJavaString(valueStr);
+        stdOut =  stdOut.replace("\n", ",");
+        List<String> std = Arrays.asList(stdOut.split("\\s*,\\s*"));
+        return std;
+    }
 
-    public String getRedirectedStandardOutput() {
+
+    public String oldGetRedirectedStandardOutput() {
         PyObject tempStdOut = javaPython.PySys_GetObject("stdout");
         PyObject pValue = javaPython.PyObject_CallMethod(tempStdOut,"getvalue", null);
         PyObject valueStr = getStringRepOfPyObject(pValue);

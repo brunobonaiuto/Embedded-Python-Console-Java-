@@ -10,9 +10,9 @@ public class Runner {
     private PyThreadState state;
     public static final String EXPRESSION_SYMBOL = ">>> ";
     public static final String LINE = "\n";
-    public Runner(Output outputChanel) {
+    public Runner(Output outputChanel, PyRunner pyRunner1) {
         output = outputChanel;
-        pyRunner = new PyRunner();
+        pyRunner = pyRunner1;
     }
 
     public void executeLine(String currentLine) {

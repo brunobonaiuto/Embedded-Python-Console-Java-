@@ -14,7 +14,7 @@ public class EmbeddedPython {
     public EmbeddedPython(Input inputChanel, Output outputChanel) {
         pyRunner = new PyRunner();
         output = outputChanel;
-        inputLineManager = new InputLineManager(inputChanel, output);
+        inputLineManager = new InputLineManager(inputChanel, output, pyRunner);
     }
 
     public void initialize() {
