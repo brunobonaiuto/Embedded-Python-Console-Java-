@@ -17,6 +17,8 @@ public class PyRunner {
         pyCaller = new PyCaller();
         pyCaller.initializePython();
         main = pyCaller.initModule(MODULE_NAME);
+        //redirect stdout
+        pyCaller.redirectStandardOutput();
     }
 
     public String welcomeMessage() {
@@ -50,7 +52,10 @@ public class PyRunner {
             return BLANK_SYMBOL;
         } else {
             String result = execute(input, PY_EVAL_INPUT);
-            return result.equals(NONE) ? BLANK_SYMBOL : result;
+            //get stdout
+            String stdout = pyCaller.getRedirectedStandardOutput();
+            //return result.equals(NONE) ? BLANK_SYMBOL : result;
+            return result.equals(NONE) ? stdout : result;
         }
     }
 

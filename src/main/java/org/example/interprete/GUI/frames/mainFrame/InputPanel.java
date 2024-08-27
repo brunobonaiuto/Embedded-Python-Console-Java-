@@ -48,7 +48,7 @@ public class InputPanel implements Input {
     }
 
     private JButton runButton() {
-        ImageIcon imageIcon = new ImageIcon("C:\\Users\\bbbolivar\\Documents\\MEGA\\MEGAsync\\IdeaProjects\\PythonConsole2\\src\\main\\java\\org\\example\\interprete\\GUI\\playButton.png");
+        ImageIcon imageIcon = new ImageIcon( "C:\\Users\\bbbolivar\\Documents\\MEGA\\MEGAsync\\IdeaProjects\\PythonConsole2\\src\\main\\java\\org\\example\\interprete\\GUI\\frames\\mainFrame\\icons\\playButton.png");
         JButton runButton = new JButton();
         runButton.setText("Run");
         runButton.setFocusable(false);

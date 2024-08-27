@@ -27,7 +27,9 @@ int main()
     PyObject* string_io_instance = NULL;
     io = PyImport_ImportModule("io");
     string_io = PyObject_GetAttrString(io,"StringIO");
-    string_io_instance = PyObject_CallFunctionObjArgs(string_io,NULL);
+    //string_io_instance = PyObject_CallFunctionObjArgs(string_io,NULL);
+    PyObject* p_tuple = PyTuple_New(0);
+    string_io_instance = PyObject_CallObject(string_io, p_tuple);
     PySys_SetObject("stdout",string_io_instance);
 //-------------------------------------------------------
 

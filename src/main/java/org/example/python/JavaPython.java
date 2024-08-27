@@ -27,7 +27,7 @@ public interface JavaPython extends Library {
 
     PyObject PyErr_GetRaisedException();
 
-    PyObject PyImport_ImportModule(String tracebackModule);
+    PyObject PyImport_ImportModule(String moduleName);
 
     int PyCallable_Check(PyObject functionName);
 
@@ -51,4 +51,10 @@ public interface JavaPython extends Library {
 
     void PyEval_RestoreThread(PyThreadState state);
 
+
+    void PySys_SetObject(String stdout, PyObject object);
+
+    PyObject PySys_GetObject(String object);
+
+    PyObject PyObject_CallMethod(PyObject object, String methodName, String format);
 }

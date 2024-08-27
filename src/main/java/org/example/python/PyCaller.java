@@ -3,6 +3,9 @@ package org.example.python;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PyCaller {
     public static final String FILE_NAME = "<stdin>";
     public static final String TRACEBACK_MODULE = "traceback";
@@ -111,6 +114,14 @@ public class PyCaller {
         }
     }
 
+    public void redirectStandardOutput() {
+        PyObject ioModule = javaPython.PyImport_ImportModule("io");
+        PyObject stringIoFunc = javaPython.PyObject_GetAttrString(ioModule, "StringIO");
+        PyObject tupleArgs = javaPython.PyTuple_New(0);
+        PyObject stringIoInstance = javaPython.PyObject_CallObject(stringIoFunc, tupleArgs);
+        javaPython.PySys_SetObject("stdout", stringIoInstance);
+    }
+
     private PyObject callObjectFromModule(PyObject moduleName, PyObject argument) {
         PyObject pFunc = getFuncRefFromModule(moduleName);
         PyObject pTuple = createTupleOfOneArg(argument);
@@ -170,5 +181,17 @@ public class PyCaller {
 
     public void EvalRestoreThread(PyThreadState state){
         javaPython.PyEval_RestoreThread(state);
+    }
+
+
+    public String getRedirectedStandardOutput() {
+        PyObject tempStdOut = javaPython.PySys_GetObject("stdout");
+        PyObject pValue = javaPython.PyObject_CallMethod(tempStdOut,"getvalue", null);
+        PyObject valueStr = getStringRepOfPyObject(pValue);
+        String stdOut = convertPyObjStringToJavaString(valueStr);
+        stdOut =  stdOut.replace("\n", ",");
+        List<String> std = Arrays.asList(stdOut.split("\\s*,\\s*"));
+        return std.getLast();
+
     }
 }
