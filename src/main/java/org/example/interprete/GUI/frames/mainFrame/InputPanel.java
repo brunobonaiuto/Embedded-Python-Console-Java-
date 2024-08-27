@@ -64,6 +64,8 @@ public class InputPanel implements Input {
             inputTextField.setText(" >>> ");
             if(!temporaryInput.equals("")){
                 outputPanel.toConsole(temporaryInput+"\n");
+            }else {
+                outputPanel.toConsole("\n>>> ");
             }
         });
         return runButton;
