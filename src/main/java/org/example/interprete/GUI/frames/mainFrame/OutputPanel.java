@@ -9,7 +9,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class OutputPanel implements Output {
-    private static final Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);;
+    private static final Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);
     private final MyJPanel outputJPanel;
     private JTextArea textArea;
 

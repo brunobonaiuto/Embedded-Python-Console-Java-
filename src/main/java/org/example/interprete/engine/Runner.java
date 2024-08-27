@@ -10,9 +10,9 @@ public class Runner {
     private PyThreadState state;
     public static final String EXPRESSION_SYMBOL = ">>> ";
     public static final String LINE = "\n";
-    public Runner(Output outputChanel, PyRunner pyRunner1) {
+    public Runner(Output outputChanel, PyRunner pyRunner2) {
         output = outputChanel;
-        pyRunner = pyRunner1;
+        pyRunner = pyRunner2;
     }
 
     public void executeLine(String currentLine) {
@@ -22,6 +22,10 @@ public class Runner {
         String run = pyRunner.runLine(currentLine);
         state = pyRunner.saveThread();
         String resultFromRun = run + LINE + EXPRESSION_SYMBOL;
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+        }
         output.toConsole(run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);
     }
 }

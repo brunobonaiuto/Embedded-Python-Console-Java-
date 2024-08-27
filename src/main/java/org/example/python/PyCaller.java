@@ -192,10 +192,8 @@ public class PyCaller {
         stdOut =  stdOut.replace("\n", ",");
         List<String> std = Arrays.asList(stdOut.split("\\s*,\\s*"));
         if(std.size()== 1 && std.getFirst().equals("")){
-            System.out.println("condition is true");
-            return new ArrayList();
+            return List.of();
         }
-        System.out.println("the arr: "+ std);
         return std;
     }
 

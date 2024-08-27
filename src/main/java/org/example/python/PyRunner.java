@@ -2,9 +2,6 @@ package org.example.python;
 
 import org.example.interprete.io.Output;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PyRunner {
     private final PyCaller pyCaller;
     private final PyObject main;
@@ -17,40 +14,19 @@ public class PyRunner {
     public static final String BLANK_SYMBOL = "";
     public static final String NONE = "None";
     public static final String IMPORT = "import";
-    private final Output outputChanel;
-    private int oldSize = 0;
+    private final StandardOutputRedirect standardOutputRedirect;
 
-    public PyRunner(Output outputChanel2) {
-        outputChanel = outputChanel2;
+    public PyRunner(Output outputChannel) {
         pyCaller = new PyCaller();
         pyCaller.initializePython();
         main = pyCaller.initModule(MODULE_NAME);
+        standardOutputRedirect = new StandardOutputRedirect(pyCaller, outputChannel);
+        startOutputThread();
+    }
 
-
-        // redirect stdout
-        // Thread open should be here
-        pyCaller.redirectStandardOutput();
-
-        Thread thread = new Thread(() -> {
-            while(true) {
-                PyGILState_STATE state = pyCaller.unlockGil();
-                List stdout = pyCaller.getRedirectedStandardOutput();
-                pyCaller.releaseGil(state);
-                System.out.println(stdout.size());
-                if(stdout.size() > oldSize){
-                    //detected output
-//                    System.out.println("thread hereee");
-//                    System.out.println(stdout.size());
-//                    System.out.println("the first:"+stdout.getFirst());
-//                    System.out.println("the last:"+stdout.getLast());
-//                    System.out.println("\'"+stdout+"\'");
-                    outputChanel.toConsole(stdout.getLast().toString()+"\n");
-                    oldSize = stdout.size();
-                }
-
-            }
-        });
-        thread.start();
+    private void startOutputThread(){
+        Thread stdThread = new Thread(standardOutputRedirect);
+        stdThread.start();
     }
 
     public String welcomeMessage() {
@@ -59,14 +35,6 @@ public class PyRunner {
 
     public void quit() {
         pyCaller.destroy();
-    }
-
-    public PyGILState_STATE unlockGilState() {
-        return pyCaller.unlockGil();
-    }
-
-    public void releaseGilState(PyGILState_STATE state) {
-        pyCaller.releaseGil(state);
     }
 
     public PyThreadState saveThread(){
@@ -84,9 +52,6 @@ public class PyRunner {
             return BLANK_SYMBOL;
         } else {
             String result = execute(input, PY_EVAL_INPUT);
-            //get stdout
-            //List stdout = pyCaller.getRedirectedStandardOutput();
-            //return result.equals(NONE) ? BLANK_SYMBOL : result;
             return result.equals(NONE) ? BLANK_SYMBOL : result;
         }
     }
