@@ -18,7 +18,7 @@ public class InputPanel implements Input {
     private JButton runButton;
     private final MyJPanel inputJPanel;
     private JTextField inputTextField;
-    private String temporaryInput = "";
+    private String temporaryInput = " ";
 
     public InputPanel(Output outputPanel) {
         this.outputPanel = outputPanel;
@@ -64,8 +64,9 @@ public class InputPanel implements Input {
             inputTextField.setText(" >>> ");
             if(!temporaryInput.equals("")){
                 outputPanel.toConsole(temporaryInput+"\n");
-            }else {
-                outputPanel.toConsole("\n>>> ");
+            }
+            else {
+                outputPanel.toConsole("\n");
             }
         });
         return runButton;
@@ -78,9 +79,9 @@ public class InputPanel implements Input {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
             }
-            if(!temporaryInput.equals("")){
+            if(!temporaryInput.equals(" ")){
                 String aux = temporaryInput;
-                temporaryInput = "";
+                temporaryInput = " ";
                 return aux;
             }
         }
