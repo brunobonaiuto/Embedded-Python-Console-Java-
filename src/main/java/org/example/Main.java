@@ -16,13 +16,13 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         //create input and output from outside
-        Output outputPanel = new DefaultOutput();
-        Input inputPanel = new DefaultInput();
+//        Output outputPanel = new DefaultOutput();
+//        Input inputPanel = new DefaultInput();
 
-//        Output outputPanel = new OutputPanel();
-//        Input inputPanel = new InputPanel(outputPanel);
+        Output outputPanel = new OutputPanel();
+        Input inputPanel = new InputPanel(outputPanel);
 
-//        SwingUtilities.invokeLater(() -> InterpreteGui.initializeWindowComponents(inputPanel, outputPanel));
+        SwingUtilities.invokeLater(() -> InterpreteGui.initializeWindowComponents(inputPanel, outputPanel));
 
         EmbeddedPython embeddedPython = new EmbeddedPython(inputPanel,outputPanel);
         embeddedPython.initialize();

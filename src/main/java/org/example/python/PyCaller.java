@@ -192,6 +192,5 @@ public class PyCaller {
         stdOut =  stdOut.replace("\n", ",");
         List<String> std = Arrays.asList(stdOut.split("\\s*,\\s*"));
         return std.getLast();
-
     }
 }
