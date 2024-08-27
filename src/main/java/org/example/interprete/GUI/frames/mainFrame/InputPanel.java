@@ -62,6 +62,7 @@ public class InputPanel implements Input {
         runButton.addActionListener(e -> {
             temporaryInput = inputTextField.getText().replace(" >>> ", "");
             inputTextField.setText(" >>> ");
+            outputPanel.toConsole(temporaryInput+"\n");
         });
         return runButton;
     }
@@ -79,21 +80,5 @@ public class InputPanel implements Input {
                 return aux;
             }
         }
-////        CountDownLatch latch = new CountDownLatch(1);
-////        try {
-////            latch.await();
-////        } catch (InterruptedException e) {
-////        }
-//        try {
-//            Thread.sleep(4000);
-//        } catch (InterruptedException e) {
-//        }
-//        runButton.addActionListener(e -> {
-//            temporaryInput = inputTextField.getText().replace(" >>> ", "");
-//            inputTextField.setText(" >>> ");
-//            //latch.countDown();
-//        });
-//
-//        return temporaryInput;
     }
 }

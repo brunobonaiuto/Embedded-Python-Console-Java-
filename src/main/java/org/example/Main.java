@@ -5,8 +5,6 @@ import org.example.interprete.EmbeddedPython;
 import org.example.interprete.GUI.InterpreteGui;
 import org.example.interprete.GUI.frames.mainFrame.InputPanel;
 import org.example.interprete.GUI.frames.mainFrame.OutputPanel;
-import org.example.interprete.io.DefaultInput;
-import org.example.interprete.io.DefaultOutput;
 import org.example.interprete.io.Input;
 import org.example.interprete.io.Output;
 
@@ -26,10 +24,5 @@ public class Main {
 
         EmbeddedPython embeddedPython = new EmbeddedPython(inputPanel,outputPanel);
         embeddedPython.initialize();
-        //---------------------------------------
-//        Output outputPanel = new OutputPanel();
-//        Input inputPanel = new InputPanel(outputPanel);
-
-
     }
 }
