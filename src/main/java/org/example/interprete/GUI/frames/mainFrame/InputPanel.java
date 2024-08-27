@@ -7,6 +7,7 @@ import org.example.interprete.io.Output;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.plaf.TableHeaderUI;
 import java.awt.*;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
@@ -17,7 +18,7 @@ public class InputPanel implements Input {
     private JButton runButton;
     private final MyJPanel inputJPanel;
     private JTextField inputTextField;
-    private String temporaryInput;
+    private String temporaryInput = "";
 
     public InputPanel(Output outputPanel) {
         this.outputPanel = outputPanel;
@@ -58,27 +59,41 @@ public class InputPanel implements Input {
         runButton.setForeground(Color.BLACK);
         runButton.setBackground(Color.gray);
         runButton.setBorder(BorderFactory.createEtchedBorder());
+        runButton.addActionListener(e -> {
+            temporaryInput = inputTextField.getText().replace(" >>> ", "");
+            inputTextField.setText(" >>> ");
+        });
         return runButton;
     }
 
     @Override
     public String fromConsole() {
-        temporaryInput = "";
-//        CountDownLatch latch = new CountDownLatch(1);
+        while(true){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+            }
+            if(!temporaryInput.equals("")){
+                String aux = temporaryInput;
+                temporaryInput = "";
+                return aux;
+            }
+        }
+////        CountDownLatch latch = new CountDownLatch(1);
+////        try {
+////            latch.await();
+////        } catch (InterruptedException e) {
+////        }
 //        try {
-//            latch.await();
+//            Thread.sleep(4000);
 //        } catch (InterruptedException e) {
 //        }
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-        }
-        runButton.addActionListener(e -> {
-            temporaryInput = inputTextField.getText().replace(" >>> ", "");
-            inputTextField.setText(" >>> ");
-            //latch.countDown();
-        });
-
-        return temporaryInput;
+//        runButton.addActionListener(e -> {
+//            temporaryInput = inputTextField.getText().replace(" >>> ", "");
+//            inputTextField.setText(" >>> ");
+//            //latch.countDown();
+//        });
+//
+//        return temporaryInput;
     }
 }
