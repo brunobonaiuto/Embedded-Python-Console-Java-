@@ -188,32 +188,7 @@ public class PyCaller {
         PyObject tempStdOut = javaPython.PySys_GetObject("stdout");
         PyObject pValue = javaPython.PyObject_CallMethod(tempStdOut,"getvalue", null);
         PyObject valueStr = getStringRepOfPyObject(pValue);
-        String stdOut = convertPyObjStringToJavaString(valueStr);
-        //System.out.println(stdOut.length());
-        return stdOut;
+        return convertPyObjStringToJavaString(valueStr);
     }
 
-    public List oldGetRedirectedStandardOutput2() {
-        PyObject tempStdOut = javaPython.PySys_GetObject("stdout");
-        PyObject pValue = javaPython.PyObject_CallMethod(tempStdOut,"getvalue", null);
-        PyObject valueStr = getStringRepOfPyObject(pValue);
-        String stdOut = convertPyObjStringToJavaString(valueStr);
-        stdOut =  stdOut.replace("\n", ",");
-        List<String> std = Arrays.asList(stdOut.split("\\s*,\\s*"));
-        if(std.size()== 1 && std.getFirst().equals("")){
-            return List.of();
-        }
-        return std;
-    }
-
-
-    public String oldGetRedirectedStandardOutput() {
-        PyObject tempStdOut = javaPython.PySys_GetObject("stdout");
-        PyObject pValue = javaPython.PyObject_CallMethod(tempStdOut,"getvalue", null);
-        PyObject valueStr = getStringRepOfPyObject(pValue);
-        String stdOut = convertPyObjStringToJavaString(valueStr);
-        stdOut =  stdOut.replace("\n", ",");
-        List<String> std = Arrays.asList(stdOut.split("\\s*,\\s*"));
-        return std.getLast();
-    }
 }

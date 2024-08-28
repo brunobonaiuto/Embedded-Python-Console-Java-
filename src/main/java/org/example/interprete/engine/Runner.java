@@ -23,7 +23,7 @@ public class Runner {
         state = pyRunner.saveThread();
         String resultFromRun = run + LINE + EXPRESSION_SYMBOL;
         try {
-            Thread.sleep(1);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
         }
         output.toConsole(run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);

@@ -25,25 +25,9 @@ public class StandardOutputRedirect implements Runnable {
             stdout = pyCaller.getRedirectedStandardOutput();
             pyCaller.releaseGil(state);
             if(stdout.length() > oldSize){
-                //System.out.println(stdout);
-                System.out.println(stdout);
                 output.toConsole(stdout.substring(oldSize));
                 oldSize = stdout.length();
             }
         }
     }
-
-//    @Override
-//    public void oldRun() {
-//        while(true) {
-//            PyGILState_STATE state = pyCaller.unlockGil();
-//            List stdout = pyCaller.getRedirectedStandardOutput();
-//            pyCaller.releaseGil(state);
-//            if(stdout.size() > oldSize){
-//                System.out.println(stdout);
-//                output.toConsole(stdout.getLast().toString()+"\n");
-//                oldSize = stdout.size();
-//            }
-//        }
-//    }
 }
