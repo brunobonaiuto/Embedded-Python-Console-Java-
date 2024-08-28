@@ -54,7 +54,7 @@ public class PyRunner {
                 execute(input, PY_FILE_INPUT);
                 pyCaller.releaseGil(state);
             });
-           thread1.start();
+            thread1.start();
             return BLANK_SYMBOL;
         } else {
             Thread thread2 = new Thread(() -> {

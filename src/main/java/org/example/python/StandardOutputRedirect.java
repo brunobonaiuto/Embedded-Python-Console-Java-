@@ -9,6 +9,7 @@ public class StandardOutputRedirect implements Runnable {
     private final PyCaller pyCaller;
     private final Output output;
     private int oldSize = 0;
+    private String stdout = "";
 
     public StandardOutputRedirect(PyCaller pyCaller2, Output output) {
         pyCaller = pyCaller2;
@@ -16,16 +17,33 @@ public class StandardOutputRedirect implements Runnable {
         pyCaller.redirectStandardOutput();
     }
 
+
     @Override
     public void run() {
         while(true) {
             PyGILState_STATE state = pyCaller.unlockGil();
-            List stdout = pyCaller.getRedirectedStandardOutput();
+            stdout = pyCaller.getRedirectedStandardOutput();
             pyCaller.releaseGil(state);
-            if(stdout.size() > oldSize){
-                output.toConsole(stdout.getLast().toString()+"\n");
-                oldSize = stdout.size();
+            if(stdout.length() > oldSize){
+                //System.out.println(stdout);
+                System.out.println(stdout);
+                output.toConsole(stdout.substring(oldSize));
+                oldSize = stdout.length();
             }
         }
     }
+
+//    @Override
+//    public void oldRun() {
+//        while(true) {
+//            PyGILState_STATE state = pyCaller.unlockGil();
+//            List stdout = pyCaller.getRedirectedStandardOutput();
+//            pyCaller.releaseGil(state);
+//            if(stdout.size() > oldSize){
+//                System.out.println(stdout);
+//                output.toConsole(stdout.getLast().toString()+"\n");
+//                oldSize = stdout.size();
+//            }
+//        }
+//    }
 }
