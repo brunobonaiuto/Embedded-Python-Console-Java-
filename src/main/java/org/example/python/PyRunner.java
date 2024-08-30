@@ -18,11 +18,9 @@ public class PyRunner {
     public static final String NONE = "None";
     public static final String IMPORT = "import";
     private final StandardOutputRedirect standardOutputRedirect;
-<<<<<<< HEAD
-=======
     private final Output output;
     private String result = "";
->>>>>>> tmp
+
 
     public PyRunner(Output outputChannel2) {
         output = outputChannel2;
