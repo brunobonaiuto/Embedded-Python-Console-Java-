@@ -19,13 +19,14 @@ public class Runner {
         if(state != null) {
             pyRunner.restoreThread(state);
         }
-        String run = pyRunner.runLine(currentLine);
-        state = pyRunner.saveThread();
-        String resultFromRun = run + LINE + EXPRESSION_SYMBOL;
+        pyRunner.runLine(currentLine);
+
+        //String resultFromRun = run + LINE + EXPRESSION_SYMBOL;
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
         }
-        output.toConsole(run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);
+        state = pyRunner.saveThread();
+        //output.toConsole(run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);
     }
 }
