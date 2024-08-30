@@ -63,6 +63,7 @@ public class PyRunner {
                 pyCaller.releaseGil(state);
             });
             thread2.start();
+            System.out.println(result);
             return result.equals(NONE) ? BLANK_SYMBOL : result;
         }
     }

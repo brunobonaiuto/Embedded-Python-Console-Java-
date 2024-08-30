@@ -14,7 +14,9 @@ public class PyCaller {
     JavaPython javaPython;
 
     void initializePython() {
-        javaPython = Native.load(Platform.isWindows() ? "C:/Users/bbbolivar/AppData/Local/Programs/Python/Python312/python312.dll" : "libpython3.10.so", JavaPython.class);
+        //javaPython = Native.load(Platform.isWindows() ? "C:/Users/bbbolivar/AppData/Local/Programs/Python/Python312/python312.dll" : "libpython3.10.so", JavaPython.class);
+        javaPython = Native.load(Platform.isWindows() ? "C:/Users/bbbolivar/AppData/Local/anaconda3/python312.dll" : "libpython3.10.so", JavaPython.class);
+
         javaPython.Py_Initialize();
     }
 
