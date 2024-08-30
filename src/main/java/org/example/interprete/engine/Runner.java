@@ -1,7 +1,6 @@
 package org.example.interprete.engine;
 
 import org.example.interprete.io.Output;
-import org.example.python.PyGILState_STATE;
 import org.example.python.PyRunner;
 import org.example.python.PyThreadState;
 
@@ -20,19 +19,13 @@ public class Runner {
         if(state != null) {
             pyRunner.restoreThread(state);
         }
-        Thread thread = new Thread(()->{
-            PyGILState_STATE state1 = pyRunner.unlockGilState();
-            String run = pyRunner.runLine(currentLine);
-            pyRunner.releaseGilState(state1);
-            String resultFromRun = run + LINE + EXPRESSION_SYMBOL;
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-            }
-            output.toConsole(run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);
-        });
-        thread.start();
+        String run = pyRunner.runLine(currentLine);
         state = pyRunner.saveThread();
-
+        String resultFromRun = run + LINE + EXPRESSION_SYMBOL;
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+        }
+        output.toConsole(run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);
     }
 }
