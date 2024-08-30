@@ -15,7 +15,6 @@ public class PyRunner {
     public static final String NONE = "None";
     public static final String IMPORT = "import";
     private final StandardOutputRedirect standardOutputRedirect;
-    private String result = "";
 
     public PyRunner(Output outputChannel) {
         pyCaller = new PyCaller();
@@ -49,21 +48,10 @@ public class PyRunner {
     public String runLine(String input) {
         int numberOfAssigmentSymbol = input.length() - input.replace(ASSIGMENT_SYMBOL, BLANK_SYMBOL).length();
         if (isStatementLine(input, numberOfAssigmentSymbol)) {
-            Thread thread1 = new Thread(()-> {
-                PyGILState_STATE state = pyCaller.unlockGil();
-                execute(input, PY_FILE_INPUT);
-                pyCaller.releaseGil(state);
-            });
-            thread1.start();
+            execute(input, PY_FILE_INPUT);
             return BLANK_SYMBOL;
         } else {
-            Thread thread2 = new Thread(() -> {
-                PyGILState_STATE state = pyCaller.unlockGil();
-                result = execute(input, PY_EVAL_INPUT);
-                pyCaller.releaseGil(state);
-            });
-            thread2.start();
-            System.out.println(result);
+            String result = execute(input, PY_EVAL_INPUT);
             return result.equals(NONE) ? BLANK_SYMBOL : result;
         }
     }
