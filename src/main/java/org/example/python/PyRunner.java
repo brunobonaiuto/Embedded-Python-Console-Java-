@@ -2,6 +2,9 @@ package org.example.python;
 
 import org.example.interprete.io.Output;
 
+import static org.example.interprete.engine.Runner.EXPRESSION_SYMBOL;
+import static org.example.interprete.engine.Runner.LINE;
+
 public class PyRunner {
     private final PyCaller pyCaller;
     private final PyObject main;
@@ -15,13 +18,15 @@ public class PyRunner {
     public static final String NONE = "None";
     public static final String IMPORT = "import";
     private final StandardOutputRedirect standardOutputRedirect;
+    private final Output output;
     private String result = "";
 
-    public PyRunner(Output outputChannel) {
+    public PyRunner(Output outputChannel2) {
+        output = outputChannel2;
         pyCaller = new PyCaller();
         pyCaller.initializePython();
         main = pyCaller.initModule(MODULE_NAME);
-        standardOutputRedirect = new StandardOutputRedirect(pyCaller, outputChannel);
+        standardOutputRedirect = new StandardOutputRedirect(pyCaller, output);
         startOutputThread();
     }
 
@@ -46,25 +51,30 @@ public class PyRunner {
         pyCaller.EvalRestoreThread(state);
     }
 
-    public String runLine(String input) {
+    public void runLine(String input) {
         int numberOfAssigmentSymbol = input.length() - input.replace(ASSIGMENT_SYMBOL, BLANK_SYMBOL).length();
         if (isStatementLine(input, numberOfAssigmentSymbol)) {
             Thread thread1 = new Thread(()-> {
                 PyGILState_STATE state = pyCaller.unlockGil();
                 execute(input, PY_FILE_INPUT);
+//                String resultFromRun = run + LINE + EXPRESSION_SYMBOL;
+//                output.toConsole(run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);
                 pyCaller.releaseGil(state);
             });
             thread1.start();
-            return BLANK_SYMBOL;
+            output.toConsole(BLANK_SYMBOL);
+//            return BLANK_SYMBOL;
         } else {
             Thread thread2 = new Thread(() -> {
                 PyGILState_STATE state = pyCaller.unlockGil();
                 result = execute(input, PY_EVAL_INPUT);
+                String result2 = result.equals(NONE) ? BLANK_SYMBOL : result;
+                String resultFromRun = result2 + LINE + EXPRESSION_SYMBOL;
+                output.toConsole(result2.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);
                 pyCaller.releaseGil(state);
             });
             thread2.start();
-            System.out.println(result);
-            return result.equals(NONE) ? BLANK_SYMBOL : result;
+            //System.out.println(result);
         }
     }
 
