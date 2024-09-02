@@ -48,6 +48,7 @@ public class InputPanel implements Input, KeyListener {
         inputTextField.setBorder(greenBorder);
         //
         inputTextField.addKeyListener(this);
+        inputTextField.setFocusTraversalKeysEnabled(false);
         return inputTextField;
     }
 
@@ -102,6 +103,10 @@ public class InputPanel implements Input, KeyListener {
         //keyPressed = invoked when a physical key is pressed down. Uses .keyCode as input, outputs a int
         if(e.getKeyCode() == 10){
             runButton.doClick();
+        }
+        if (e.getKeyCode() == 9){
+            String currentText = inputTextField.getText();
+            inputTextField.setText(currentText+"    ");
         }
     }
 
