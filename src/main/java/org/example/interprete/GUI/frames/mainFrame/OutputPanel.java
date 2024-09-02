@@ -9,7 +9,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class OutputPanel implements Output {
-    private static final Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);
+    private static final Border greenBorder = BorderFactory.createLineBorder(new Color(34,123,148), 4);
     private final MyJPanel outputJPanel;
     private JTextArea textArea;
 
@@ -28,7 +28,7 @@ public class OutputPanel implements Output {
     public JScrollPane jScrollPane(){
         textArea = jTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.getVerticalScrollBar().setBackground(Color.GRAY);
+        scrollPane.getVerticalScrollBar().setBackground(new Color(34,123,148));
         scrollPane.setBorder(greenBorder);
         return scrollPane;
     }
@@ -37,7 +37,7 @@ public class OutputPanel implements Output {
         JTextArea outputTextArea = new JTextArea();
         outputTextArea.setFont(new Font("Consolas", Font.PLAIN, 20));
         outputTextArea.setForeground(Color.WHITE);
-        outputTextArea.setBackground(Color.DARK_GRAY);
+        outputTextArea.setBackground(new Color(23,59,69));
         outputTextArea.setEditable(false);
         return outputTextArea;
     }

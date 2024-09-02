@@ -50,7 +50,8 @@ public class InputPanel implements Input, KeyListener {
         JLabel inputSymbol = new JLabel();
         inputSymbol.setFont(new Font("Consolas", Font.PLAIN, 20));
         inputSymbol.setForeground(Color.WHITE);
-        inputSymbol.setBackground(Color.DARK_GRAY);
+        inputSymbol.setBackground(new Color(23,59,69));
+        //inputSymbol.setBackground(Color.DARK_GRAY);
         inputSymbol.setOpaque(true);
         inputSymbol.setText(" >>> ");
         //inputSymbol.setBorder( BorderFactory.createLineBorder(Color.GRAY, 4));
@@ -64,7 +65,7 @@ public class InputPanel implements Input, KeyListener {
         JTextField inputTextField = new JTextField();
         inputTextField.setFont(new Font("Consolas", Font.PLAIN, 20));
         inputTextField.setForeground(Color.WHITE);
-        inputTextField.setBackground(Color.DARK_GRAY);
+        inputTextField.setBackground(new Color(23,59,69));
         inputTextField.setCaretColor(Color.WHITE);
         inputTextField.setText("");
         inputTextField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 0));
@@ -84,11 +85,11 @@ public class InputPanel implements Input, KeyListener {
         runButton.setVerticalTextPosition(JButton.BOTTOM);
         runButton.setFont(new Font("Comic Sans", Font.BOLD, 18));
         runButton.setForeground(Color.BLACK);
-        runButton.setBackground(Color.gray);
+        runButton.setBackground(new Color(34,123,148));
         runButton.setBorder(BorderFactory.createEtchedBorder());
         runButton.addActionListener(e -> {
             temporaryInput = inputTextField.getText();//.replace(" >>> ", "");
-            if(!temporaryInput.isBlank()){
+            if(!temporaryInput.isBlank() && !listOfCommands.contains(temporaryInput)){
                 listOfCommands.add(temporaryInput);
             }
             currentCommand = listOfCommands.size();
@@ -167,8 +168,5 @@ public class InputPanel implements Input, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        //keyReleased = called whenever a button is released
-        System.out.println("enter is char: "+ e.getKeyChar());
-        System.out.println("enter is code: "+ e.getKeyCode());
     }
 }
