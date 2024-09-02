@@ -22,6 +22,7 @@ public class InputPanel implements Input, KeyListener {
     private JTextField inputTextField;
     private JLabel inputSymbol;
     private String temporaryInput = " ";
+    private int currentCommand;
 
     public InputPanel(Output outputPanel) {
         this.outputPanel = outputPanel;
@@ -30,6 +31,7 @@ public class InputPanel implements Input, KeyListener {
         inputSymbol = jLabel();
         //create object
         listOfCommands = new ArrayList<>();
+        currentCommand = 0;
     }
 
     public MyJPanel get(){
@@ -86,6 +88,8 @@ public class InputPanel implements Input, KeyListener {
         runButton.setBorder(BorderFactory.createEtchedBorder());
         runButton.addActionListener(e -> {
             temporaryInput = inputTextField.getText();//.replace(" >>> ", "");
+            listOfCommands.add(temporaryInput);
+            currentCommand = listOfCommands.size();
             inputTextField.setText("");
             if(!temporaryInput.equals("")){
                 outputPanel.toConsole(temporaryInput+"\n");
@@ -131,6 +135,7 @@ public class InputPanel implements Input, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+
         //keyPressed = invoked when a physical key is pressed down. Uses .keyCode as input, outputs a int
         if(e.getKeyCode() == 10){
             runButton.doClick();
@@ -138,6 +143,19 @@ public class InputPanel implements Input, KeyListener {
         if (e.getKeyCode() == 9){
             String currentText = inputTextField.getText();
             inputTextField.setText(currentText+"\t");
+        }
+        if(e.getKeyCode() == 38){
+            if(currentCommand > 0){
+                currentCommand--;
+                inputTextField.setText(listOfCommands.get(currentCommand).toString());
+
+           }
+        }
+        if(e.getKeyCode() == 40){
+            if(currentCommand < listOfCommands.size()-1){
+                currentCommand++;
+                inputTextField.setText(listOfCommands.get(currentCommand).toString());
+            }
         }
     }
 
