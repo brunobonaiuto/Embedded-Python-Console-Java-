@@ -44,6 +44,7 @@ public class OutputPanel implements Output {
 
     @Override
     public void toConsole(String result) {
+        textArea.setCaretPosition(textArea.getDocument().getLength());
         textArea.append(result);
     }
 }

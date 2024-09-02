@@ -27,5 +27,6 @@ public class Runner {
         } catch (InterruptedException e) {
         }
         output.toConsole(run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);
+        output.toConsole("");
     }
 }
