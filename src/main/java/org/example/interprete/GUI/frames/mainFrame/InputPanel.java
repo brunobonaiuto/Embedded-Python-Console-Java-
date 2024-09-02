@@ -9,10 +9,12 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.TableHeaderUI;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 
-public class InputPanel implements Input {
+public class InputPanel implements Input, KeyListener {
     private static final Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);;
     private static Output outputPanel;
     private JButton runButton;
@@ -36,7 +38,7 @@ public class InputPanel implements Input {
         inputJPanel.add(runButton, BorderLayout.EAST);
     }
 
-    private static JTextField jTextField() {
+    private JTextField jTextField() {
         JTextField inputTextField = new JTextField();
         inputTextField.setFont(new Font("Consolas", Font.PLAIN, 20));
         inputTextField.setForeground(Color.WHITE);
@@ -44,6 +46,8 @@ public class InputPanel implements Input {
         inputTextField.setCaretColor(Color.WHITE);
         inputTextField.setText(" >>> ");
         inputTextField.setBorder(greenBorder);
+        //
+        inputTextField.addKeyListener(this);
         return inputTextField;
     }
 
@@ -76,7 +80,7 @@ public class InputPanel implements Input {
     public String fromConsole() {
         while(true){
             try {
-                Thread.sleep(100);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
             }
             if(!temporaryInput.equals(" ")){
@@ -85,5 +89,26 @@ public class InputPanel implements Input {
                 return aux;
             }
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //keyTyped = invoked when a key is typed. Uses .keyChar method as input, outputs a char
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        //keyPressed = invoked when a physical key is pressed down. Uses .keyCode as input, outputs a int
+        if(e.getKeyCode() == 10){
+            runButton.doClick();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //keyReleased = called whenever a button is released
+        System.out.println("enter is char: "+ e.getKeyChar());
+        System.out.println("enter is code: "+ e.getKeyCode());
     }
 }
