@@ -7,25 +7,29 @@ import org.example.interprete.io.Output;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.plaf.TableHeaderUI;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
+import java.util.ArrayList;
+
 
 public class InputPanel implements Input, KeyListener {
-    private static final Border greenBorder = BorderFactory.createLineBorder(Color.GRAY, 4);;
+    private static final Border GRAY_BORDER = BorderFactory.createLineBorder(Color.GRAY, 4);
     private static Output outputPanel;
+    private final ArrayList listOfCommands;
     private JButton runButton;
     private final MyJPanel inputJPanel;
     private JTextField inputTextField;
+    private JLabel inputSymbol;
     private String temporaryInput = " ";
 
     public InputPanel(Output outputPanel) {
         this.outputPanel = outputPanel;
         inputJPanel = new MyJPanel(new Size(1150,100), new BorderLayout());
         inputTextField = jTextField();
+        inputSymbol = jLabel();
+        //create object
+        listOfCommands = new ArrayList<>();
     }
 
     public MyJPanel get(){
@@ -33,9 +37,25 @@ public class InputPanel implements Input, KeyListener {
     }
 
     public void addContainers() {
+        inputJPanel.add(inputSymbol, BorderLayout.WEST);
         inputJPanel.add(inputTextField, BorderLayout.CENTER);
         runButton = runButton();
         inputJPanel.add(runButton, BorderLayout.EAST);
+    }
+
+
+    private JLabel jLabel(){
+        JLabel inputSymbol = new JLabel();
+        inputSymbol.setFont(new Font("Consolas", Font.PLAIN, 20));
+        inputSymbol.setForeground(Color.WHITE);
+        inputSymbol.setBackground(Color.DARK_GRAY);
+        inputSymbol.setOpaque(true);
+        inputSymbol.setText(" >>> ");
+        //inputSymbol.setBorder( BorderFactory.createLineBorder(Color.GRAY, 4));
+        inputSymbol.setFocusable(true);
+        Thread thread = new Thread(this::symbolChecker);
+        thread.start();
+        return inputSymbol;
     }
 
     private JTextField jTextField() {
@@ -44,8 +64,8 @@ public class InputPanel implements Input, KeyListener {
         inputTextField.setForeground(Color.WHITE);
         inputTextField.setBackground(Color.DARK_GRAY);
         inputTextField.setCaretColor(Color.WHITE);
-        inputTextField.setText(" >>> ");
-        inputTextField.setBorder(greenBorder);
+        inputTextField.setText("");
+        inputTextField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 0));
         //
         inputTextField.addKeyListener(this);
         inputTextField.setFocusTraversalKeysEnabled(false);
@@ -65,8 +85,8 @@ public class InputPanel implements Input, KeyListener {
         runButton.setBackground(Color.gray);
         runButton.setBorder(BorderFactory.createEtchedBorder());
         runButton.addActionListener(e -> {
-            temporaryInput = inputTextField.getText().replace(" >>> ", "");
-            inputTextField.setText(" >>> ");
+            temporaryInput = inputTextField.getText();//.replace(" >>> ", "");
+            inputTextField.setText("");
             if(!temporaryInput.equals("")){
                 outputPanel.toConsole(temporaryInput+"\n");
             }
@@ -89,6 +109,17 @@ public class InputPanel implements Input, KeyListener {
                 temporaryInput = " ";
                 return aux;
             }
+
+        }
+    }
+
+    public void symbolChecker(){
+        while (true){
+            if(inputTextField.getText().startsWith("\t")){
+                inputSymbol.setText(" ... ");
+            }else {
+                inputSymbol.setText(" >>> ");
+            }
         }
     }
 
@@ -106,7 +137,7 @@ public class InputPanel implements Input, KeyListener {
         }
         if (e.getKeyCode() == 9){
             String currentText = inputTextField.getText();
-            inputTextField.setText(currentText+"    ");
+            inputTextField.setText(currentText+"\t");
         }
     }
 
