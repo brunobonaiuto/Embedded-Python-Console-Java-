@@ -88,7 +88,9 @@ public class InputPanel implements Input, KeyListener {
         runButton.setBorder(BorderFactory.createEtchedBorder());
         runButton.addActionListener(e -> {
             temporaryInput = inputTextField.getText();//.replace(" >>> ", "");
-            listOfCommands.add(temporaryInput);
+            if(!temporaryInput.isBlank()){
+                listOfCommands.add(temporaryInput);
+            }
             currentCommand = listOfCommands.size();
             inputTextField.setText("");
             if(!temporaryInput.equals("")){
@@ -119,6 +121,10 @@ public class InputPanel implements Input, KeyListener {
 
     public void symbolChecker(){
         while (true){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+            }
             if(inputTextField.getText().startsWith("\t")){
                 inputSymbol.setText(" ... ");
             }else {
