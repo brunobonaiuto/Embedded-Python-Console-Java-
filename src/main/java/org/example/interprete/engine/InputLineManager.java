@@ -48,5 +48,6 @@ public class InputLineManager {
             currentLine = input.fromConsole();
         }
         currentLine = stringBuilder.toString();
+        stringBuilder.setLength(0);
     }
 }

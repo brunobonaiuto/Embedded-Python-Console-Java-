@@ -54,14 +54,14 @@ public class PyRunner {
     }
 
     public String runLine(String input) {
+        String result;
         int numberOfAssigmentSymbol = input.length() - input.replace(ASSIGMENT_SYMBOL, BLANK_SYMBOL).length();
         if (isStatementLine(input, numberOfAssigmentSymbol)) {
-            execute(input, PY_FILE_INPUT);
-            return BLANK_SYMBOL;
+            result = execute(input, PY_FILE_INPUT);
         } else {
-            String result = execute(input, PY_EVAL_INPUT);
-            return result.equals(NONE) ? BLANK_SYMBOL : result;
+            result = execute(input, PY_EVAL_INPUT);
         }
+        return result.equals(NONE) ? BLANK_SYMBOL : result;
     }
 
     private boolean isStatementLine(String input, int numberOfAssigmentSymbol) {
