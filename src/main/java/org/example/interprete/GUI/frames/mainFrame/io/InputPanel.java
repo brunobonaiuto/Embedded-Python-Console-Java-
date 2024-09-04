@@ -1,9 +1,9 @@
-package org.example.interprete.GUI.frames.mainFrame;
+package org.example.interprete.GUI.frames.mainFrame.io;
 
 import org.example.interprete.GUI.MyJPanel;
 import org.example.interprete.GUI.Size;
-import org.example.interprete.io.Input;
-import org.example.interprete.io.Output;
+import org.example.interprete.Input;
+import org.example.interprete.Output;
 
 import javax.swing.*;
 import javax.swing.border.Border;

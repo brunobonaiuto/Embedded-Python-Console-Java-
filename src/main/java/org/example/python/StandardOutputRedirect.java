@@ -1,8 +1,6 @@
 package org.example.python;
 
-import org.example.interprete.io.Output;
-
-import java.util.List;
+import org.example.interprete.Output;
 
 public class StandardOutputRedirect implements Runnable {
 

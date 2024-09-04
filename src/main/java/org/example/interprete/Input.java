@@ -1,4 +1,4 @@
-package org.example.interprete.io;
+package org.example.interprete;
 
 public interface Input {
 

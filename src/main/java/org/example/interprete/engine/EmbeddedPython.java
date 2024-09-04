@@ -1,9 +1,8 @@
-package org.example.interprete;
+package org.example.interprete.engine;
 
+import org.example.interprete.Input;
+import org.example.interprete.Output;
 import org.example.interprete.engine.InputLineManager;
-import org.example.interprete.io.DefaultOutput;
-import org.example.interprete.io.Input;
-import org.example.interprete.io.Output;
 import org.example.python.PyRunner;
 
 public class EmbeddedPython {

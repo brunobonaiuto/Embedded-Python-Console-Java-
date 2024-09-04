@@ -1,13 +1,13 @@
 package org.example.interprete.engine;
 
-import org.example.interprete.io.Input;
-import org.example.interprete.io.Output;
+import org.example.interprete.Input;
+import org.example.interprete.Output;
 import org.example.python.PyRunner;
 
 public class InputLineManager {
     private final Input input;
     private final Output output;
-    private final Runner runner;
+    private final Executor executor;
     private final StringBuilder stringBuilder;
     private String currentLine = "";
     public static final String STATEMENT_SYMBOL = "...";
@@ -18,7 +18,7 @@ public class InputLineManager {
     public InputLineManager(Input inputChanel, Output outputChanel, PyRunner pyRunner) {
         input = inputChanel;
         output = outputChanel;
-        runner = new Runner(outputChanel, pyRunner);
+        executor = new Executor(outputChanel, pyRunner);
         stringBuilder = new StringBuilder();
     }
 
@@ -27,7 +27,7 @@ public class InputLineManager {
             if (userTypedFunction()) {
                 defineFunction(stringBuilder);
             }else {
-                runner.executeLine(currentLine);
+                executor.executeLine(currentLine);
                 currentLine = input.fromConsole();
             }
         }

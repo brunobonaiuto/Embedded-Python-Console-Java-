@@ -1,6 +1,6 @@
 package org.example.python;
 
-import org.example.interprete.io.Output;
+import org.example.interprete.Output;
 
 public class PyRunner {
     private final PyCaller pyCaller;

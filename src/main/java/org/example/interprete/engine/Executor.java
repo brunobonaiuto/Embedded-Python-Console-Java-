@@ -1,16 +1,16 @@
 package org.example.interprete.engine;
 
-import org.example.interprete.io.Output;
+import org.example.interprete.Output;
 import org.example.python.PyRunner;
 import org.example.python.PyThreadState;
 
-public class Runner {
+public class Executor {
     private final PyRunner pyRunner;
     private final Output output;
     private PyThreadState state;
     public static final String EXPRESSION_SYMBOL = ">>> ";
     public static final String LINE = "\n";
-    public Runner(Output outputChanel, PyRunner pyRunner2) {
+    public Executor(Output outputChanel, PyRunner pyRunner2) {
         output = outputChanel;
         pyRunner = pyRunner2;
     }
