@@ -10,6 +10,7 @@ public class PyCaller {
     public static final String FILE_NAME = "<stdin>";
     public static final String TRACEBACK_MODULE = "traceback";
     public static final String IO_MODULE = "io";
+    public static final String STRING_IO_ATT = "StringIO";
     public static final String FORMAT_EXCEPTION = "format_exception";
     JavaPython javaPython;
 
@@ -128,7 +129,7 @@ public class PyCaller {
     }
 
     public void redirectStandardOutput() {
-        PyObject attribute = fromModuleImportAtt("io", "StringIO");
+        PyObject attribute = fromModuleImportAtt(IO_MODULE, STRING_IO_ATT);
         PyObject tupleArgs = javaPython.PyTuple_New(0);
         PyObject stringIoInstance = javaPython.PyObject_CallObject(attribute, tupleArgs);
         javaPython.PySys_SetObject("stdout", stringIoInstance);
