@@ -1,7 +1,7 @@
 package org.example.interprete.engine;
 
-import org.example.interprete.Input;
-import org.example.interprete.Output;
+import org.example.Input;
+import org.example.Output;
 import org.example.python.PyRunner;
 
 public class InputLineManager {

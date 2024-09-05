@@ -2,11 +2,9 @@ package org.example;
 
 import org.example.interprete.engine.EmbeddedPython;
 
-import org.example.interprete.GUI.InterpreteGui;
-import org.example.interprete.GUI.frames.mainFrame.io.InputPanel;
-import org.example.interprete.GUI.frames.mainFrame.io.OutputPanel;
-import org.example.interprete.Input;
-import org.example.interprete.Output;
+import org.example.GUI.InterpreteGui;
+import org.example.GUI.frames.mainFrame.io.InputPanel;
+import org.example.GUI.frames.mainFrame.io.OutputPanel;
 
 import javax.swing.*;
 

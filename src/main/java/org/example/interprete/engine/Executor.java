@@ -1,8 +1,8 @@
 package org.example.interprete.engine;
 
-import org.example.interprete.Output;
+import org.example.Output;
 import org.example.python.PyRunner;
-import org.example.python.PyThreadState;
+import org.example.python.objects.PyThreadState;
 
 public class Executor {
     private final PyRunner pyRunner;

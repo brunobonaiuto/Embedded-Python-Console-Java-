@@ -1,6 +1,9 @@
 package org.example.python;
 
 import com.sun.jna.Library;
+import org.example.python.objects.PyGILState_STATE;
+import org.example.python.objects.PyObject;
+import org.example.python.objects.PyThreadState;
 
 public interface JavaPython extends Library {
     void Py_Initialize();

@@ -1,6 +1,7 @@
 package org.example.python;
 
-import org.example.interprete.Output;
+import org.example.Output;
+import org.example.python.objects.PyGILState_STATE;
 
 public class StandardOutputRedirect implements Runnable {
 
@@ -14,7 +15,6 @@ public class StandardOutputRedirect implements Runnable {
         this.output = output;
         pyCaller.redirectStandardOutput();
     }
-
 
     @Override
     public void run() {

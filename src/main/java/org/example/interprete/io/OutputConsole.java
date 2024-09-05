@@ -1,6 +1,6 @@
 package org.example.interprete.io;
 
-import org.example.interprete.Output;
+import org.example.Output;
 
 public class OutputConsole implements Output {
     @Override

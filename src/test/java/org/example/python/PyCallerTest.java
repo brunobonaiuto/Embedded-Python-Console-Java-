@@ -1,5 +1,6 @@
 package org.example.python;
 
+import org.example.python.objects.PyObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

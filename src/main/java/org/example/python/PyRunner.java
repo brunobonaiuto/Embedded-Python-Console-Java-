@@ -1,6 +1,9 @@
 package org.example.python;
 
-import org.example.interprete.Output;
+import org.example.Output;
+import org.example.python.objects.PyGILState_STATE;
+import org.example.python.objects.PyObject;
+import org.example.python.objects.PyThreadState;
 
 public class PyRunner {
     private final PyCaller pyCaller;
@@ -15,10 +18,12 @@ public class PyRunner {
     public static final String NONE = "None";
     public static final String IMPORT = "import";
     private final StandardOutputRedirect standardOutputRedirect;
+    private final ErrorManager errorManager;
 
     public PyRunner(Output outputChannel) {
         pyCaller = new PyCaller();
         pyCaller.initializePython();
+        errorManager = new ErrorManager(pyCaller);
         main = pyCaller.initModule(MODULE_NAME);
         standardOutputRedirect = new StandardOutputRedirect(pyCaller, outputChannel);
         startOutputThread();
@@ -35,14 +40,6 @@ public class PyRunner {
 
     public void quit() {
         pyCaller.destroy();
-    }
-
-    public PyGILState_STATE unlockGilState(){
-        return pyCaller.unlockGil();
-    }
-
-    public void releaseGilState(PyGILState_STATE state){
-        pyCaller.releaseGil(state);
     }
 
     public PyThreadState saveThread(){
@@ -74,15 +71,7 @@ public class PyRunner {
             PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
             return pyCaller.toString(evalResult);
         } catch (IllegalArgumentException e) {
-            return getStringError();
+            return errorManager.getStringError();
         }
-    }
-
-    private String getStringError() {
-        String message = pyCaller.getFullErrMessage();
-        return message.replaceAll("[\\[\\]'\"]", "")
-                .replace(", ", "")
-                .replaceAll("\\\\n", "\n")
-                .trim();
     }
 }

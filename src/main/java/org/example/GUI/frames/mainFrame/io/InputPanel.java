@@ -1,9 +1,9 @@
-package org.example.interprete.GUI.frames.mainFrame.io;
+package org.example.GUI.frames.mainFrame.io;
 
-import org.example.interprete.GUI.MyJPanel;
-import org.example.interprete.GUI.Size;
-import org.example.interprete.Input;
-import org.example.interprete.Output;
+import org.example.GUI.MyJPanel;
+import org.example.GUI.ContainerSize;
+import org.example.Input;
+import org.example.Output;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -26,7 +26,7 @@ public class InputPanel implements Input, KeyListener {
 
     public InputPanel(Output outputPanel) {
         this.outputPanel = outputPanel;
-        inputJPanel = new MyJPanel(new Size(1150,100), new BorderLayout());
+        inputJPanel = new MyJPanel(new ContainerSize(1150,100), new BorderLayout());
         inputTextField = jTextField();
         inputSymbol = jLabel();
         //create object

@@ -1,6 +1,6 @@
 package org.example.interprete.io;
 
-import org.example.interprete.Input;
+import org.example.Input;
 
 import java.util.Scanner;
 

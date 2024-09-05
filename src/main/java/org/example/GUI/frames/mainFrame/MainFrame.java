@@ -1,11 +1,11 @@
-package org.example.interprete.GUI.frames.mainFrame;
+package org.example.GUI.frames.mainFrame;
 
-import org.example.interprete.GUI.MyJFrame;
-import org.example.interprete.GUI.Size;
-import org.example.interprete.GUI.frames.mainFrame.io.InputPanel;
-import org.example.interprete.GUI.frames.mainFrame.io.OutputPanel;
-import org.example.interprete.Input;
-import org.example.interprete.Output;
+import org.example.GUI.MyJFrame;
+import org.example.GUI.ContainerSize;
+import org.example.GUI.frames.mainFrame.io.InputPanel;
+import org.example.GUI.frames.mainFrame.io.OutputPanel;
+import org.example.Input;
+import org.example.Output;
 
 
 import java.awt.*;
@@ -17,7 +17,7 @@ public class MainFrame {
     private static final String PYTHON_LOGO = "C:\\Users\\bbbolivar\\Documents\\MEGA\\MEGAsync\\IdeaProjects\\PythonConsole2\\src\\main\\java\\org\\example\\interprete\\GUI\\frames\\mainFrame\\icons\\pythonLogo.png";
 
     public MainFrame(Input inputChanel, Output outputChanel) {
-        consoleFrame = new MyJFrame("Python Console", new Size(1150, 650), new BorderLayout());
+        consoleFrame = new MyJFrame("Python Console", new ContainerSize(1150, 650), new BorderLayout());
         consoleFrame.addIcon(PYTHON_LOGO);
         outputPanel = (OutputPanel) outputChanel;
         outputPanel.addContainers();

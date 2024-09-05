@@ -2,10 +2,9 @@ package org.example.python;
 
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.example.python.objects.PyGILState_STATE;
+import org.example.python.objects.PyObject;
+import org.example.python.objects.PyThreadState;
 
 public class PyCaller {
     public static final String FILE_NAME = "<stdin>";

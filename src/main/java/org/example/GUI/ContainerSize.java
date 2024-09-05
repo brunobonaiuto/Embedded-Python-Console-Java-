@@ -1,11 +1,11 @@
-package org.example.interprete.GUI;
+package org.example.GUI;
 
-public class Size {
+public class ContainerSize {
 
     private final int width;
     private final int height;
 
-    public Size(int width, int height) {
+    public ContainerSize(int width, int height) {
         this.width = width;
         this.height = height;
     }

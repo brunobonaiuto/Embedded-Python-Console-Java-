@@ -1,8 +1,8 @@
-package org.example.interprete.GUI.frames.mainFrame.io;
+package org.example.GUI.frames.mainFrame.io;
 
-import org.example.interprete.GUI.MyJPanel;
-import org.example.interprete.GUI.Size;
-import org.example.interprete.Output;
+import org.example.GUI.MyJPanel;
+import org.example.GUI.ContainerSize;
+import org.example.Output;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -14,7 +14,7 @@ public class OutputPanel implements Output {
     private JTextArea textArea;
 
     public OutputPanel() {
-        outputJPanel = new MyJPanel(new Size(1150, 600),new BorderLayout());
+        outputJPanel = new MyJPanel(new ContainerSize(1150, 600),new BorderLayout());
     }
 
     public MyJPanel get(){
