@@ -9,6 +9,7 @@ import org.example.python.objects.PyThreadState;
 public class PyCaller {
     public static final String FILE_NAME = "<stdin>";
     public static final String TRACEBACK_MODULE = "traceback";
+    public static final String IO_MODULE = "io";
     public static final String FORMAT_EXCEPTION = "format_exception";
     JavaPython javaPython;
 
@@ -86,7 +87,7 @@ public class PyCaller {
 
     public String getFullErrMessage() {
         PyObject exceptionValue = getExceptionValue();
-        PyObject tracebackModule = importModule();
+        PyObject tracebackModule = importModule(TRACEBACK_MODULE);
         PyObject pResult = callObjectFromModule(tracebackModule, exceptionValue);
         pyErrClear();
         return convertPyObjStrToJavaString(javaPython.PyObject_Str(pResult));
@@ -105,20 +106,31 @@ public class PyCaller {
         }
     }
 
-    private PyObject importModule() {
-        PyObject tracebackModule = javaPython.PyImport_ImportModule(PyCaller.TRACEBACK_MODULE);
+    private PyObject importModule(String moduleName) {
+        PyObject tracebackModule = javaPython.PyImport_ImportModule(moduleName);
         if (tracebackModule != null && javaPython.PyErr_Occurred() == null) {
             return tracebackModule;
         } else {
             throw new IllegalArgumentException("impossible to import traceback");
         }
     }
+    public PyObject fromModuleImportAtt(String module, String att){
+        PyObject ioModule = importModule(module);
+        return getAttFromModule(ioModule, att);
+    }
+
+    public PyObject getAttFromModule(PyObject module, String attribute){
+        if (javaPython.PyObject_HasAttrString(module, attribute) == 1){
+            return javaPython.PyObject_GetAttrString(module,attribute);
+        }else {
+            throw new IllegalArgumentException("impossible to import "+attribute+" from module");
+        }
+    }
 
     public void redirectStandardOutput() {
-        PyObject ioModule = javaPython.PyImport_ImportModule("io");
-        PyObject stringIoFunc = javaPython.PyObject_GetAttrString(ioModule, "StringIO");
+        PyObject attribute = fromModuleImportAtt("io", "StringIO");
         PyObject tupleArgs = javaPython.PyTuple_New(0);
-        PyObject stringIoInstance = javaPython.PyObject_CallObject(stringIoFunc, tupleArgs);
+        PyObject stringIoInstance = javaPython.PyObject_CallObject(attribute, tupleArgs);
         javaPython.PySys_SetObject("stdout", stringIoInstance);
     }
 

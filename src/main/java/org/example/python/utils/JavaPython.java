@@ -60,4 +60,7 @@ public interface JavaPython extends Library {
     PyObject PySys_GetObject(String object);
 
     PyObject PyObject_CallMethod(PyObject object, String methodName, String format);
+
+    int PyObject_HasAttrString(PyObject moduleName, String attribute);
+
 }
