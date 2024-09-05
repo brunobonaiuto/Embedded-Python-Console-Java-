@@ -1,4 +1,4 @@
-package org.example.python;
+package org.example.python.utils;
 
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
@@ -12,20 +12,18 @@ public class PyCaller {
     public static final String FORMAT_EXCEPTION = "format_exception";
     JavaPython javaPython;
 
-    void initializePython() {
-        //javaPython = Native.load(Platform.isWindows() ? "C:/Users/bbbolivar/AppData/Local/Programs/Python/Python312/python312.dll" : "libpython3.10.so", JavaPython.class);
+    public void initializePython() {
         javaPython = Native.load(Platform.isWindows() ? "C:/Users/bbbolivar/AppData/Local/anaconda3/python312.dll" : "libpython3.10.so", JavaPython.class);
-
         javaPython.Py_Initialize();
     }
 
-    void destroy() {
+    public void destroy() {
         if (javaPython.Py_FinalizeEx() < 0) {
             throw new IllegalStateException("Impossible to destroy interpreter");
         }
     }
 
-    PyObject initModule(String moduleName) {
+    public PyObject initModule(String moduleName) {
         if (moduleName.isEmpty()) {
             throw new IllegalArgumentException("No module name");
         }
@@ -46,7 +44,7 @@ public class PyCaller {
         }
     }
 
-    PyObject getStringRepOfPyObject(PyObject object) {
+    PyObject fromPyObjectGetStr(PyObject object) {
         PyObject str = javaPython.PyObject_Str(object);
         if (str != null) {
             return str;
@@ -55,7 +53,7 @@ public class PyCaller {
         }
     }
 
-    String convertPyObjStringToJavaString(PyObject pyObject) {
+    String convertPyObjStrToJavaString(PyObject pyObject) {
         String stringValue = javaPython.PyUnicode_AsUTF8(pyObject);
         if (stringValue != null && javaPython.PyErr_Occurred() == null) {
             return stringValue;
@@ -64,7 +62,7 @@ public class PyCaller {
         }
     }
 
-    PyObject convertJavaStringToPyObjString(String string) {
+    PyObject convertJavaStringToPyObjStr(String string) {
         return javaPython.PyUnicode_FromString(string);
     }
 
@@ -91,7 +89,7 @@ public class PyCaller {
         PyObject tracebackModule = importModule();
         PyObject pResult = callObjectFromModule(tracebackModule, exceptionValue);
         pyErrClear();
-        return convertPyObjStringToJavaString(javaPython.PyObject_Str(pResult));
+        return convertPyObjStrToJavaString(javaPython.PyObject_Str(pResult));
     }
 
     private void pyErrClear() {
@@ -159,15 +157,23 @@ public class PyCaller {
     }
 
     public String toString(PyObject o) {
-        return convertPyObjStringToJavaString(getStringRepOfPyObject(o));
+        return convertPyObjStrToJavaString(fromPyObjectGetStr(o));
     }
 
-    public String getWelcomeMessage() {
-        String version = javaPython.Py_GetVersion();
-        String platform = javaPython.Py_GetPlatform();
-        String cprt = "Type \"help\", \"copyright\", \"credits\" or \"license\" for more information.";
-        return "Python " + version + " on " + platform + "\n" + cprt + "\n";
+    public String getPythonVersion(){
+        return javaPython.Py_GetVersion();
     }
+
+    public String getCurrentPlatform(){
+        return javaPython.Py_GetPlatform();
+    }
+
+//    public String getWelcomeMessage() {
+//        String version =
+//        String platform = javaPython.Py_GetPlatform();
+//        String cprt = "Type \"help\", \"copyright\", \"credits\" or \"license\" for more information.";
+//        return "Python " + version + " on " + platform + "\n" + cprt + "\n";
+//    }
 
     public PyGILState_STATE unlockGil() {
         return javaPython.PyGILState_Ensure();
@@ -188,8 +194,8 @@ public class PyCaller {
     public String getRedirectedStandardOutput() {
         PyObject tempStdOut = javaPython.PySys_GetObject("stdout");
         PyObject pValue = javaPython.PyObject_CallMethod(tempStdOut,"getvalue", null);
-        PyObject valueStr = getStringRepOfPyObject(pValue);
-        return convertPyObjStringToJavaString(valueStr);
+        PyObject valueStr = fromPyObjectGetStr(pValue);
+        return convertPyObjStrToJavaString(valueStr);
     }
 
 }

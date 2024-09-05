@@ -2,12 +2,12 @@ package org.example.interprete.engine;
 
 import org.example.Input;
 import org.example.Output;
-import org.example.python.PyRunner;
+import org.example.python.PyHighLevelCaller;
 
 public class InputLineManager {
     private final Input input;
     private final Output output;
-    private final Executor executor;
+    private final LineExecutor lineExecutor;
     private final StringBuilder stringBuilder;
     private String currentLine = "";
     public static final String STATEMENT_SYMBOL = "...";
@@ -15,10 +15,10 @@ public class InputLineManager {
     public static final String EXIT_COMMAND = "exit()";
     public static final String COLON_SYMBOL = ":";
 
-    public InputLineManager(Input inputChanel, Output outputChanel, PyRunner pyRunner) {
+    public InputLineManager(Input inputChanel, Output outputChanel, PyHighLevelCaller pyHighLevelCaller) {
         input = inputChanel;
         output = outputChanel;
-        executor = new Executor(outputChanel, pyRunner);
+        lineExecutor = new LineExecutor(outputChanel, pyHighLevelCaller);
         stringBuilder = new StringBuilder();
     }
 
@@ -27,7 +27,7 @@ public class InputLineManager {
             if (userTypedFunction()) {
                 defineFunction(stringBuilder);
             }else {
-                executor.executeLine(currentLine);
+                lineExecutor.run(currentLine);
                 currentLine = input.fromConsole();
             }
         }

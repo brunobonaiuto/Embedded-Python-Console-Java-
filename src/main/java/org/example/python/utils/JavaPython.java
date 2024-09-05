@@ -1,4 +1,4 @@
-package org.example.python;
+package org.example.python.utils;
 
 import com.sun.jna.Library;
 import org.example.python.objects.PyGILState_STATE;

@@ -1,4 +1,4 @@
-package org.example.python;
+package org.example.python.utils;
 
 import org.example.python.objects.PyObject;
 import org.junit.jupiter.api.AfterEach;
@@ -45,8 +45,8 @@ class PyCallerTest {
         PyObject moduleMain = pyCaller.initModule(MODULE_NAME);
         PyObject moduleDict = pyCaller.getModuleDict(moduleMain);
         //
-        assertDoesNotThrow(()-> pyCaller.getStringRepOfPyObject(moduleMain));
-        assertDoesNotThrow(()-> pyCaller.getStringRepOfPyObject(moduleDict));
+        assertDoesNotThrow(()-> pyCaller.fromPyObjectGetStr(moduleMain));
+        assertDoesNotThrow(()-> pyCaller.fromPyObjectGetStr(moduleDict));
 
     }
 
@@ -56,9 +56,9 @@ class PyCallerTest {
         pyCaller.initializePython();
         PyObject moduleMain = pyCaller.initModule(MODULE_NAME);
         PyObject moduleDict = pyCaller.getModuleDict(moduleMain);
-        PyObject str = pyCaller.getStringRepOfPyObject(moduleDict);
+        PyObject str = pyCaller.fromPyObjectGetStr(moduleDict);
         //
-        String stringValue = pyCaller.convertPyObjStringToJavaString(str);
+        String stringValue = pyCaller.convertPyObjStrToJavaString(str);
         //
         assertEquals("{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>}", stringValue);
     }
@@ -68,8 +68,8 @@ class PyCallerTest {
         pyCaller = new PyCaller();
         pyCaller.initializePython();
         //
-        PyObject pyObject = pyCaller.convertJavaStringToPyObjString(A_STRING);
-        String actual = pyCaller.convertPyObjStringToJavaString(pyObject);
+        PyObject pyObject = pyCaller.convertJavaStringToPyObjStr(A_STRING);
+        String actual = pyCaller.convertPyObjStrToJavaString(pyObject);
         //
         assertEquals(A_STRING, actual);
     }

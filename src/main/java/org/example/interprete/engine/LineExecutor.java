@@ -1,26 +1,26 @@
 package org.example.interprete.engine;
 
 import org.example.Output;
-import org.example.python.PyRunner;
+import org.example.python.PyHighLevelCaller;
 import org.example.python.objects.PyThreadState;
 
-public class Executor {
-    private final PyRunner pyRunner;
+public class LineExecutor {
+    private final PyHighLevelCaller pyHighLevelCaller;
     private final Output output;
     private PyThreadState state;
     public static final String EXPRESSION_SYMBOL = ">>> ";
     public static final String LINE = "\n";
-    public Executor(Output outputChanel, PyRunner pyRunner2) {
+    public LineExecutor(Output outputChanel, PyHighLevelCaller pyHighLevelCaller2) {
         output = outputChanel;
-        pyRunner = pyRunner2;
+        pyHighLevelCaller = pyHighLevelCaller2;
     }
 
-    public void executeLine(String currentLine) {
+    public void run(String currentLine) {
         if(state != null) {
-            pyRunner.restoreThread(state);
+            pyHighLevelCaller.restoreThread(state);
         }
-        String run = pyRunner.runLine(currentLine);
-        state = pyRunner.saveThread();
+        String run = pyHighLevelCaller.runLine(currentLine);
+        state = pyHighLevelCaller.saveThread();
         String resultFromRun = run + LINE + EXPRESSION_SYMBOL;
         try {
             Thread.sleep(10);

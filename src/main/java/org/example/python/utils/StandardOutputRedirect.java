@@ -1,4 +1,4 @@
-package org.example.python;
+package org.example.python.utils;
 
 import org.example.Output;
 import org.example.python.objects.PyGILState_STATE;

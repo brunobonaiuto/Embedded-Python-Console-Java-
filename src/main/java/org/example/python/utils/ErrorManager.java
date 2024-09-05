@@ -1,4 +1,4 @@
-package org.example.python;
+package org.example.python.utils;
 
 public class ErrorManager {
 
