@@ -20,7 +20,7 @@ public class Main {
         Output outputPanel = new OutputPanel();
         Input inputPanel = new InputPanel(outputPanel);
 
-        //SwingUtilities.invokeLater(() -> InterpreteGui.initializeWindowComponents(inputPanel, outputPanel));
+        SwingUtilities.invokeLater(() -> InterpreteGui.initializeWindowComponents(inputPanel, outputPanel));
 
         EmbeddedPython embeddedPython = new EmbeddedPython(inputPanel,outputPanel);
         embeddedPython.initialize();
