@@ -7,12 +7,12 @@ import org.example.python.utils.*;
 
 public class PyHighLevelCaller {
 
-    public static final String MODULE_NAME = "__main__";
+    public static final String MODULE_NAME      = "__main__";
     public static final String ASSIGMENT_SYMBOL = "=";
-    public static final String COLON_SYMBOL = ":";
-    public static final String BLANK_SYMBOL = "";
-    public static final String NONE = "None";
-    public static final String IMPORT = "import";
+    public static final String COLON_SYMBOL     = ":";
+    public static final String BLANK_SYMBOL     = "";
+    public static final String NONE             = "None";
+    public static final String IMPORT           = "import";
 
     private final StandardOutputRedirect standardOutputRedirect;
     private final PyThreadSaver pyThreadSaver;
@@ -51,7 +51,6 @@ public class PyHighLevelCaller {
     }
 
     public String runLine(String input) {
-        PyEvaluator pyEvaluator = new PyEvaluator(pyCaller, main);
-        return pyEvaluator.evaluateLine(input);
+        return new PyEvaluator(pyCaller, main).evaluateLine(input);
     }
 }

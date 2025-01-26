@@ -20,23 +20,22 @@ public class PyEvaluator {
     }
 
     public String evaluateLine(String input) {
-        String result;
-        int numberOfAssigmentSymbol = input.length() - input.replace(ASSIGMENT_SYMBOL, BLANK_SYMBOL).length();
-        if (isStatementLine(input, numberOfAssigmentSymbol)) {
-            result = execute(input, PY_FILE_INPUT);
-        } else {
-            result = execute(input, PY_EVAL_INPUT);
-        }
+        String result = execute(input, determineInputForStringInput(input));
         return result.equals(NONE) ? BLANK_SYMBOL : result;
+    }
+
+    private int determineInputForStringInput(String input) {
+        int numberOfAssigmentSymbol = input.length() - input.replace(ASSIGMENT_SYMBOL, BLANK_SYMBOL).length();
+        return isStatementLine(input, numberOfAssigmentSymbol) ? PY_FILE_INPUT : PY_EVAL_INPUT;
     }
 
     private boolean isStatementLine(String input, int numberOfAssigmentSymbol) {
         return numberOfAssigmentSymbol == 1 || input.isBlank() || input.contains(COLON_SYMBOL) || input.contains(IMPORT);
     }
 
-    private String execute(String inputLineFromConsole, int input_type) {
+    private String execute(String inputLineFromConsole, int inputType) {
         try {
-            PyObject code = pyCaller.compileString(inputLineFromConsole, input_type);
+            PyObject code = pyCaller.compileString(inputLineFromConsole, inputType);
             PyObject evalResult = pyCaller.eval(code, pyCaller.getModuleDict(main), pyCaller.getModuleDict(main));
             return pyCaller.toString(evalResult);
         } catch (IllegalArgumentException e) {

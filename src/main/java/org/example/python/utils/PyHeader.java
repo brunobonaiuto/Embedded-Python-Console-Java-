@@ -9,9 +9,7 @@ public class PyHeader {
     }
 
     public String getWelcomeMessage() {
-        String version = pyCaller.getPythonVersion();
-        String platform = pyCaller.getCurrentPlatform();
         String cprt = "Type \"help\", \"copyright\", \"credits\" or \"license\" for more information.";
-        return "Python " + version + " on " + platform + "\n" + cprt + "\n";
+        return "Python " + pyCaller.getPythonVersion() + " on " + pyCaller.getCurrentPlatform() + "\n" + cprt + "\n";
     }
 }

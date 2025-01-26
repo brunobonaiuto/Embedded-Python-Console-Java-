@@ -25,6 +25,7 @@ public class LineExecutor {
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
+            //do nothing
         }
         output.toConsole(run.isBlank() ? EXPRESSION_SYMBOL : resultFromRun);
         output.toConsole("");

@@ -5,15 +5,17 @@ import org.example.Output;
 import org.example.python.PyHighLevelCaller;
 
 public class InputLineManager {
+
+    private static final String STATEMENT_SYMBOL = "...";
+    private static final String LINE             = "\n";
+    private static final String EXIT_COMMAND     = "exit()";
+    private static final String COLON_SYMBOL     = ":";
+    private String currentLine                   = "";
+
     private final Input input;
     private final Output output;
     private final LineExecutor lineExecutor;
     private final StringBuilder stringBuilder;
-    private String currentLine = "";
-    public static final String STATEMENT_SYMBOL = "...";
-    public static final String LINE = "\n";
-    public static final String EXIT_COMMAND = "exit()";
-    public static final String COLON_SYMBOL = ":";
 
     public InputLineManager(Input inputChanel, Output outputChanel, PyHighLevelCaller pyHighLevelCaller) {
         input = inputChanel;
@@ -26,7 +28,7 @@ public class InputLineManager {
         while (!userTypedExits()) {
             if (userTypedFunction()) {
                 defineFunction(stringBuilder);
-            }else {
+            } else {
                 lineExecutor.run(currentLine);
                 currentLine = input.fromConsole();
             }
